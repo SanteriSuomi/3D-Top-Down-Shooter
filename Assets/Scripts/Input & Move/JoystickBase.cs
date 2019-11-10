@@ -2,14 +2,14 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Shooter.Input
 {
-    public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public abstract class JoystickBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         protected RectTransform rectTransform;
-        [SerializeField]
-        protected RectTransform baseRectTransform = default;
+        protected RectTransform baseRectTransform;
         protected InputActions inputActions;
         protected Vector2 touchPosition;
         [SuppressMessage("Minor Code Smell", "S1450:Private fields only used as local variables in methods should become local variables", Justification = "Not applicable")]
@@ -27,6 +27,8 @@ namespace Shooter.Input
         {
             rectTransform = GetComponent<RectTransform>();
             inputActions = new InputActions();
+            EnhancedTouchSupport.Enable();
+            baseRectTransform = transform.parent.GetComponent<RectTransform>();
             originalRectPosition = baseRectTransform.anchoredPosition;
         }
 

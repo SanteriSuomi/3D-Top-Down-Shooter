@@ -5,7 +5,7 @@ namespace Shooter.Input
     public class PlayerMove : MonoBehaviour
     {
         private CharacterController characterController;
-        private Vector2 deltaInputValue;
+        private Vector2 deltaMoveValue;
         [SerializeField]
         private float moveSpeed = 0.3f;
         private bool move;
@@ -15,23 +15,23 @@ namespace Shooter.Input
         {
             characterController = GetComponent<CharacterController>();
             InputEventHandler.JoystickMoveEvent += JoystickMove;
-            InputEventHandler.JoystickMoveInputEvent += JoystickInput;
+            InputEventHandler.JoystickMoveInputEvent += JoystickMoveInput;
         }
 
-        private void JoystickInput(Vector2 delta)
+        private void JoystickMove(bool move)
         {
-            deltaInputValue = delta;
+            joystickMove = move;
+        }
+
+        private void JoystickMoveInput(Vector2 delta)
+        {
+            deltaMoveValue = delta;
             move = true;
             if (Mathf.Approximately(delta.x, float.Epsilon)
                 || Mathf.Approximately(delta.y, float.Epsilon))
             {
                 move = false;
             }
-        }
-
-        private void JoystickMove(bool move)
-        {
-            joystickMove = move;
         }
 
         private void Update()
@@ -50,8 +50,8 @@ namespace Shooter.Input
 
         private Vector3 CalculateDirection()
         {
-            Vector3 moveDirectionForward = transform.forward * deltaInputValue.y * Time.deltaTime;
-            Vector3 moveDirectionSide = transform.right * deltaInputValue.x * Time.deltaTime;
+            Vector3 moveDirectionForward = transform.forward * deltaMoveValue.y * Time.deltaTime;
+            Vector3 moveDirectionSide = transform.right * deltaMoveValue.x * Time.deltaTime;
             Vector3 moveDirection = moveDirectionForward + moveDirectionSide;
             return moveDirection;
         }
@@ -59,7 +59,7 @@ namespace Shooter.Input
         private void OnDisable()
         {
             InputEventHandler.JoystickMoveEvent -= JoystickMove;
-            InputEventHandler.JoystickMoveInputEvent -= JoystickInput;
+            InputEventHandler.JoystickMoveInputEvent -= JoystickMoveInput;
         }
     }
 }

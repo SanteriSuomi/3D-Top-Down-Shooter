@@ -3,15 +3,15 @@ using UnityEngine.InputSystem;
 
 namespace Shooter.Input
 {
-    public class JoystickMove : Joystick
+    public class JoystickMove : JoystickBase
     {
         protected override void Awake()
         {
             base.Awake();
-            inputActions.Player.TouchPosition.performed += TouchPositionPerformed;
+            inputActions.Player.TouchPositionMove.performed += TouchPositionMovePerformed;
         }
 
-        private void TouchPositionPerformed(InputAction.CallbackContext inputAction)
+        protected virtual void TouchPositionMovePerformed(InputAction.CallbackContext inputAction)
         {
             touchPosition = inputAction.ReadValue<Vector2>();
         }

@@ -43,9 +43,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Touch Position"",
+                    ""name"": ""Touch Position Move"",
                     ""type"": ""Value"",
                     ""id"": ""78b9fa98-03ae-4545-9a14-d5de7ac54186"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Touch Position Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""4ffc6fed-fe40-47a7-af0b-6d43e954586d"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -81,7 +89,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
-                    ""action"": ""Touch Position"",
+                    ""action"": ""Touch Position Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -93,6 +101,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Touch"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3603d68c-1413-4d66-b3a0-ecb887223269"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Touch Position Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -670,7 +689,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_TouchPosition = m_Player.FindAction("Touch Position", throwIfNotFound: true);
+        m_Player_TouchPositionMove = m_Player.FindAction("Touch Position Move", throwIfNotFound: true);
+        m_Player_TouchPositionLook = m_Player.FindAction("Touch Position Look", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -736,7 +756,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_TouchPosition;
+    private readonly InputAction m_Player_TouchPositionMove;
+    private readonly InputAction m_Player_TouchPositionLook;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -744,7 +765,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @TouchPosition => m_Wrapper.m_Player_TouchPosition;
+        public InputAction @TouchPositionMove => m_Wrapper.m_Player_TouchPositionMove;
+        public InputAction @TouchPositionLook => m_Wrapper.m_Player_TouchPositionLook;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -763,9 +785,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @TouchPosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
-                @TouchPosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
-                @TouchPosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
+                @TouchPositionMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionMove;
+                @TouchPositionMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionMove;
+                @TouchPositionMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionMove;
+                @TouchPositionLook.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionLook;
+                @TouchPositionLook.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionLook;
+                @TouchPositionLook.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPositionLook;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -779,9 +804,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @TouchPosition.started += instance.OnTouchPosition;
-                @TouchPosition.performed += instance.OnTouchPosition;
-                @TouchPosition.canceled += instance.OnTouchPosition;
+                @TouchPositionMove.started += instance.OnTouchPositionMove;
+                @TouchPositionMove.performed += instance.OnTouchPositionMove;
+                @TouchPositionMove.canceled += instance.OnTouchPositionMove;
+                @TouchPositionLook.started += instance.OnTouchPositionLook;
+                @TouchPositionLook.performed += instance.OnTouchPositionLook;
+                @TouchPositionLook.canceled += instance.OnTouchPositionLook;
             }
         }
     }
@@ -949,7 +977,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnTouchPosition(InputAction.CallbackContext context);
+        void OnTouchPositionMove(InputAction.CallbackContext context);
+        void OnTouchPositionLook(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

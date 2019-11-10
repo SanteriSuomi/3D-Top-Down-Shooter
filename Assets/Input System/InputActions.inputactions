@@ -30,9 +30,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Touch Position",
+                    "name": "Touch Position Move",
                     "type": "Value",
                     "id": "78b9fa98-03ae-4545-9a14-d5de7ac54186",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Touch Position Look",
+                    "type": "Value",
+                    "id": "4ffc6fed-fe40-47a7-af0b-6d43e954586d",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -68,7 +76,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
-                    "action": "Touch Position",
+                    "action": "Touch Position Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -80,6 +88,17 @@
                     "processors": "",
                     "groups": "Touch",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3603d68c-1413-4d66-b3a0-ecb887223269",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Touch Position Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -324,10 +324,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 326651446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff4e31675e5fc50439e4770d7311e8e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd4a2904beef20428ee74d8b198e9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRectTransform: {fileID: 934247176}
   joystickResetSpeed: 300
   joystickMaxRadius: 230
   joystickSmooth: 0.8
@@ -411,6 +410,7 @@ GameObject:
   - component: {fileID: 593321276}
   - component: {fileID: 593321279}
   - component: {fileID: 593321275}
+  - component: {fileID: 593321281}
   - component: {fileID: 593321280}
   m_Layer: 0
   m_Name: Player
@@ -595,6 +595,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &593321281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593321274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b6a59e6bdc11f45a0d52ac1c0b414d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &695337559
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,7 +910,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4e31675e5fc50439e4770d7311e8e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRectTransform: {fileID: 695337560}
   joystickResetSpeed: 300
   joystickMaxRadius: 230
   joystickSmooth: 0.8
@@ -955,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &949510724
 RectTransform:
   m_ObjectHideFlags: 0

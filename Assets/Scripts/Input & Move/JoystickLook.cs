@@ -3,14 +3,20 @@ using UnityEngine.InputSystem;
 
 namespace Shooter.Input
 {
-    public class JoystickLook : Joystick
+    public class JoystickLook : JoystickBase
     {
         private Vector2 rotateValue;
 
         protected override void Awake()
         {
             base.Awake();
+            inputActions.Player.TouchPositionLook.performed += TouchPositionLookPerformed;
             inputActions.Player.Look.performed += LookPerformed;
+        }
+
+        protected virtual void TouchPositionLookPerformed(InputAction.CallbackContext inputAction)
+        {
+            touchPosition = inputAction.ReadValue<Vector2>();
         }
 
         private void LookPerformed(InputAction.CallbackContext inputAction)
@@ -21,13 +27,13 @@ namespace Shooter.Input
         protected override void JoystickAction()
         {
             base.JoystickAction();
-            InputEventHandler.InvokeJoystickLook(move: true);
+            InputEventHandler.InvokeJoystickLook(look: true);
             InputEventHandler.InvokeJoystickLookInput(rotateValue);
         }
 
         protected override void CancelJoystickAction()
         {
-            InputEventHandler.InvokeJoystickLook(move: false);
+            InputEventHandler.InvokeJoystickLook(look: false);
         }
     }
 }

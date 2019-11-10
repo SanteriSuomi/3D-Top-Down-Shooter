@@ -20,15 +20,15 @@ namespace Shooter.Input
             JoystickMoveInputEvent.Invoke(delta);
         }
 
-        public delegate void JoystickLookDelegate(bool move);
+        public delegate void JoystickLookDelegate(bool look);
         public static event JoystickLookDelegate JoystickLookEvent;
 
         public delegate void JoystickLookInputDelegate(Vector2 delta);
         public static event JoystickLookInputDelegate JoystickLookInputEvent;
 
-        public static void InvokeJoystickLook(bool move)
+        public static void InvokeJoystickLook(bool look)
         {
-            JoystickLookEvent.Invoke(move);
+            JoystickLookEvent.Invoke(look);
         }
 
         public static void InvokeJoystickLookInput(Vector2 delta)
