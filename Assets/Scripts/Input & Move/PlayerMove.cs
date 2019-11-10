@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Shooter.Input
 {
     public class PlayerMove : MonoBehaviour
     {
         private CharacterController characterController;
-        private InputActions inputActions;
-        private Vector2 inputValue;
+        private Vector2 deltaInputValue;
         [SerializeField]
         private float moveSpeed = 0.3f;
         private bool move;
@@ -16,37 +14,24 @@ namespace Shooter.Input
         private void Awake()
         {
             characterController = GetComponent<CharacterController>();
-            inputActions = new InputActions();
-            inputActions.Player.Move.performed += MovePerformed;
-            inputActions.Player.Move.canceled += MoveCanceled;
             InputEventHandler.JoystickMoveEvent += JoystickMove;
-            InputEventHandler.JoystickStopEvent += JoystickStop;
+            InputEventHandler.JoystickInputEvent += JoystickInput;
         }
 
-        private void OnEnable()
+        private void JoystickInput(Vector2 delta)
         {
-            inputActions.Player.Enable();
-        }
-
-        private void MovePerformed(InputAction.CallbackContext context)
-        {
-            inputValue = context.ReadValue<Vector2>();
+            deltaInputValue = delta;
             move = true;
+            if (Mathf.Approximately(delta.x, float.Epsilon)
+                || Mathf.Approximately(delta.y, float.Epsilon))
+            {
+                move = false;
+            }
         }
 
-        private void MoveCanceled(InputAction.CallbackContext context)
+        private void JoystickMove(bool move)
         {
-            move = false;
-        }
-
-        private void JoystickMove()
-        {
-            joystickMove = true;
-        }
-
-        private void JoystickStop()
-        {
-            joystickMove = false;
+            joystickMove = move;
         }
 
         private void Update()
@@ -65,17 +50,16 @@ namespace Shooter.Input
 
         private Vector3 CalculateDirection()
         {
-            Vector3 moveDirectionForward = transform.forward * inputValue.y * Time.deltaTime;
-            Vector3 moveDirectionSide = transform.right * inputValue.x * Time.deltaTime;
-            Vector3 moveDirection = (moveDirectionForward + moveDirectionSide).normalized;
+            Vector3 moveDirectionForward = transform.forward * deltaInputValue.y * Time.deltaTime;
+            Vector3 moveDirectionSide = transform.right * deltaInputValue.x * Time.deltaTime;
+            Vector3 moveDirection = moveDirectionForward + moveDirectionSide;
             return moveDirection;
         }
 
         private void OnDisable()
         {
-            inputActions.Player.Disable();
             InputEventHandler.JoystickMoveEvent -= JoystickMove;
-            InputEventHandler.JoystickStopEvent -= JoystickStop;
+            InputEventHandler.JoystickInputEvent -= JoystickInput;
         }
     }
 }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Shooter.Input
 {
@@ -13,36 +14,33 @@ namespace Shooter.Input
         private InputActions inputActions;
         private Vector2 originalRectPosition;
         private Vector2 touchPosition;
-        private Vector2 localToRectTouchPosition;
+        [SuppressMessage("Minor Code Smell", "S1450:Private fields only used as local variables in methods should become local variables", Justification = "Not applicable")]
+        private Vector2 touchPositionToLocalRect;
         private bool holdingDown;
         [SerializeField]
-        private float resetSpeed = 0.1f;
+        private float joystickResetSpeed = 50f;
         [SerializeField]
         private float joystickMaxRadius = 235;
         [SerializeField]
-        private float joystickSpeed = 0.9f;
+        private float joystickSmooth = 0.9f;
 
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             inputActions = new InputActions();
             inputActions.Player.TouchPosition.performed += TouchPositionPerformed;
-        }
-
-        private void Start()
-        {
             originalRectPosition = baseRectTransform.anchoredPosition;
-            Debug.Log($"OriginalPos: {originalRectPosition}");
         }
 
         private void OnEnable()
         {
             inputActions.Enable();
+
         }
 
-        private void TouchPositionPerformed(InputAction.CallbackContext context)
+        private void TouchPositionPerformed(InputAction.CallbackContext inputAction)
         {
-            touchPosition = context.ReadValue<Vector2>();
+            touchPosition = inputAction.ReadValue<Vector2>();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -53,32 +51,43 @@ namespace Shooter.Input
         public void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            localToRectTouchPosition = Vector2.zero;
+            touchPositionToLocalRect = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
 
         private IEnumerator MoveToOriginalPosition()
         {
-            while (rectTransform.anchoredPosition != originalRectPosition || !holdingDown)
+            while (!Mathf.Approximately(rectTransform.anchoredPosition.x, originalRectPosition.x) 
+                || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y))
             {
-                rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, originalRectPosition, resetSpeed);
+                rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition, originalRectPosition, joystickResetSpeed * Time.deltaTime);
                 yield return null;
             }
         }
 
         private void Update()
         {
-            Debug.Log($"Local: {localToRectTouchPosition.normalized}");
             if (holdingDown)
             {
-                localToRectTouchPosition = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
-                InputEventHandler.InvokeJoystickMove();
-                rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, localToRectTouchPosition, joystickSpeed);
+                MoveJoystick();
             }
             else
             {
-                InputEventHandler.InvokeJoystickStop();
+                CancelMoveJoystick();
             }
+        }
+
+        private void MoveJoystick()
+        {
+            touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
+            rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, touchPositionToLocalRect, joystickSmooth);
+            InputEventHandler.InvokeJoystickMove(move: true);
+            InputEventHandler.InvokeJoystickInput(touchPositionToLocalRect);
+        }
+
+        private static void CancelMoveJoystick()
+        {
+            InputEventHandler.InvokeJoystickMove(move: false);
         }
 
         private void OnDisable()
