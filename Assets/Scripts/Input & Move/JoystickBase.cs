@@ -61,6 +61,8 @@ namespace Shooter.Input
 
         protected virtual void Update()
         {
+            print($"Amount: {UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count}");
+
             if (holdingDown)
             {
                 JoystickAction();
