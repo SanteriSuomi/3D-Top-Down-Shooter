@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRectTransform: {fileID: 934247176}
-  joystickResetSpeed: 200
+  joystickResetSpeed: 300
   joystickMaxRadius: 230
   joystickSmooth: 0.8
 --- !u!114 &326651449
@@ -899,7 +899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRectTransform: {fileID: 695337560}
-  joystickResetSpeed: 200
+  joystickResetSpeed: 300
   joystickMaxRadius: 230
   joystickSmooth: 0.8
 --- !u!1 &934247175
@@ -955,7 +955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &949510724
 RectTransform:
   m_ObjectHideFlags: 0

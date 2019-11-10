@@ -15,7 +15,7 @@ namespace Shooter.Input
         {
             characterController = GetComponent<CharacterController>();
             InputEventHandler.JoystickMoveEvent += JoystickMove;
-            InputEventHandler.JoystickInputEvent += JoystickInput;
+            InputEventHandler.JoystickMoveInputEvent += JoystickInput;
         }
 
         private void JoystickInput(Vector2 delta)
@@ -59,7 +59,7 @@ namespace Shooter.Input
         private void OnDisable()
         {
             InputEventHandler.JoystickMoveEvent -= JoystickMove;
-            InputEventHandler.JoystickInputEvent -= JoystickInput;
+            InputEventHandler.JoystickMoveInputEvent -= JoystickInput;
         }
     }
 }
