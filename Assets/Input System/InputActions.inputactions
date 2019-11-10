@@ -36,6 +36,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Touch Start Position",
+                    "type": "Value",
+                    "id": "4ba59c31-5f99-4b7c-8e6f-4c393eac0e3f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -69,6 +77,17 @@
                     "processors": "",
                     "groups": "Touch",
                     "action": "Touch Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ae8514f-7a59-466f-b8c7-be9f8e7e534b",
+                    "path": "<Touchscreen>/primaryTouch/startPosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Touch Start Position",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

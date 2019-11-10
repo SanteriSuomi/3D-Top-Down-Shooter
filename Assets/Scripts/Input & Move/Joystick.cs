@@ -8,6 +8,8 @@ namespace Shooter.Input
     public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         private RectTransform rectTransform;
+        [SerializeField]
+        private RectTransform baseRectTransform = default;
         private InputActions inputActions;
         private Vector2 originalRectPosition;
         private Vector2 touchPosition;
@@ -29,7 +31,8 @@ namespace Shooter.Input
 
         private void Start()
         {
-            originalRectPosition = rectTransform.anchoredPosition;
+            originalRectPosition = baseRectTransform.anchoredPosition;
+            Debug.Log($"OriginalPos: {originalRectPosition}");
         }
 
         private void OnEnable()
@@ -65,9 +68,10 @@ namespace Shooter.Input
 
         private void Update()
         {
-            localToRectTouchPosition = rectTransform.InverseTransformPoint(touchPosition);
-            if (holdingDown && Vector2.Distance(localToRectTouchPosition, originalRectPosition) < joystickMaxRadius)
+            Debug.Log($"Local: {localToRectTouchPosition.normalized}");
+            if (holdingDown)
             {
+                localToRectTouchPosition = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
                 InputEventHandler.InvokeJoystickMove();
                 rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, localToRectTouchPosition, joystickSpeed);
             }

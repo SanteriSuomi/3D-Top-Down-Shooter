@@ -4,9 +4,12 @@ namespace Shooter.Input
 {
     public class InputEventHandler : MonoBehaviour
     {
-        public delegate void JoystickDelegate();
-        public static event JoystickDelegate JoystickMoveEvent;
-        public static event JoystickDelegate JoystickStopEvent;
+        public delegate void JoystickMoveDelegate();
+        public static event JoystickMoveDelegate JoystickMoveEvent;
+        public static event JoystickMoveDelegate JoystickStopEvent;
+
+        public delegate void JoystickInputDelegate(float delta);
+        public static event JoystickInputDelegate JoystickInputEvent;
 
         public static void InvokeJoystickMove()
         {
@@ -18,6 +21,11 @@ namespace Shooter.Input
         {
             Debug.Log("InvokeJoystickStop");
             JoystickStopEvent.Invoke();
+        }
+
+        public static void InvokeJoystickInput(float delta)
+        {
+            JoystickInputEvent.Invoke(delta);
         }
     }
 }

@@ -49,6 +49,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Touch Start Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""4ba59c31-5f99-4b7c-8e6f-4c393eac0e3f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +90,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Touch"",
                     ""action"": ""Touch Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ae8514f-7a59-466f-b8c7-be9f8e7e534b"",
+                    ""path"": ""<Touchscreen>/primaryTouch/startPosition"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Touch Start Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -660,6 +679,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_TouchPosition = m_Player.FindAction("Touch Position", throwIfNotFound: true);
+        m_Player_TouchStartPosition = m_Player.FindAction("Touch Start Position", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -726,6 +746,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_TouchPosition;
+    private readonly InputAction m_Player_TouchStartPosition;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -734,6 +755,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @TouchPosition => m_Wrapper.m_Player_TouchPosition;
+        public InputAction @TouchStartPosition => m_Wrapper.m_Player_TouchStartPosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -755,6 +777,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @TouchPosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
                 @TouchPosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
                 @TouchPosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPosition;
+                @TouchStartPosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStartPosition;
+                @TouchStartPosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStartPosition;
+                @TouchStartPosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStartPosition;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -771,6 +796,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @TouchPosition.started += instance.OnTouchPosition;
                 @TouchPosition.performed += instance.OnTouchPosition;
                 @TouchPosition.canceled += instance.OnTouchPosition;
+                @TouchStartPosition.started += instance.OnTouchStartPosition;
+                @TouchStartPosition.performed += instance.OnTouchStartPosition;
+                @TouchStartPosition.canceled += instance.OnTouchStartPosition;
             }
         }
     }
@@ -939,6 +967,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnTouchPosition(InputAction.CallbackContext context);
+        void OnTouchStartPosition(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
