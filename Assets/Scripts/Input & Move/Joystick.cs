@@ -1,8 +1,8 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Shooter.Input
 {
@@ -16,6 +16,7 @@ namespace Shooter.Input
         private Vector2 touchPosition;
         [SuppressMessage("Minor Code Smell", "S1450:Private fields only used as local variables in methods should become local variables", Justification = "Not applicable")]
         private Vector2 touchPositionToLocalRect;
+        private Vector2 rotationValue;
         private bool holdingDown;
         [SerializeField]
         private float joystickResetSpeed = 50f;
@@ -31,11 +32,9 @@ namespace Shooter.Input
             inputActions.Player.TouchPosition.performed += TouchPositionPerformed;
             originalRectPosition = baseRectTransform.anchoredPosition;
         }
-
         private void OnEnable()
         {
             inputActions.Enable();
-
         }
 
         private void TouchPositionPerformed(InputAction.CallbackContext inputAction)
@@ -57,7 +56,7 @@ namespace Shooter.Input
 
         private IEnumerator MoveToOriginalPosition()
         {
-            while (!Mathf.Approximately(rectTransform.anchoredPosition.x, originalRectPosition.x) 
+            while (!Mathf.Approximately(rectTransform.anchoredPosition.x, originalRectPosition.x)
                 || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y))
             {
                 rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition, originalRectPosition, joystickResetSpeed * Time.deltaTime);
