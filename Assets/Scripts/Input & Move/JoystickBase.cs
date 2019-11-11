@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Shooter.Inputs
 {
-    public abstract class JoystickBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public abstract class JoystickBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
     {
         protected RectTransform rectTransform;
         protected RectTransform baseRectTransform;
@@ -22,6 +22,8 @@ namespace Shooter.Inputs
         [SerializeField]
         protected float joystickSmooth = 0.8f;
         protected bool holdingDown;
+        protected UnityEngine.Touch touch;
+        protected int touchIndex;
 
         protected virtual void Awake()
         {
@@ -37,6 +39,22 @@ namespace Shooter.Inputs
             inputActions.Enable();
         }
 
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+            int touchCount = Input.touchCount;
+            Debug.Log($"TouchCount: {touchCount}");
+            if (touchCount == 1)
+            {
+                touchIndex = 0;
+                //touch = Input.GetTouch(0);
+            }
+            else if (touchCount == 2)
+            {
+                touchIndex = 1;
+                //touch = Input.GetTouch(1);
+            }
+        }
+
         public virtual void OnPointerDown(PointerEventData eventData)
         {
             holdingDown = true;
@@ -45,6 +63,7 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
+            touchIndex = 10;
             touchPositionToLocalRect = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
@@ -61,14 +80,11 @@ namespace Shooter.Inputs
 
         protected virtual void Update()
         {
-            if (Input.touchCount > 0)
+            if (touchIndex <= 1)
             {
-                Input.GetTouch(0);
+                touchPosition = Input.GetTouch(touchIndex).position;
             }
-            else if (Input.touchCount > 1)
-            {
-                Input.GetTouch(0);
-            }
+            Debug.Log($"touchpos: {touchPosition}");
 
             if (holdingDown)
             {
@@ -92,5 +108,6 @@ namespace Shooter.Inputs
         {
             inputActions.Player.Disable();
         }
+
     }
 }

@@ -16,7 +16,7 @@ namespace Shooter.Inputs
 
         protected virtual void TouchPositionLookPerformed(InputAction.CallbackContext inputAction)
         {
-            touchPosition = inputAction.ReadValue<Vector2>();
+            //touchPosition = inputAction.ReadValue<Vector2>();
         }
 
         private void LookPerformed(InputAction.CallbackContext inputAction)

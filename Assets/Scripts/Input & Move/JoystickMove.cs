@@ -13,7 +13,7 @@ namespace Shooter.Inputs
 
         protected virtual void TouchPositionMovePerformed(InputAction.CallbackContext inputAction)
         {
-            touchPosition = inputAction.ReadValue<Vector2>();
+            //touchPosition = inputAction.ReadValue<Vector2>();
         }
 
         protected override void JoystickAction()
