@@ -4,6 +4,7 @@ namespace Shooter.Inputs
 {
     public class InputEventHandler : MonoBehaviour
     {
+        #region Joystick Move Delegate/Event Intermediaries
         public delegate void JoystickMoveDelegate(bool move);
         public static event JoystickMoveDelegate JoystickMoveEvent;
 
@@ -19,7 +20,9 @@ namespace Shooter.Inputs
         {
             JoystickMoveInputEvent.Invoke(delta);
         }
+        #endregion
 
+        #region Joystick Look Delegate/Event Intermediaries
         public delegate void JoystickLookDelegate(bool look);
         public static event JoystickLookDelegate JoystickLookEvent;
 
@@ -35,5 +38,6 @@ namespace Shooter.Inputs
         {
             JoystickLookInputEvent.Invoke(delta);
         }
+        #endregion
     }
 }

@@ -9,7 +9,6 @@ namespace Shooter.Inputs
     {
         protected RectTransform rectTransform;
         protected RectTransform baseRectTransform;
-        protected InputActions inputActions;
         protected Vector2 touchPosition;
         [SuppressMessage("Minor Code Smell", "S1450:Private fields only used as local variables in methods should become local variables", Justification = "Not applicable")]
         protected Vector2 touchPositionToLocalRect;
@@ -28,15 +27,9 @@ namespace Shooter.Inputs
         protected virtual void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            inputActions = new InputActions();
             baseRectTransform = transform.parent.GetComponent<RectTransform>();
             originalRectPosition = baseRectTransform.anchoredPosition;
             maxJoystickTouches = GameObject.FindGameObjectsWithTag("Joystick").Length;
-        }
-
-        protected virtual void OnEnable()
-        {
-            inputActions.Enable();
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
@@ -52,29 +45,24 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            currentTouchIndex = -1;
-            touchPositionToLocalRect = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
 
         protected virtual IEnumerator MoveToOriginalPosition()
         {
             while (!Mathf.Approximately(rectTransform.anchoredPosition.x, originalRectPosition.x)
-                || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y))
+                || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y)
+                || !holdingDown)
             {
                 rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition, originalRectPosition, joystickResetSpeed * Time.deltaTime);
+                touchPositionToLocalRect = Vector2.MoveTowards(touchPositionToLocalRect, originalRectPosition, joystickResetSpeed * Time.deltaTime);
                 yield return null;
             }
         }
 
         protected virtual void Update()
         {
-            if (currentTouchIndex >= 0 
-                && currentTouchIndex <= maxJoystickTouches - 1)
-            {
-                currentTouch = Input.GetTouch(currentTouchIndex);
-                touchPosition = currentTouch.position;
-            }
+            GetTouchPosition();
 
             if (holdingDown)
             {
@@ -86,6 +74,12 @@ namespace Shooter.Inputs
             }
         }
 
+        private void GetTouchPosition()
+        {
+                currentTouch = Input.GetTouch(currentTouchIndex);
+                touchPosition = currentTouch.position;
+        }
+
         protected virtual void JoystickAction()
         {
             touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
@@ -93,10 +87,5 @@ namespace Shooter.Inputs
         }
 
         protected abstract void CancelJoystickAction();
-
-        protected virtual void OnDisable()
-        {
-            inputActions.Player.Disable();
-        }
     }
 }

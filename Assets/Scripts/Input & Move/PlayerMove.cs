@@ -36,7 +36,7 @@ namespace Shooter.Inputs
 
         private void Update()
         {
-            if (move && joystickMove)
+            if (joystickMove && move)
             {
                 Move();
             }
