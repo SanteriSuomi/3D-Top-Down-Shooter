@@ -1,27 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Shooter.Inputs
 {
     public class JoystickLook : JoystickBase
     {
-        private Vector2 rotateValue;
+        protected Vector2 rotateValue;
 
-        protected override void Awake()
+        protected override void Update()
         {
-            base.Awake();
-            inputActions.Player.TouchPositionLook.performed += TouchPositionLookPerformed;
-            inputActions.Player.Look.performed += LookPerformed;
-        }
-
-        protected virtual void TouchPositionLookPerformed(InputAction.CallbackContext inputAction)
-        {
-            //touchPosition = inputAction.ReadValue<Vector2>();
-        }
-
-        private void LookPerformed(InputAction.CallbackContext inputAction)
-        {
-            rotateValue = inputAction.ReadValue<Vector2>();
+            base.Update();
+            rotateValue = currentTouch.deltaPosition;
         }
 
         protected override void JoystickAction()

@@ -7,6 +7,12 @@ namespace Shooter.Inputs
         private Vector2 deltaLookValue;
         private bool look;
         private bool joystickLook;
+        private float rotation;
+        [SerializeField]
+        private float rotationSpeed = 10;
+        [SerializeField]
+        [Range(0, 1)]
+        private float rotationSmooth = 0.8f;
 
         private void Awake()
         {
@@ -40,8 +46,8 @@ namespace Shooter.Inputs
 
         private void Rotate()
         {
-            Quaternion direction = Quaternion.LookRotation(deltaLookValue);
-            transform.rotation = Quaternion.Slerp(transform.rotation, direction, 0.5f);
+            rotation += deltaLookValue.x * rotationSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rotation, 0), rotationSmooth);
         }
 
         private void OnDisable()

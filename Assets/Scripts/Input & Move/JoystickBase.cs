@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Shooter.Inputs
 {
@@ -22,16 +21,17 @@ namespace Shooter.Inputs
         [SerializeField]
         protected float joystickSmooth = 0.8f;
         protected bool holdingDown;
-        protected UnityEngine.Touch touch;
-        protected int touchIndex;
+        protected Touch currentTouch;
+        protected int currentTouchIndex;
+        protected int maxJoystickTouches;
 
         protected virtual void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             inputActions = new InputActions();
-            EnhancedTouchSupport.Enable();
             baseRectTransform = transform.parent.GetComponent<RectTransform>();
             originalRectPosition = baseRectTransform.anchoredPosition;
+            maxJoystickTouches = GameObject.FindGameObjectsWithTag("Joystick").Length;
         }
 
         protected virtual void OnEnable()
@@ -41,18 +41,7 @@ namespace Shooter.Inputs
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            int touchCount = Input.touchCount;
-            Debug.Log($"TouchCount: {touchCount}");
-            if (touchCount == 1)
-            {
-                touchIndex = 0;
-                //touch = Input.GetTouch(0);
-            }
-            else if (touchCount == 2)
-            {
-                touchIndex = 1;
-                //touch = Input.GetTouch(1);
-            }
+            currentTouchIndex = Input.touchCount - 1;
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
@@ -63,7 +52,7 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            touchIndex = 10;
+            currentTouchIndex = -1;
             touchPositionToLocalRect = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
@@ -80,11 +69,12 @@ namespace Shooter.Inputs
 
         protected virtual void Update()
         {
-            if (touchIndex <= 1)
+            if (currentTouchIndex >= 0 
+                && currentTouchIndex <= maxJoystickTouches - 1)
             {
-                touchPosition = Input.GetTouch(touchIndex).position;
+                currentTouch = Input.GetTouch(currentTouchIndex);
+                touchPosition = currentTouch.position;
             }
-            Debug.Log($"touchpos: {touchPosition}");
 
             if (holdingDown)
             {
@@ -108,6 +98,5 @@ namespace Shooter.Inputs
         {
             inputActions.Player.Disable();
         }
-
     }
 }
