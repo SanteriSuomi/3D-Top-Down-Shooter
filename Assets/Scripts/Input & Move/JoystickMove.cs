@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Shooter.Input
+namespace Shooter.Inputs
 {
     public class JoystickMove : JoystickBase
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 
-namespace Shooter.Input
+namespace Shooter.Inputs
 {
     public abstract class JoystickBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
@@ -61,6 +61,15 @@ namespace Shooter.Input
 
         protected virtual void Update()
         {
+            if (Input.touchCount > 0)
+            {
+                Input.GetTouch(0);
+            }
+            else if (Input.touchCount > 1)
+            {
+                Input.GetTouch(0);
+            }
+
             if (holdingDown)
             {
                 JoystickAction();

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Shooter.Input
+namespace Shooter.Inputs
 {
     public class InputEventHandler : MonoBehaviour
     {

@@ -6,14 +6,6 @@
             "id": "e65933a8-cebd-4ea9-ab35-109d28095ed1",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "Value",
-                    "id": "ef04cff0-e4f2-4c8c-b315-19c3d14e22e2",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Look",
                     "type": "Value",
                     "id": "4a5ca01f-c861-4b96-af3c-021b247b464c",
@@ -49,17 +41,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "ca68c55c-7b00-49c6-b5cd-8412dab19070",
-                    "path": "<Touchscreen>/touch0/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
                     "path": "<Touchscreen>/press",
                     "interactions": "",
@@ -83,7 +64,7 @@
                 {
                     "name": "",
                     "id": "c1c393f8-f0f1-4803-92d2-8bdec5f8ca6b",
-                    "path": "<Touchscreen>/touch1/delta",
+                    "path": "<Touchscreen>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
