@@ -63,7 +63,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ca68c55c-7b00-49c6-b5cd-8412dab19070"",
-                    ""path"": ""<Touchscreen>/touch0/delta"",
+                    ""path"": ""<Touchscreen>/touch*/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
@@ -85,7 +85,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""399f2246-0131-4b26-98f4-0be67206b354"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
@@ -96,7 +96,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c1c393f8-f0f1-4803-92d2-8bdec5f8ca6b"",
-                    ""path"": ""<Touchscreen>/touch1/delta"",
+                    ""path"": ""<Touchscreen>/touch*/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
@@ -107,7 +107,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3603d68c-1413-4d66-b3a0-ecb887223269"",
-                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
