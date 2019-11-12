@@ -52,8 +52,7 @@ namespace Shooter.Inputs
         protected virtual IEnumerator MoveToOriginalPosition()
         {
             while (!Mathf.Approximately(rectTransform.anchoredPosition.x, originalRectPosition.x)
-                || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y)
-                || !holdingDown)
+                || !Mathf.Approximately(rectTransform.anchoredPosition.y, originalRectPosition.y))
             {
                 rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition, originalRectPosition, joystickResetSpeed * Time.deltaTime);
                 yield return null;

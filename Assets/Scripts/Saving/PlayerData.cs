@@ -6,6 +6,7 @@ namespace Shooter.Utility
 	public class PlayerData
 	{
 		public int Health { get; set; }
+
         private readonly float[] position;
         public float[] GetPosition()
         {

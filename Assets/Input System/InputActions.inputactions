@@ -4,29 +4,8 @@
         {
             "name": "Player",
             "id": "e65933a8-cebd-4ea9-ab35-109d28095ed1",
-            "actions": [
-                {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "90720f67-3823-403d-94eb-f0beb48f7684",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
-                    "path": "<Touchscreen>/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
+            "actions": [],
+            "bindings": []
         },
         {
             "name": "UI",

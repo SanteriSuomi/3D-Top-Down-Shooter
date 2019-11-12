@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -147,16 +147,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 4351111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_RepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDeviceSelectAction: {fileID: 2559092417903258184, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
 --- !u!114 &4351113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,8 +689,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4292072403
+  m_fontColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -812,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystickResetSpeed: 700
-  joystickMaxRadius: 250
+  joystickMaxRadius: 240
   joystickSmooth: 0.75
 --- !u!114 &326651449
 MonoBehaviour:
@@ -1053,11 +1072,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PRE_Player
       objectReference: {fileID: 0}
-    - target: {fileID: 825196666617345554, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 825196666617345558, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1112,26 +1126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 825196666617345640, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 825196666836169789, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3088409126304182860, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 825196666617345641, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: rotationSpeed
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d00ecc3aebe666479dbc27b6a6f89bd, type: 3}
@@ -1219,7 +1213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystickResetSpeed: 700
-  joystickMaxRadius: 250
+  joystickMaxRadius: 240
   joystickSmooth: 0.75
 --- !u!1 &934247175
 GameObject:
@@ -1292,8 +1286,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -317.5, y: 317.5}
-  m_SizeDelta: {x: 575, y: 575}
+  m_AnchoredPosition: {x: -280, y: 280}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &949510725
 MonoBehaviour:
@@ -1596,7 +1590,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 807479607}
   m_Follow: {fileID: 807479607}
   m_Lens:
-    FieldOfView: 90
+    FieldOfView: 75
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1617,8 +1611,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156323558}
-  m_LocalRotation: {x: 0.5819476, y: 0, z: 0, w: 0.8132263}
-  m_LocalPosition: {x: 0, y: 12, z: -3.75}
+  m_LocalRotation: {x: 0.5969305, y: 0, z: 0, w: 0.80229294}
+  m_LocalPosition: {x: 0, y: 13.5, z: -3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1443448627}
@@ -1715,7 +1709,7 @@ Transform:
   m_LocalScale: {x: 4.3593, y: 4.3593, z: 4.3593}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1190799741
 GameObject:
@@ -1985,7 +1979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 11, z: -3.75}
+  m_FollowOffset: {x: 0, y: 12.5, z: -3.75}
   m_XDamping: 0.5
   m_YDamping: 0.5
   m_ZDamping: 0.5
@@ -2094,7 +2088,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2133,7 +2127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a6abfa7d2ce804486b5f8648cde037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followerShopButton: {fileID: 0}
+  followerShopButton: {fileID: 1190799741}
 --- !u!1 &1577515154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2224,7 +2218,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1790831723
 GameObject:
@@ -2316,7 +2310,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1913551094
 GameObject:
@@ -2353,8 +2347,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 317.5, y: 317.5}
-  m_SizeDelta: {x: 575, y: 575}
+  m_AnchoredPosition: {x: 280, y: 280}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1913551096
 MonoBehaviour:
@@ -2441,7 +2435,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 90
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2466,8 +2460,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972013456}
-  m_LocalRotation: {x: 0.5819476, y: 0, z: 0, w: 0.8132263}
-  m_LocalPosition: {x: 0, y: 12, z: -3.75}
+  m_LocalRotation: {x: 0.5969305, y: 0, z: 0, w: 0.80229294}
+  m_LocalPosition: {x: 0, y: 13.5, z: -3.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
