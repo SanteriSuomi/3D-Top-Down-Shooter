@@ -46,7 +46,7 @@ namespace Shooter.Inputs
 
         private void Rotate()
         {
-            rotation += deltaLookValue.x + deltaLookValue.y * rotationSpeed * Time.deltaTime;
+            rotation += deltaLookValue.x * rotationSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rotation, 0), rotationSmooth);
         }
 

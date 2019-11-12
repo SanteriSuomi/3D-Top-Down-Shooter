@@ -1,6 +1,8 @@
-﻿namespace Shooter.Utility
+﻿using System;
+
+namespace Shooter.Utility
 {
-	[System.Serializable]
+	[Serializable]
 	public class PlayerData
 	{
 		public int Health { get; set; }

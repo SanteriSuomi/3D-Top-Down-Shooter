@@ -5,9 +5,9 @@ namespace Shooter.Utility
     public class PlayerShoot : MonoBehaviour
     {
         [SerializeField]
-        private Transform barrelEnd;
+        private Transform barrelEnd = default;
         [SerializeField]
-        private LayerMask layersToHit;
+        private LayerMask layersToHit = default;
         [SerializeField]
         private float shootDistance = 15;
         [SerializeField]
