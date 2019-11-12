@@ -19,15 +19,25 @@ namespace Shooter.Utility
         private void Update()
         {
             shootTimer += Time.deltaTime;
-            Physics.Raycast(barrelEnd.position, barrelEnd.forward * shootDistance, out RaycastHit rayHit, layersToHit);
+            RaycastHit rayHit = ShootRaycast();
             if (shootTimer >= shootRate && rayHit.collider)
             {
-                Debug.Log($"Shooting");
-                shootTimer = 0;
-                Bullet bullet = BulletPool.GetInstance().Dequeue();
-                bullet.transform.position = barrelEnd.position;
-                bullet.GetComponent<Rigidbody>().velocity = barrelEnd.transform.forward * bulletSpeed;
+                ShootBullet();
             }
+        }
+
+        private RaycastHit ShootRaycast()
+        {
+            Physics.Raycast(barrelEnd.position, barrelEnd.forward * shootDistance, out RaycastHit rayHit, layersToHit);
+            return rayHit;
+        }
+
+        private void ShootBullet()
+        {
+            shootTimer = 0;
+            Bullet bullet = BulletPool.GetInstance().Dequeue();
+            bullet.transform.position = barrelEnd.position;
+            bullet.GetComponent<Rigidbody>().velocity = barrelEnd.transform.forward * bulletSpeed;
         }
 
         #if UNITY_EDITOR

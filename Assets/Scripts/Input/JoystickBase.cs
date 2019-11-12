@@ -45,6 +45,7 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
+            touchPositionToLocalRect = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
 
@@ -55,7 +56,6 @@ namespace Shooter.Inputs
                 || !holdingDown)
             {
                 rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition, originalRectPosition, joystickResetSpeed * Time.deltaTime);
-                touchPositionToLocalRect = Vector2.MoveTowards(touchPositionToLocalRect, originalRectPosition, joystickResetSpeed * Time.deltaTime);
                 yield return null;
             }
         }
