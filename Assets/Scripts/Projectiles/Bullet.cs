@@ -7,8 +7,6 @@ namespace Shooter.Utility
     {
         [SerializeField]
         private float deactivateDelay = 5;
-        [SerializeField]
-        private LayerMask layersToHit;
 
         private void OnEnable()
         {
@@ -17,7 +15,7 @@ namespace Shooter.Utility
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.layer == layersToHit.value)
+            if (collision.collider.TryGetComponent(out IDamageable enemy))
             {
                 DeactivateAndEnqueue();
             }

@@ -20,7 +20,7 @@ namespace Shooter.Utility
         {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate && rayHit.collider)
+            if (shootTimer >= shootRate && rayHit.collider.TryGetComponent(out IDamageable enemy))
             {
                 ShootBullet();
             }

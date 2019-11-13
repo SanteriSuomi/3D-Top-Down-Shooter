@@ -34,17 +34,17 @@ namespace Shooter.Player
             transform.rotation = Quaternion.Euler(rotation);
         }
 
-        private void SavePlayer()
-        {
-            SaveSystem.SavePlayer(this);
-        }
-
         private void OnApplicationPause(bool isPaused)
         {
             if (isPaused)
             {
                 SavePlayer();
             }
+        }
+
+        private void SavePlayer()
+        {
+            SaveSystem.SavePlayer(this);
         }
     }
 }

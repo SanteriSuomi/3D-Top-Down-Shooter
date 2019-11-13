@@ -10,7 +10,7 @@ namespace Shooter.UI
 
         public void FollowerShopButton()
         {
-            followerShopButton.SetActive(!gameObject.activeSelf);
+            followerShopButton.SetActive(!followerShopButton.activeSelf);
         }
     }
 }

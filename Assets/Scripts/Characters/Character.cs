@@ -8,13 +8,13 @@ namespace Shooter.AI
     {
         public float Hitpoints { get; set; }
         [SerializeField]
-        protected float hitPoints = 100;
-        protected readonly int playerLayer = 9;
+        protected float awakeHitPoints = 100;
+        protected readonly string playerTag = "Player";
 
         protected abstract void InitializeState();
         private void Awake()
         {
-            Hitpoints = hitPoints;
+            Hitpoints = awakeHitPoints;
             InitializeState();
         }
 
@@ -34,7 +34,7 @@ namespace Shooter.AI
         {
             if (Hitpoints <= float.Epsilon)
             {
-                if (gameObject.layer == playerLayer)
+                if (gameObject.CompareTag(playerTag))
                 {
                     Scene currentScene = SceneManager.GetActiveScene();
                     SceneManager.LoadScene(currentScene.name, LoadSceneMode.Single);

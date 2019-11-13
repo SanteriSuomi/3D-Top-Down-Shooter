@@ -29,13 +29,13 @@ namespace Shooter.Utility
             if (Instance == null)
             {
                 Instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(gameObject.transform.root);
             }
             else if (Instance != this as T)
             {
                 Destroy(gameObject);
             }
-            else { DontDestroyOnLoad(gameObject); }
+            else { DontDestroyOnLoad(gameObject.transform.root); }
         }
 
         private void OnApplicationQuit()

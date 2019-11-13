@@ -5,9 +5,9 @@ namespace Shooter.UI
 {
     public class ShopSpawner : Singleton<ShopSpawner>
     {
-        public void Spawn(GameObject gameObject)
+        public void Spawn(GameObject obj)
         {
-            // To-do?
+            // To-do
         }
     }
 }
