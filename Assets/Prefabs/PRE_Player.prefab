@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc749c133bfdd4340ad9dd9b3581a7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.035
+  moveSpeed: 0.0375
 --- !u!114 &825196666617345641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,8 +147,8 @@ MonoBehaviour:
   layersToHit:
     serializedVersion: 2
     m_Bits: 512
-  shootDistance: 25
-  bulletSpeed: 50
+  shootDistance: 20
+  bulletSpeed: 60
   shootRate: 0.25
 --- !u!114 &7831112920248027659
 MonoBehaviour:
