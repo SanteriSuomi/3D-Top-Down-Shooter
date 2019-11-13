@@ -45,7 +45,7 @@ namespace Shooter.Inputs
         private void Move()
         {
             Vector3 moveDirection = CalculateDirection();
-            characterController.Move(moveDirection * moveSpeed);
+            characterController.Move(moveDirection * moveSpeed * Player.Player.PlayerSensitivityMultiplier);
         }
 
         private Vector3 CalculateDirection()

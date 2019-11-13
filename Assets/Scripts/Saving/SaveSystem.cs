@@ -2,14 +2,16 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using Shooter.AI;
 
 namespace Shooter.Utility
 {
 	public static class SaveSystem
 	{
-        private static readonly string savePath = $"{Application.persistentDataPath}/player.bin";
+        private const string pathEnd = "player.bin";
+        private static readonly string savePath = Path.Combine(Application.persistentDataPath, pathEnd);
 
-        public static void SavePlayer(PlayerSaveLoad player)
+        public static void SavePlayer(Character player)
 		{
 			BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(savePath, FileMode.Create);

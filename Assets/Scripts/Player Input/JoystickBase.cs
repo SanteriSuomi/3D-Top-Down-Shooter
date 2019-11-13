@@ -44,9 +44,10 @@ namespace Shooter.Inputs
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-            currentTouchIndex -= 1;
+            Debug.Log("Pointer up");
             holdingDown = false;
             touchPositionToLocalRect = Vector2.zero;
+            touchPosition = Vector2.zero;
             StartCoroutine(MoveToOriginalPosition());
         }
 
