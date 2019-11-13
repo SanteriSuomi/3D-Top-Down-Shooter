@@ -1,6 +1,6 @@
 ﻿namespace Shooter.Utility
 {
-    public class BulletPool : ObjectPool<Bullet>
+    public class BulletPool : GenericObjectPool<Bullet>
     {
     }
 }

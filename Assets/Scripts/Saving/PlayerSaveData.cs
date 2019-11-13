@@ -1,18 +1,19 @@
-﻿using Shooter.AI;
+﻿using Shooter.Player;
 using System;
-using UnityEngine;
 
 namespace Shooter.Utility
 {
 	[Serializable]
-	public class PlayerData
+	public class PlayerSaveData
 	{
-        public float Health { get; set; }
+        public float Hitpoints { get; set; }
+        public float Funds { get; set; }
+        public float PlayerSensitivityMultiplier { get; set; }
 
         private float[] position;
-        public void SetPosition(float[] pos)
+        public void SetPosition(float[] position)
         {
-            position = pos;
+            this.position = position;
         }
         public float[] GetPosition()
         {
@@ -20,18 +21,20 @@ namespace Shooter.Utility
         }
 
         private float[] rotation;
-        public void SetRotation(float[] rot)
+        public void SetRotation(float[] rotation)
         {
-            rotation = rot;
+            this.rotation = rotation;
         }
         public float[] GetRotation()
         {
             return rotation;
         }
 
-        public PlayerData(Character player)
+        public PlayerSaveData(PlayerSettings player)
 		{
-            Health = player.Hitpoints;
+            Hitpoints = player.HitPoints;
+            Funds = player.Funds;
+            PlayerSensitivityMultiplier = player.PlayerSensitivityMultiplier;
 
             position = new float[3];
             position[0] = player.transform.position.x;

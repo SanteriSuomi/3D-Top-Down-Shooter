@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Shooter.Player;
+using UnityEngine;
 
 namespace Shooter.Inputs
 {
@@ -45,7 +46,7 @@ namespace Shooter.Inputs
         private void Move()
         {
             Vector3 moveDirection = CalculateDirection();
-            characterController.Move(moveDirection * moveSpeed * Player.Player.PlayerSensitivityMultiplier);
+            characterController.Move(moveDirection * moveSpeed * PlayerSettings.GetInstance().PlayerSensitivityMultiplier);
         }
 
         private Vector3 CalculateDirection()

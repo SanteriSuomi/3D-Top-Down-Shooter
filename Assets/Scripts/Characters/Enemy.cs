@@ -19,7 +19,6 @@ namespace Shooter.Enemy
 
         protected override void StartState()
         {
-            Hitpoints = initialHitPoints;
             agent.SetDestination(agentObjective.position);
         }
 

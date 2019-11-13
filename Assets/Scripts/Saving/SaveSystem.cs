@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
-using Shooter.AI;
+using Shooter.Player;
 
 namespace Shooter.Utility
 {
@@ -11,11 +11,11 @@ namespace Shooter.Utility
         private const string pathEnd = "player.bin";
         private static readonly string savePath = Path.Combine(Application.persistentDataPath, pathEnd);
 
-        public static void SavePlayer(Character player)
+        public static void SavePlayer(PlayerSettings player)
 		{
 			BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(savePath, FileMode.Create);
-            PlayerData data = new PlayerData(player);
+            PlayerSaveData data = new PlayerSaveData(player);
             try
             {
                 binaryFormatter.Serialize(fileStream, data);
@@ -32,16 +32,16 @@ namespace Shooter.Utility
             }
         }
 
-		public static PlayerData LoadPlayer()
+		public static PlayerSaveData LoadPlayer()
 		{
 			if (File.Exists(savePath))
 			{
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 				FileStream fileStream = new FileStream(savePath, FileMode.Open);
-                PlayerData data = null;
+                PlayerSaveData data = null;
                 try
                 {
-                    data = binaryFormatter.Deserialize(fileStream) as PlayerData;
+                    data = binaryFormatter.Deserialize(fileStream) as PlayerSaveData;
                 }
                 catch (Exception e)
                 {
