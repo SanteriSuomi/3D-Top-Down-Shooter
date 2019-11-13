@@ -7,7 +7,7 @@ namespace Shooter.Utility
 	[Serializable]
 	public class PlayerData
 	{
-        //public int Health { get; set; }
+        public float Health { get; set; }
 
         private float[] position;
         public void SetPosition(float[] pos)
@@ -31,17 +31,17 @@ namespace Shooter.Utility
 
         public PlayerData(Character player)
 		{
+            Health = player.Hitpoints;
+
             position = new float[3];
             position[0] = player.transform.position.x;
             position[1] = player.transform.position.y;
             position[2] = player.transform.position.z;
-            Debug.Log($"Position: {position[0]}{position[1]}{position[2]}");
 
             rotation = new float[3];
             rotation[0] = player.transform.rotation.eulerAngles.x;
             rotation[1] = player.transform.rotation.eulerAngles.y;
             rotation[2] = player.transform.rotation.eulerAngles.z;
-            Debug.Log($"Rotation: {rotation[0]}{rotation[1]}{rotation[2]}");
         }
 	}
 }

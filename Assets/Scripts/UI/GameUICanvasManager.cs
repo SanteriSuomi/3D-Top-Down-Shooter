@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Shooter.UI
 {
-    public class GameUICanvasManager : Singleton<GameUICanvasManager>
+    public class GameUICanvasManager : GenericSingleton<GameUICanvasManager>
     {
         [SerializeField]
         private GameObject followerShopButton = default;

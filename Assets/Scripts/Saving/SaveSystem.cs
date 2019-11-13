@@ -15,7 +15,7 @@ namespace Shooter.Utility
 		{
 			BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(savePath, FileMode.Create);
-			PlayerData data = new PlayerData(player);
+            PlayerData data = new PlayerData(player);
             try
             {
                 binaryFormatter.Serialize(fileStream, data);

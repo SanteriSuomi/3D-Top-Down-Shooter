@@ -4,6 +4,6 @@
     {
         float Hitpoints { get; set; }
         void TakeDamage(float damage);
-        void Die();
+        void CheckHitpoints();
     }
 }

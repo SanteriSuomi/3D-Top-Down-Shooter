@@ -129,4 +129,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed32ec65365cc544e9d08d51bd15a270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  awakeHitPoints: 100
+  initialHitPoints: 100
+  agentObjective: {fileID: 0}

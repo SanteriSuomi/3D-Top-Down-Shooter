@@ -2,9 +2,9 @@
 
 namespace Shooter.Utility
 {
-    public abstract class Singleton<T> : SingletonBase where T : Component
+    public abstract class GenericSingleton<T> : GenericSingletonBase where T : Component
     {
-        public static T Instance { get; set; }
+        private static T Instance { get; set; }
 
         public static T GetInstance()
         {

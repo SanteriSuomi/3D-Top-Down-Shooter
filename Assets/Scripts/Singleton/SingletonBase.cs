@@ -2,7 +2,7 @@
 
 namespace Shooter.Utility
 {
-    public class SingletonBase : MonoBehaviour
+    public class GenericSingletonBase : MonoBehaviour
     {
         protected static bool ApplicationIsQuitting { get; set; } = false;
     }
