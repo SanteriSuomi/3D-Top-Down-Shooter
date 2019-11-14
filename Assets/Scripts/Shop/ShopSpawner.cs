@@ -12,6 +12,7 @@ namespace Shooter.UI
 
         protected override void Awake()
         {
+            base.Awake();
             player = FindObjectOfType<Player.Player>().transform;
         }
 

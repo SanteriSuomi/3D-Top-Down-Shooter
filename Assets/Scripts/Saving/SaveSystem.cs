@@ -8,7 +8,7 @@ namespace Shooter.Utility
 {
 	public static class SaveSystem
 	{
-        private const string pathEnd = "player.bin";
+        private const string pathEnd = "save.bin";
         private static readonly string savePath = Path.Combine(Application.persistentDataPath, pathEnd);
 
         public static void SavePlayer(PlayerSettings player)

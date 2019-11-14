@@ -8,7 +8,7 @@ namespace Shooter.UI
     public class FundsController : GenericSingleton<FundsController>
     {
         [SerializeField]
-        private string fundsTextString = "Prayers";
+        private string fundsTextString = "Funds";
         private TextMeshProUGUI fundsText;
 
         protected override void Awake()

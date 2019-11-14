@@ -7,7 +7,7 @@ namespace Shooter.Player
     {
         protected override void InitializeState()
         {
-            PlayerSettings.GetInstance().OnHitpointChangeEvent += OnHitpointsChange;
+            GetComponent<PlayerSettings>().OnHitpointChangeEvent += OnHitpointsChange;
         }
 
         private void OnHitpointsChange(float hitPoints)

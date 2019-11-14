@@ -1,6 +1,5 @@
 ﻿using Shooter.Utility;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Shooter.Player
 {
@@ -35,6 +34,12 @@ namespace Shooter.Player
         }
 
         public float PlayerSensitivityMultiplier { get; set; } = 1;
+
+        private void Start()
+        {
+            OnHitpointChangeEvent.Invoke(hitPoints);
+            OnFundsChangeEvent.Invoke(funds);
+        }
 
         public void LoadPlayer()
         {

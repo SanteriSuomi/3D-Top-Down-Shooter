@@ -5,6 +5,7 @@ namespace Shooter.Inputs
 {
     public class PlayerLook : MonoBehaviour
     {
+        private PlayerSettings playerSettings;
         private Vector2 deltaLookValue;
         private bool look;
         private bool joystickLook;
@@ -17,6 +18,7 @@ namespace Shooter.Inputs
 
         private void Awake()
         {
+            playerSettings = GetComponent<PlayerSettings>();
             InputEventHandler.JoystickLookEvent += JoystickLook;
             InputEventHandler.JoystickLookInputEvent += JoystickLookInput;
         }
@@ -47,7 +49,7 @@ namespace Shooter.Inputs
 
         private void Rotate()
         {
-            rotation += deltaLookValue.x * rotationSpeed * PlayerSettings.GetInstance().PlayerSensitivityMultiplier * Time.deltaTime;
+            rotation += deltaLookValue.x * rotationSpeed * playerSettings.PlayerSensitivityMultiplier * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rotation, 0), rotationSmooth);
         }
 
