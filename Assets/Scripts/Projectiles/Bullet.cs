@@ -5,10 +5,16 @@ namespace Shooter.Utility
 {
     public class Bullet : MonoBehaviour
     {
+        public Rigidbody RigidBody { get; set; }
         [SerializeField]
         private float bulletDamage = 2.5f;
         [SerializeField]
         private float deactivateDelay = 5;
+
+        private void Awake()
+        {
+            RigidBody = GetComponent<Rigidbody>();
+        }
 
         private void OnEnable()
         {

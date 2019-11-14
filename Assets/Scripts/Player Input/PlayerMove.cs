@@ -10,7 +10,6 @@ namespace Shooter.Inputs
         private Vector2 deltaMoveValue;
         [SerializeField]
         private float moveSpeed = 0.3f;
-        private bool move;
         private bool joystickMove;
 
         private void Awake()
@@ -29,17 +28,11 @@ namespace Shooter.Inputs
         private void JoystickMoveInput(Vector2 delta)
         {
             deltaMoveValue = delta;
-            move = true;
-            if (Mathf.Approximately(delta.x, float.Epsilon)
-                || Mathf.Approximately(delta.y, float.Epsilon))
-            {
-                move = false;
-            }
         }
 
         private void Update()
         {
-            if (joystickMove && move)
+            if (joystickMove)
             {
                 Move();
             }

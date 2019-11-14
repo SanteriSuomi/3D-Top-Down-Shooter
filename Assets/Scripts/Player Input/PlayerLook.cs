@@ -7,7 +7,6 @@ namespace Shooter.Inputs
     {
         private PlayerSettings playerSettings;
         private Vector2 deltaLookValue;
-        private bool look;
         private bool joystickLook;
         private float rotation;
         [SerializeField]
@@ -31,17 +30,11 @@ namespace Shooter.Inputs
         private void JoystickLookInput(Vector2 delta)
         {
             deltaLookValue = delta;
-            look = true;
-            if (Mathf.Approximately(delta.x, float.Epsilon)
-                || Mathf.Approximately(delta.y, float.Epsilon))
-            {
-                look = false;
-            }
         }
 
         private void Update()
         {
-            if (joystickLook && look)
+            if (joystickLook)
             {
                 Rotate();
             }
