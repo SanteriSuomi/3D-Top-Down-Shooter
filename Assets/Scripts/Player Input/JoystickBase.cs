@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,7 +9,6 @@ namespace Shooter.Inputs
         protected RectTransform rectTransform;
         protected RectTransform baseRectTransform;
         protected Vector2 touchPosition;
-        [SuppressMessage("Minor Code Smell", "S1450:Private fields only used as local variables in methods should become local variables", Justification = "Not applicable")]
         protected Vector2 touchPositionToLocalRect;
         protected Vector2 originalRectPosition;
         [SerializeField]
@@ -45,9 +43,18 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            touchPositionToLocalRect = Vector2.zero;
-            touchPosition = Vector2.zero;
+            if (currentTouchIndex >= 1)
+            {
+                currentTouchIndex = Input.touchCount - 2;
+            }
+            ResetTouchPosition();
             StartCoroutine(MoveToOriginalPosition());
+        }
+
+        private void ResetTouchPosition()
+        {
+            touchPosition = Vector2.zero;
+            touchPositionToLocalRect = Vector2.zero;
         }
 
         protected virtual IEnumerator MoveToOriginalPosition()

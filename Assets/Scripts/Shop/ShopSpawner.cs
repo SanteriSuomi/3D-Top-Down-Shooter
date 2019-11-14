@@ -1,13 +1,17 @@
-﻿using Shooter.Utility;
-using UnityEngine;
+﻿using Shooter.Player;
+using Shooter.Shop;
+using Shooter.Utility;
 
 namespace Shooter.UI
 {
     public class ShopSpawner : GenericSingleton<ShopSpawner>
     {
-        public void Spawn(GameObject objectToSpawn)
+        public void Spawn(ShopObject objectToSpawn)
         {
-            // To-do
+            if (PlayerSettings.GetInstance().Funds >= objectToSpawn.Cost)
+            {
+
+            }
         }
     }
 }

@@ -35,6 +35,12 @@ namespace Shooter.Player
 
         public float PlayerSensitivityMultiplier { get; set; } = 1;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            LoadPlayer();
+        }
+
         public void LoadPlayer()
         {
             PlayerSaveData data = SaveSystem.LoadPlayer();

@@ -6,6 +6,8 @@ namespace Shooter.Utility
     public class Bullet : MonoBehaviour
     {
         [SerializeField]
+        private float bulletDamage = 2.5f;
+        [SerializeField]
         private float deactivateDelay = 5;
 
         private void OnEnable()
@@ -17,6 +19,7 @@ namespace Shooter.Utility
         {
             if (collision.collider.TryGetComponent(out IDamageable enemy))
             {
+                enemy.Hitpoints -= bulletDamage;
                 DeactivateAndEnqueue();
             }
         }
