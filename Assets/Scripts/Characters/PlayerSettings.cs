@@ -36,20 +36,6 @@ namespace Shooter.Player
 
         public float PlayerSensitivityMultiplier { get; set; } = 1;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            if (scene.isLoaded)
-            {
-                LoadPlayer();
-            }
-        }
-
         public void LoadPlayer()
         {
             PlayerSaveData data = SaveSystem.LoadPlayer();
