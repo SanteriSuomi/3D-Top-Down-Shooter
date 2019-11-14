@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 8331024159556261705}
   - component: {fileID: 1165630790}
   - component: {fileID: 1230109022835659827}
+  - component: {fileID: 6008824420647363221}
   m_Layer: 0
   m_Name: PRE_Follower
   m_TagString: Untagged
@@ -239,3 +240,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHitPoints: 50
+--- !u!114 &6008824420647363221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331024159556261711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27541fed7ebf5d24087a9e4af415243e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

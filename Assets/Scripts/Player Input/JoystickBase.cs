@@ -43,10 +43,7 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            if (currentTouchIndex >= 1)
-            {
-                currentTouchIndex = Input.touchCount - 2;
-            }
+            currentTouchIndex = Input.touchCount - 2;
             ResetTouchPosition();
             StartCoroutine(MoveToOriginalPosition());
         }

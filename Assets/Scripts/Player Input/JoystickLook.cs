@@ -22,7 +22,6 @@ namespace Shooter.Inputs
         protected override void CancelJoystickAction()
         {
             InputEventHandler.InvokeJoystickLook(look: false);
-            InputEventHandler.InvokeJoystickLookInput(Vector2.zero);
         }
     }
 }

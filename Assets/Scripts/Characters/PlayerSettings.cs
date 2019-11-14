@@ -1,5 +1,6 @@
 ﻿using Shooter.Utility;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Shooter.Player
 {
@@ -38,7 +39,15 @@ namespace Shooter.Player
         protected override void Awake()
         {
             base.Awake();
-            LoadPlayer();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.isLoaded)
+            {
+                LoadPlayer();
+            }
         }
 
         public void LoadPlayer()

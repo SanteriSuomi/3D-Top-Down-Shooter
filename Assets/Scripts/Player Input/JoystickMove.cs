@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Shooter.Inputs
+﻿namespace Shooter.Inputs
 {
     public class JoystickMove : JoystickBase
     {
@@ -14,7 +12,6 @@ namespace Shooter.Inputs
         protected override void CancelJoystickAction()
         {
             InputEventHandler.InvokeJoystickMove(move: false);
-            InputEventHandler.InvokeJoystickMoveInput(Vector2.zero);
         }
     }
 }

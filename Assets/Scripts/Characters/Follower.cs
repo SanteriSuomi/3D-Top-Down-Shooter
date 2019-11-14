@@ -2,7 +2,6 @@
 {
     public class Follower : Character
     {
-
         protected override void InitializeState()
         {
 
