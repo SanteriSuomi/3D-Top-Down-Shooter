@@ -8,6 +8,8 @@ namespace Shooter.Inputs
     {
         protected RectTransform rectTransform;
         protected RectTransform baseRectTransform;
+        protected Touch currentTouch;
+        protected Vector2 touchPosition;
         protected Vector2 touchPositionToLocalRect;
         protected Vector2 originalRectPosition;
         [SerializeField]
@@ -17,7 +19,6 @@ namespace Shooter.Inputs
         [SerializeField]
         protected float joystickSmooth = 0.8f;
         protected bool holdingDown;
-        protected Touch currentTouch;
         protected int currentTouchIndex;
 
         protected virtual void Awake()
@@ -46,6 +47,7 @@ namespace Shooter.Inputs
 
         private void ResetTouchPosition()
         {
+            touchPosition = Vector2.zero;
             touchPositionToLocalRect = Vector2.zero;
         }
 
@@ -76,11 +78,14 @@ namespace Shooter.Inputs
         private void GetTouchPosition()
         {
             currentTouch = Input.GetTouch(currentTouchIndex);
+            touchPosition = currentTouch.position;
         }
+
+
 
         protected virtual void JoystickAction()
         {
-            touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(currentTouch.position), joystickMaxRadius);
+            touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
             rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, touchPositionToLocalRect, joystickSmooth);
         }
 
