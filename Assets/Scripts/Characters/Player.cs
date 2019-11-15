@@ -5,9 +5,12 @@ namespace Shooter.Player
 {
     public class Player : Character
     {
+        PlayerSettings playerSettings;
+
         protected override void InitializeState()
         {
-            GetComponent<PlayerSettings>().OnHitpointChangeEvent += OnHitpointsChange;
+            playerSettings = GetComponent<PlayerSettings>();
+            playerSettings.OnHitpointChangeEvent += OnHitpointsChange;
         }
 
         private void OnHitpointsChange(float hitPoints)
@@ -28,6 +31,11 @@ namespace Shooter.Player
         protected override void OnZeroHP()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        private void OnDestroy()
+        {
+            playerSettings.OnHitpointChangeEvent -= OnHitpointsChange;
         }
     }
 }

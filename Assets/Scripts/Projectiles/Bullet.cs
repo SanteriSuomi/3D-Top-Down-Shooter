@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Shooter.Utility
 {
@@ -8,17 +7,10 @@ namespace Shooter.Utility
         public Rigidbody RigidBody { get; set; }
         [SerializeField]
         private float bulletDamage = 2.5f;
-        [SerializeField]
-        private float deactivateDelay = 5;
 
         private void Awake()
         {
             RigidBody = GetComponent<Rigidbody>();
-        }
-
-        private void OnEnable()
-        {
-            StartCoroutine(DeactivateDelay());
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -30,9 +22,8 @@ namespace Shooter.Utility
             }
         }
 
-        private IEnumerator DeactivateDelay()
+        private void OnBecameInvisible()
         {
-            yield return new WaitForSeconds(deactivateDelay);
             DeactivateAndEnqueue();
         }
 

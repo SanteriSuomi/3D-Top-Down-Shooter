@@ -147,9 +147,9 @@ MonoBehaviour:
   layersToHit:
     serializedVersion: 2
     m_Bits: 512
-  shootDistance: 20
-  bulletSpeed: 60
-  shootRate: 0.25
+  shootDistance: 15
+  bulletSpeed: 50
+  shootRate: 0.3
 --- !u!114 &7831112920248027659
 MonoBehaviour:
   m_ObjectHideFlags: 0

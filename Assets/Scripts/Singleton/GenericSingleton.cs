@@ -26,6 +26,13 @@ namespace Shooter.Utility
 
         protected virtual void Awake()
         {
+            if (gameObject.transform.parent != null)
+            {
+                #if UNITY_EDITOR
+                Debug.Log($"{typeof(T).Name} has a parent. Is this intended?");
+                #endif
+            }
+
             if (Instance == null)
             {
                 Instance = this as T;
@@ -38,9 +45,25 @@ namespace Shooter.Utility
             else { DontDestroyOnLoad(gameObject.transform.root); }
         }
 
+        #if UNITY_STANDALONE
         private void OnApplicationQuit()
         {
             ApplicationIsQuitting = true;
         }
+        #endif
+
+        #if UNITY_ANDROID
+        private void OnApplicationPause(bool isPaused)
+        {
+            if (isPaused)
+            {
+                ApplicationIsQuitting = true;
+            }
+            else
+            {
+                ApplicationIsQuitting = false;
+            }
+        }
+        #endif
     }
 }

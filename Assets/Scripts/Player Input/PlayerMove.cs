@@ -1,12 +1,10 @@
-﻿using Shooter.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Shooter.Inputs
 {
     public class PlayerMove : MonoBehaviour
     {
         private CharacterController characterController;
-        private PlayerSettings playerSettings;
         private Vector2 deltaMoveValue;
         [SerializeField]
         private float moveSpeed = 0.3f;
@@ -14,7 +12,6 @@ namespace Shooter.Inputs
 
         private void Awake()
         {
-            playerSettings = GetComponent<PlayerSettings>();
             characterController = GetComponent<CharacterController>();
             InputEventHandler.JoystickMoveEvent += JoystickMove;
             InputEventHandler.JoystickMoveInputEvent += JoystickMoveInput;
@@ -41,7 +38,7 @@ namespace Shooter.Inputs
         private void Move()
         {
             Vector3 moveDirection = CalculateDirection();
-            characterController.Move(moveDirection * moveSpeed * playerSettings.PlayerSensitivityMultiplier);
+            characterController.Move(moveDirection * moveSpeed);
         }
 
         private Vector3 CalculateDirection()
@@ -52,7 +49,7 @@ namespace Shooter.Inputs
             return moveDirection;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             InputEventHandler.JoystickMoveEvent -= JoystickMove;
             InputEventHandler.JoystickMoveInputEvent -= JoystickMoveInput;

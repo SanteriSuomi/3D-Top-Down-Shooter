@@ -1,27 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Shooter.UI
 {
     public class MenuScene : MonoBehaviour
     {
+        private CanvasGroup m_FadeGroup;
         [SerializeField] private GameObject m_VolumeButton = default;
         [SerializeField] private GameObject m_VolumeOffButton = default;
         [SerializeField] private GameObject m_Menu = default;
         [SerializeField] private GameObject m_MenuTwo = default;
         [SerializeField] private GameObject m_SettingsMenu = default;
-        private CanvasGroup m_FadeGroup;
-        private readonly float m_FadeInSpeed = 0.33f;
+        [SerializeField]
+        private float m_FadeInSpeed = 0.5f;
+        private readonly string levelSceneString = "SCE_Level";
 
         private void Start()
         {
-            m_FadeGroup = FindObjectOfType<CanvasGroup>();
+            m_FadeGroup = GetComponentInChildren<CanvasGroup>();
             m_FadeGroup.alpha = 1;
+            StartCoroutine(StartFade());
         }
 
-        private void Update()
+        private IEnumerator StartFade()
         {
-            m_FadeGroup.alpha = 1 - Time.timeSinceLevelLoad * m_FadeInSpeed;
+            while (m_FadeGroup.alpha > 0)
+            {
+                m_FadeGroup.alpha = 1 - Time.timeSinceLevelLoad * m_FadeInSpeed;
+                yield return null;
+            }
         }
 
         public void OnPlayClick()
@@ -33,14 +41,24 @@ namespace Shooter.UI
 
         public void OnPlayClickNewGame()
         {
-            MenuSceneLoad.GetInstance().LoadPlayerSettings = false;
-            SceneManager.LoadScene("SCE_Level");
+            LoadSettings(load: false);
+            LoadScene();
         }
 
         public void OnPlayClickLoadGame()
         {
-            MenuSceneLoad.GetInstance().LoadPlayerSettings = true;
-            SceneManager.LoadScene("SCE_Level");
+            LoadSettings(load: true);
+            LoadScene();
+        }
+
+        private static void LoadSettings(bool load)
+        {
+            MenuSceneLoad.GetInstance().LoadPlayerSettings = load;
+        }
+
+        private void LoadScene()
+        {
+            SceneManager.LoadScene(levelSceneString);
         }
 
         public void OnSettingsClick()

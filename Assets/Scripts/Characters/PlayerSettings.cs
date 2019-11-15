@@ -5,7 +5,7 @@ namespace Shooter.Player
 {
     public class PlayerSettings : GenericSingleton<PlayerSettings>
     {
-        public delegate void OnHitpointChange(float hitpoints);
+        public delegate void OnHitpointChange(float hitPoints);
         public event OnHitpointChange OnHitpointChangeEvent;
 
         public delegate void OnFundsChange(float funds);
@@ -33,7 +33,7 @@ namespace Shooter.Player
             }
         }
 
-        public float PlayerSensitivityMultiplier { get; set; } = 1;
+        public float PlayerSensitivityMultiplier { get; set; }
 
         private void Start()
         {

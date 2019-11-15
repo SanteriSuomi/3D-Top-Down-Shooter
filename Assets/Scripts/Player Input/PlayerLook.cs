@@ -46,7 +46,7 @@ namespace Shooter.Inputs
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rotation, 0), rotationSmooth);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             InputEventHandler.JoystickLookEvent -= JoystickLook;
             InputEventHandler.JoystickLookInputEvent -= JoystickLookInput;

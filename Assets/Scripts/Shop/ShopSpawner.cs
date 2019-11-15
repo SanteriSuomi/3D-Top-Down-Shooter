@@ -18,10 +18,15 @@ namespace Shooter.UI
 
         public void SpawnFollower(ShopObject objectToSpawn)
         {
-            if (objectToSpawn.TryGetComponent(out ShopObject obj))
+            if (objectToSpawn.TryGetComponent(out ShopObject shopObject))
             {
-                PlayerSettings.GetInstance().Funds -= obj.Cost;
+                float availableFunds = PlayerSettings.GetInstance().Funds;
+                if (shopObject.Cost > availableFunds)
+                {
+                    return;
+                }
 
+                PlayerSettings.GetInstance().Funds -= shopObject.Cost;
                 Follower follower = FollowerPool.GetInstance().Dequeue();
                 follower.transform.position = player.position + new Vector3(Random.Range(2, 5), 0, 0);
             }

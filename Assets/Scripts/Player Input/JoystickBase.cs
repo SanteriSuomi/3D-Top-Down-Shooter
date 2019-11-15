@@ -4,11 +4,10 @@ using UnityEngine.EventSystems;
 
 namespace Shooter.Inputs
 {
-    public abstract class JoystickBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
+    public abstract class JoystickBase : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerUpHandler
     {
         protected RectTransform rectTransform;
         protected RectTransform baseRectTransform;
-        protected Vector2 touchPosition;
         protected Vector2 touchPositionToLocalRect;
         protected Vector2 originalRectPosition;
         [SerializeField]
@@ -20,14 +19,12 @@ namespace Shooter.Inputs
         protected bool holdingDown;
         protected Touch currentTouch;
         protected int currentTouchIndex;
-        protected int maxJoystickTouches;
 
         protected virtual void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             baseRectTransform = transform.parent.GetComponent<RectTransform>();
             originalRectPosition = baseRectTransform.anchoredPosition;
-            maxJoystickTouches = GameObject.FindGameObjectsWithTag("Joystick").Length;
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
@@ -49,7 +46,6 @@ namespace Shooter.Inputs
 
         private void ResetTouchPosition()
         {
-            touchPosition = Vector2.zero;
             touchPositionToLocalRect = Vector2.zero;
         }
 
@@ -79,16 +75,12 @@ namespace Shooter.Inputs
 
         private void GetTouchPosition()
         {
-            if (Input.touchCount > 0)
-            {
-                currentTouch = Input.GetTouch(currentTouchIndex);
-                touchPosition = currentTouch.position;
-            }
+            currentTouch = Input.GetTouch(currentTouchIndex);
         }
 
         protected virtual void JoystickAction()
         {
-            touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(touchPosition), joystickMaxRadius);
+            touchPositionToLocalRect = Vector2.ClampMagnitude(baseRectTransform.InverseTransformPoint(currentTouch.position), joystickMaxRadius);
             rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, touchPositionToLocalRect, joystickSmooth);
         }
 
