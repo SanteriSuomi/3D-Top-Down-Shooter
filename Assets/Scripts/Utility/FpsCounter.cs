@@ -21,9 +21,14 @@ namespace Shooter.Utility
             if (timer >= timerInterval)
             {
                 timer = 0;
-                float fps = Mathf.RoundToInt(1 / Time.deltaTime);
-                fpsCounter.SetText($"{fps}");
+                DisplayFPS();
             }
+        }
+
+        private void DisplayFPS()
+        {
+            float fps = Mathf.RoundToInt(1 / Time.deltaTime);
+            fpsCounter.SetText($"{fps}");
         }
     }
 }

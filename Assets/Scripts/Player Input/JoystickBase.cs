@@ -77,11 +77,12 @@ namespace Shooter.Inputs
 
         private void GetTouchPosition()
         {
-            currentTouch = Input.GetTouch(currentTouchIndex);
-            touchPosition = currentTouch.position;
+            if (Input.touchCount > 0)
+            {
+                currentTouch = Input.GetTouch(currentTouchIndex);
+                touchPosition = currentTouch.position;
+            }
         }
-
-
 
         protected virtual void JoystickAction()
         {

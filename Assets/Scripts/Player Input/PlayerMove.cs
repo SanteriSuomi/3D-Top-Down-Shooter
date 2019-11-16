@@ -43,9 +43,9 @@ namespace Shooter.Inputs
 
         private Vector3 CalculateDirection()
         {
-            Vector3 moveDirectionForward = transform.forward * deltaMoveValue.y * Time.deltaTime;
-            Vector3 moveDirectionSide = transform.right * deltaMoveValue.x * Time.deltaTime;
-            Vector3 moveDirection = moveDirectionForward + moveDirectionSide;
+            Vector3 moveDirectionForward = transform.forward * deltaMoveValue.y;
+            Vector3 moveDirectionSide = transform.right * deltaMoveValue.x;
+            Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
             return moveDirection;
         }
 

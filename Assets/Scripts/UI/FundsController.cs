@@ -22,5 +22,13 @@ namespace Shooter.UI
         {
             fundsText.text = $"{fundsTextString}: {funds}";
         }
+
+        private void OnDestroy()
+        {
+            if (PlayerSettings.GetInstance() != null)
+            {
+                PlayerSettings.GetInstance().OnFundsChangeEvent -= OnFundsChange;
+            }
+        }
     }
 }

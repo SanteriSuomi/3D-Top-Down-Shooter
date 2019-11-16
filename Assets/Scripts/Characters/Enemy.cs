@@ -1,4 +1,5 @@
 ﻿using Shooter.AI;
+using Shooter.Player;
 using Shooter.Utility;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,19 +8,18 @@ namespace Shooter.Enemy
 {
     public class Enemy : Character
     {
+        [SerializeField]
+        private float fundGiveAmount = 2;
         private NavMeshAgent agent;
-        private Transform agentObjective;
-        private readonly string enemyObjectiveString = "EnemyObjective";
 
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
-            agentObjective = GameObject.Find(enemyObjectiveString).transform;
         }
 
         protected override void StartState()
         {
-            agent.SetDestination(agentObjective.position);
+            agent.SetDestination(EnemySharedData.Objective.position);
         }
 
         protected override void UpdateState()
@@ -29,6 +29,7 @@ namespace Shooter.Enemy
 
         protected override void OnZeroHP()
         {
+            PlayerSettings.GetInstance().Funds += fundGiveAmount;
             EnemyPool.GetInstance().Enqueue(this);
         }
     }

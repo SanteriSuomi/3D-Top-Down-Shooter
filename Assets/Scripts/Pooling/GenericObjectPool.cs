@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Shooter.Utility
 {
-    public class GenericObjectPool<T> : GenericSingleton<GenericObjectPool<T>> where T : MonoBehaviour
+    public class GenericObjectPool<T> : GenericSingleton<GenericObjectPool<T>> where T : Component
     {
         [SerializeField]
         private T prefabToPool = default;
