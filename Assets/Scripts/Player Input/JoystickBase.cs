@@ -47,6 +47,7 @@ namespace Shooter.Inputs
 
         private void ResetTouchPosition()
         {
+            currentTouchIndex = Input.touchCount - 1;
             touchPosition = Vector2.zero;
             touchPositionToLocalRect = Vector2.zero;
         }

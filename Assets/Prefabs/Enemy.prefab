@@ -131,4 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHitPoints: 10
   fundGiveAmount: 2
-  data: {fileID: 11400000, guid: 0bd33bf1173ca7f4f97de2627e1c0327, type: 2}
+  layersToAttack:
+    serializedVersion: 2
+    m_Bits: 1024
