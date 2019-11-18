@@ -29,7 +29,10 @@ namespace Shooter.Utility
 
         private void DeactivateAndEnqueue()
         {
-            BulletPool.GetInstance().Enqueue(this);
+            if (BulletPool.GetInstance() != null)
+            {
+                BulletPool.GetInstance().Enqueue(this);
+            }
         }
     }
 }

@@ -7,12 +7,12 @@ namespace Shooter.AI
     {
         public float Hitpoints { get; set; }
         [SerializeField]
-        protected float initialHitPoints = 100;
+        protected float startingHitPoints = 100;
 
         protected abstract void InitializeState();
         private void Awake()
         {
-            Hitpoints = initialHitPoints;
+            Hitpoints = startingHitPoints;
             InitializeState();
         }
 

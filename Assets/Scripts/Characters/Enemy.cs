@@ -8,6 +8,8 @@ namespace Shooter.Enemy
 {
     public class Enemy : Character
     {
+        [SerializeField]
+        private EnemyData data = default;
         private NavMeshAgent agent;
         private GameObject target;
         private bool hasSetMovePath;
@@ -25,6 +27,7 @@ namespace Shooter.Enemy
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
+            agent.stoppingDistance = data.DamageDistance;
         }
 
         protected override void StartState()
@@ -52,12 +55,11 @@ namespace Shooter.Enemy
 
         private void CheckRadius(out GameObject target)
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, EnemyShared.CheckRadius, EnemyShared.LayersToDetect);
+            Collider[] hits = Physics.OverlapSphere(transform.position, data.CheckRadius, data.LayersToDetect);
             target = null;
             if (hits.Length > 0)
             {
                 target = hits[0].gameObject;
-                hasSetMovePath = false;
                 currentState = States.Attack;
             }
         }
@@ -67,20 +69,26 @@ namespace Shooter.Enemy
             if (!hasSetMovePath)
             {
                 hasSetMovePath = true;
-                agent.SetDestination(EnemyShared.ObjectivePos);
+                StartCoroutine(PathDelay());
             }
+        }
+
+        private IEnumerator PathDelay()
+        {
+            agent.SetDestination(data.ObjectivePosition);
+            yield return new WaitForSeconds(data.PathUpdateInterval);
+            hasSetMovePath = false;
         }
 
         private void Attack(GameObject target)
         {
-            if (target != null)
+            if (target != null && agent.enabled)
             {
-                Vector3 targetPos = target.transform.position;
-                agent.SetDestination(targetPos);
+                agent.SetDestination(target.transform.position);
                 if (!isCheckingDistance)
                 {
                     isCheckingDistance = true;
-                    StartCoroutine(CheckDistance(targetPos));
+                    StartCoroutine(CheckDistance(target));
                 }
             }
             else
@@ -89,29 +97,41 @@ namespace Shooter.Enemy
             }
         }
 
-        private IEnumerator CheckDistance(Vector3 targetPos)
+        private IEnumerator CheckDistance(GameObject target)
         {
-            if (Vector3.Distance(targetPos, transform.position) >= EnemyShared.CheckRadius + EnemyShared.CheckRadius / 2)
+            CalculateValues(target, out float distance, out float dotProduct);
+
+            if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
                 currentState = States.Move;
             }
+            else if (distance <= data.DamageDistance && target.TryGetComponent(out Player.Player player))
+            {
+                player.TakeDamage(data.DamageAmount);
+            }
 
-            yield return new WaitForSeconds(EnemyShared.DistanceCheckInterval);
-
+            yield return new WaitForSeconds(data.DistanceCheckInterval);
             isCheckingDistance = false;
+        }
+
+        private void CalculateValues(GameObject target, out float distance, out float dotProduct)
+        {
+            distance = Vector3.Distance(transform.position, target.transform.position);
+            dotProduct = Vector3.Dot(transform.forward,
+            (target.transform.position - transform.position).normalized);
         }
 
         protected override void OnZeroHP()
         {
-            PlayerSettings.GetInstance().Funds += EnemyShared.FundGiveAmount;
+            PlayerSettings.GetInstance().Funds += data.FundGiveAmount;
             Destroy(gameObject);
         }
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, EnemyShared.CheckRadius);
+            Gizmos.DrawWireSphere(transform.position, data.CheckRadius);
         }
-#endif
+        #endif
     }
 }

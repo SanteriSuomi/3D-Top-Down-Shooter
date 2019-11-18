@@ -5,7 +5,7 @@ namespace Shooter.Player
 {
     public class Player : Character
     {
-        PlayerSettings playerSettings;
+        private PlayerSettings playerSettings;
 
         protected override void InitializeState()
         {
@@ -20,7 +20,7 @@ namespace Shooter.Player
 
         protected override void StartState()
         {
-            Hitpoints = initialHitPoints;
+            Hitpoints = startingHitPoints;
         }
 
         protected override void UpdateState()
@@ -33,7 +33,7 @@ namespace Shooter.Player
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             playerSettings.OnHitpointChangeEvent -= OnHitpointsChange;
         }
