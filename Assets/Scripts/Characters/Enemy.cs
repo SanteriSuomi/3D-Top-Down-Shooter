@@ -87,6 +87,7 @@ namespace Shooter.Enemy
             {
                 agent.SetDestination(data.ObjectivePosition);
             }
+
             yield return new WaitForSeconds(data.PathUpdateInterval);
             hasSetMovePath = false;
         }
@@ -110,16 +111,16 @@ namespace Shooter.Enemy
 
         private IEnumerator CheckDistance(GameObject target)
         {
-            CalculateValues(target, out float distance, out float dotProduct);
-            Debug.Log(distance);
-            bool playerComponent = target.TryGetComponent(out Player.Player player);
+            CalculateVectorValues(target, out float distance, out float dotProduct);
 
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
                 currentState = States.Move;
             }
-            else if (distance <= data.DamageDistance && playerComponent)
+            else if (distance <= data.DamageDistance && target.TryGetComponent(out IDamageable player))
             {
+            Debug.Log(distance);
+
                 Debug.Log($"{gameObject.name} dealt {data.DamageAmount} damage");
                 player.TakeDamage(data.DamageAmount);
             }
@@ -128,7 +129,7 @@ namespace Shooter.Enemy
             isCheckingDistance = false;
         }
 
-        private void CalculateValues(GameObject target, out float distance, out float dotProduct)
+        private void CalculateVectorValues(GameObject target, out float distance, out float dotProduct)
         {
             distance = Vector3.Distance(transform.position, target.transform.position);
             dotProduct = Vector3.Dot(transform.forward,
