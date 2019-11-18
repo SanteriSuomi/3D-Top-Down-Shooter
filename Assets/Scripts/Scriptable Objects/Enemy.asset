@@ -17,7 +17,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   checkRadius: 9
-  damageDistance: 0.4
+  damageDistance: 1
   dotProductMax: 0.25
   fundGiveAmount: 2
   damageAmount: 5

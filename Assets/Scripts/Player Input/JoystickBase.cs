@@ -41,11 +41,11 @@ namespace Shooter.Inputs
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             holdingDown = false;
-            ResetTouchPosition();
+            ResetTouch();
             StartCoroutine(MoveToOriginalPosition());
         }
 
-        private void ResetTouchPosition()
+        private void ResetTouch()
         {
             currentTouchIndex = Input.touchCount - 1;
             touchPosition = Vector2.zero;

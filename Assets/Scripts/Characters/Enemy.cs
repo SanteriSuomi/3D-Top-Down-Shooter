@@ -1,5 +1,6 @@
 ﻿using Shooter.AI;
 using Shooter.Player;
+using Shooter.Utility;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -27,7 +28,7 @@ namespace Shooter.Enemy
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
-            agent.stoppingDistance = data.DamageDistance;
+            agent.stoppingDistance = data.DamageDistance / 2;
         }
 
         protected override void StartState()
@@ -59,7 +60,14 @@ namespace Shooter.Enemy
             target = null;
             if (hits.Length > 0)
             {
-                target = hits[0].gameObject;
+                foreach (Collider hit in hits)
+                {
+                    if (hit.CompareTag("Player"))
+                    {
+                        target = hit.gameObject;
+                    }
+                }
+
                 currentState = States.Attack;
             }
         }
@@ -75,7 +83,10 @@ namespace Shooter.Enemy
 
         private IEnumerator PathDelay()
         {
-            agent.SetDestination(data.ObjectivePosition);
+            if (agent.enabled)
+            {
+                agent.SetDestination(data.ObjectivePosition);
+            }
             yield return new WaitForSeconds(data.PathUpdateInterval);
             hasSetMovePath = false;
         }
@@ -100,13 +111,16 @@ namespace Shooter.Enemy
         private IEnumerator CheckDistance(GameObject target)
         {
             CalculateValues(target, out float distance, out float dotProduct);
+            Debug.Log(distance);
+            bool playerComponent = target.TryGetComponent(out Player.Player player);
 
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
                 currentState = States.Move;
             }
-            else if (distance <= data.DamageDistance && target.TryGetComponent(out Player.Player player))
+            else if (distance <= data.DamageDistance && playerComponent)
             {
+                Debug.Log($"{gameObject.name} dealt {data.DamageAmount} damage");
                 player.TakeDamage(data.DamageAmount);
             }
 

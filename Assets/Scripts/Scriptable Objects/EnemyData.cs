@@ -15,7 +15,7 @@ namespace Shooter.AI
         private float checkRadius = 9;
         public float CheckRadius { get { return checkRadius; } }
         [SerializeField]
-        private float damageDistance = 0.4f;
+        private float damageDistance = 1;
         public float DamageDistance { get { return damageDistance; } }
         [SerializeField]
         private float dotProductMax = 0.25f;
