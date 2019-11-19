@@ -21,9 +21,14 @@ namespace Shooter.AI
             if (timer >= initialTimerInterval)
             {
                 timer = 0;
-                Enemy.Enemy enemy = EnemyPool.GetInstance().Dequeue();
-                enemy.gameObject.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+                SpawnEnemy();
             }
+        }
+
+        private void SpawnEnemy()
+        {
+            Enemy.Enemy enemy = EnemyPool.GetInstance().Dequeue();
+            enemy.gameObject.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
         }
     }
 }

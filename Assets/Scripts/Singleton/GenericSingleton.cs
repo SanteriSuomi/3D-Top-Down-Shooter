@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Shooter.Utility
 {
@@ -24,6 +25,7 @@ namespace Shooter.Utility
             return Instance;
         }
 
+        [SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out", Justification = "Intended, temporary")]
         protected virtual void Awake()
         {
             if (gameObject.transform.parent != null)

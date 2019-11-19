@@ -35,7 +35,7 @@ namespace Shooter.Player
 
         public float PlayerSensitivityMultiplier { get; set; }
 
-        private void OnDisable()
+        private void OnEnable()
         {
             OnHitpointChangeEvent?.Invoke(hitPoints);
             OnFundsChangeEvent?.Invoke(funds);
@@ -62,6 +62,7 @@ namespace Shooter.Player
             transform.rotation = Quaternion.Euler(rotation);
         }
 
+        #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)
         {
             if (isPaused)
@@ -69,6 +70,14 @@ namespace Shooter.Player
                 SavePlayer();
             }
         }
+        #endif
+
+        #if UNITY_STANDALONE
+        private void OnApplicationQuit()
+        {
+            SaveSystem.SavePlayer(this);
+        }
+        #endif
 
         private void SavePlayer()
         {

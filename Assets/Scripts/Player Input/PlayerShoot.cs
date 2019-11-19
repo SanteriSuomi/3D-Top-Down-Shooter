@@ -7,7 +7,7 @@ namespace Shooter.Utility
         [SerializeField]
         private Transform barrelEnd = default;
         [SerializeField]
-        private LayerMask layersToHit = default;
+        private string shootAbleTag = "Enemy";
         [SerializeField]
         private float shootDistance = 15;
         [SerializeField]
@@ -20,7 +20,7 @@ namespace Shooter.Utility
         {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate && rayHit.collider.TryGetComponent(out IDamageable _))
+            if (shootTimer >= shootRate && rayHit.collider.TryGetComponent(out IDamageable _) && rayHit.collider.CompareTag(shootAbleTag))
             {
                 shootTimer = 0;
                 ShootBullet();
@@ -29,7 +29,7 @@ namespace Shooter.Utility
 
         private RaycastHit ShootRaycast()
         {
-            Physics.Raycast(barrelEnd.position, barrelEnd.forward * shootDistance, out RaycastHit rayHit, layersToHit);
+            Physics.Raycast(barrelEnd.position, barrelEnd.forward * shootDistance, out RaycastHit rayHit);
             return rayHit;
         }
 

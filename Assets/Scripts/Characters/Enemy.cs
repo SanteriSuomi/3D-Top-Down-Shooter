@@ -17,6 +17,7 @@ namespace Shooter.Enemy
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
+        private IDamageable playerTarget;
 
         private enum States
         {
@@ -136,17 +137,28 @@ namespace Shooter.Enemy
 
         private void ActWithDistance(GameObject target, float distance, float dotProduct)
         {
+            RetrieveDamageable(target);
+
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
                 currentState = States.Move;
             }
-            else if (distance <= data.DamageDistance && target.TryGetComponent(out IDamageable player)
-                && dealDamageTimer >= data.DealDamageInterval)
+            else if (distance <= data.DamageDistance && dealDamageTimer >= data.DealDamageInterval)
             {
-                Debug.Log(distance);
-                Debug.Log($"{gameObject.name} dealt {data.DamageAmount} damage");
-                Debug.Log(player.Hitpoints);
-                player.TakeDamage(data.DamageAmount);
+                playerTarget.TakeDamage(data.DamageAmount);
+
+                #if UNITY_EDITOR
+                Debug.Log($"Dealt {data.DamageAmount} damage to {playerTarget}. It now has {playerTarget.Hitpoints} left.");
+                #endif
+            }
+        }
+
+        private void RetrieveDamageable(GameObject target)
+        {
+            if (playerTarget == null)
+            {
+                playerTarget = target.GetComponent<IDamageable>();
+                Debug.Log(playerTarget.Hitpoints);
             }
         }
 
@@ -176,7 +188,7 @@ namespace Shooter.Enemy
         protected override void OnZeroHP()
         {
             PlayerSettings.GetInstance().Funds += data.FundGiveAmount;
-            Destroy(gameObject);
+            EnemyPool.GetInstance().Enqueue(this);
         }
 
         #if UNITY_EDITOR

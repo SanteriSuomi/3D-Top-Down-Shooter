@@ -41,6 +41,7 @@ namespace Shooter.AI
         private void OnEnable()
         {
             Objective = FindObjectOfType<Objective>();
+            Debug.Log(Objective.gameObject.transform.position);
         }
     }
 }
