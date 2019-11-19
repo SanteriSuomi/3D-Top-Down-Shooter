@@ -14,15 +14,21 @@ namespace Shooter.Inputs
 
             if (Input.mousePresent)
             {
-                foreach (GameObject joystick in joysticks)
-                {
-                    joystick.SetActive(false);
-                }
-
-                crosshair.SetActive(true);
-
-                pcControls.enabled = true;
+                InitializePCEnvironment(pcControls);
             }
+        }
+
+        private void InitializePCEnvironment(PlayerControlsPC pcControls)
+        {
+            foreach (GameObject joystick in joysticks)
+            {
+                joystick.SetActive(false);
+            }
+
+            crosshair.SetActive(true);
+            pcControls.enabled = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
         }
     }
 }

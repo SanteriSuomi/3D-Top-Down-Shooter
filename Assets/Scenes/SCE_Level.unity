@@ -2701,24 +2701,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6268834757854190437, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
         type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1972013458}
-    - target: {fileID: 6268834757854190437, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
       propertyPath: m_Crosshair
       value: 
       objectReference: {fileID: 1323941693}
-    - target: {fileID: 6268834757854190437, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268834757854190437, guid: 3d00ecc3aebe666479dbc27b6a6f89bd,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d00ecc3aebe666479dbc27b6a6f89bd, type: 3}
 --- !u!1 &822178882
@@ -3049,7 +3034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: 7356676482852640247, guid: 8e8b2c018272172428a001a155e70cf9,
     type: 3}
-  poolSize: 30
+  poolSize: 50
 --- !u!4 &1023336926
 Transform:
   m_ObjectHideFlags: 0
@@ -3224,7 +3209,7 @@ MonoBehaviour:
     FieldOfView: 75
     OrthographicSize: 10
     NearClipPlane: 0.01
-    FarClipPlane: 25
+    FarClipPlane: 20
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
@@ -4715,7 +4700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToPool: {fileID: -2950445424663195276, guid: 3e6fdaaf8cf900d4495d356f6b90cf1a,
     type: 3}
-  poolSize: 20
+  poolSize: 25
 --- !u!4 &1764182279
 Transform:
   m_ObjectHideFlags: 0
@@ -5330,7 +5315,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 25
+  far clip plane: 20
   field of view: 75
   orthographic: 0
   orthographic size: 5

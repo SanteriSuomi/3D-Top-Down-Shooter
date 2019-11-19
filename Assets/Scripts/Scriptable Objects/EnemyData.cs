@@ -40,8 +40,13 @@ namespace Shooter.AI
 
         private void OnEnable()
         {
-            Objective = FindObjectOfType<Objective>();
-            Debug.Log(Objective.gameObject.transform.position);
+            if (Objective == null)
+            {
+                Objective = GameObject.FindGameObjectWithTag("Objective").GetComponent<Objective>();
+            }
+            #if UNITY_EDITOR
+            Debug.Log($"Objective pos: {Objective.gameObject.transform.position}");
+            #endif
         }
     }
 }

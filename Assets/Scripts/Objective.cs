@@ -22,9 +22,12 @@ namespace Shooter.Player
 
         public void CheckHitpoints()
         {
-            if (Hitpoints <= float.Epsilon)
+            if (Hitpoints <= 0)
             {
                 SceneManager.LoadScene(0);
+                #if UNITY_EDITOR
+                Debug.Log("Objective has taken damage");
+                #endif
             }
         }
 

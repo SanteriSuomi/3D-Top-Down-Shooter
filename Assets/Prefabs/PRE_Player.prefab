@@ -148,7 +148,7 @@ MonoBehaviour:
   shootAbleTag: Enemy
   shootDistance: 10
   bulletSpeed: 20
-  shootRate: 0.35
+  shootRate: 0.375
 --- !u!114 &7831112920248027659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,14 +181,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825196666617345554}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e93acfc32eb9c9a4b9b62ee6eb5470e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 1
-  m_Camera: {fileID: 0}
+  m_MovementSpeed: 5
   m_Crosshair: {fileID: 0}
+  rotationSpeed: 6
+  minAngleFloatToRotate: 8
 --- !u!114 &825196666617345640
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -129,5 +129,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed32ec65365cc544e9d08d51bd15a270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHitPoints: 10
+  startingHitPoints: 8
   data: {fileID: 11400000, guid: bcdad0ccd338e9a43a4b3c6e45e4e6c1, type: 2}

@@ -18,6 +18,8 @@ namespace Shooter.Enemy
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
         private IDamageable playerTarget;
+        private WaitForSeconds objectiveDamageDelay;
+        private WaitForSeconds checkDistanceTo;
 
         private enum States
         {
@@ -32,6 +34,8 @@ namespace Shooter.Enemy
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
+            objectiveDamageDelay = new WaitForSeconds(data.DealDamageInterval);
+            checkDistanceTo = new WaitForSeconds(data.DistanceCheckInterval);
         }
 
         protected override void StartState()
@@ -131,7 +135,7 @@ namespace Shooter.Enemy
             CalculateVectorValues(target, out float distance, out float dotProduct);
             ActWithDistance(target, distance, dotProduct);
 
-            yield return new WaitForSeconds(data.DistanceCheckInterval);
+            yield return checkDistanceTo;
             isCheckingDistance = false;
         }
 
@@ -158,7 +162,6 @@ namespace Shooter.Enemy
             if (playerTarget == null)
             {
                 playerTarget = target.GetComponent<IDamageable>();
-                Debug.Log(playerTarget.Hitpoints);
             }
         }
 
@@ -181,7 +184,10 @@ namespace Shooter.Enemy
         private IEnumerator ObjectiveDamageDelay()
         {
             data.Objective.TakeDamage(data.DamageAmount);
-            yield return new WaitForSeconds(data.DealDamageInterval);
+            #if UNITY_EDITOR
+            Debug.Log($"Dealt damage to objective. {data.Objective.Hitpoints}");
+            #endif
+            yield return objectiveDamageDelay;
             hasDealtDamageToObjective = false;
         }
 

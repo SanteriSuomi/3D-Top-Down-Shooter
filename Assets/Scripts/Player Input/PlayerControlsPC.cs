@@ -8,9 +8,13 @@ namespace Shooter.Inputs
         private Camera m_Camera;
         private Vector3 m_CursorPos;
         [SerializeField]
-        private float m_Speed = 5;
+        private float m_MovementSpeed = 5;
         [SerializeField]
-        private RectTransform m_Crosshair;
+        private RectTransform m_Crosshair = default;
+        [SerializeField]
+        private float rotationSpeed = 5;
+        [SerializeField]
+        private float minAngleFloatToRotate = 7.5f;
 
         private void Awake()
         {
@@ -21,26 +25,42 @@ namespace Shooter.Inputs
         private void Update()
         {
             Move();
-            HandleInputs();
-            HandleRotation();
+            Rotation();
         }
 
         private void Move()
         {
-            GetButtonInput(out float Horizontal, out float Vertical);
-            Vector3 moveDirectionForward = transform.forward * Vertical;
-            Vector3 moveDirectionSide = transform.right * Horizontal;
+            HandleMovementInput(out float horizontal, out float vertical);
+            Vector3 moveDirectionSide = transform.right * horizontal;
+            Vector3 moveDirectionForward = transform.forward * vertical;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
-            m_CharacterController.Move(moveDirection * m_Speed);
+            m_CharacterController.Move(moveDirection * m_MovementSpeed);
         }
 
-        private static void GetButtonInput(out float Horizontal, out float Vertical)
+        private void HandleMovementInput(out float horizontal, out float vertical)
         {
-            Horizontal = Input.GetAxis("Horizontal");
-            Vertical = Input.GetAxis("Vertical");
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
         }
 
-        private void HandleInputs()
+        private void Rotation()
+        {
+            HandleRotationInput();
+            Vector3 relativePosition = (m_CursorPos - transform.position).normalized;
+            Quaternion lookDirection = Quaternion.LookRotation(relativePosition, Vector3.up);
+            float angleBetweenRotations = Quaternion.Angle(transform.rotation, lookDirection);
+            #if UNITY_EDITOR
+            Debug.Log($"Angle: {angleBetweenRotations}");
+            #endif
+            if (angleBetweenRotations >= minAngleFloatToRotate)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                    Quaternion.Euler(new Vector3(0, lookDirection.eulerAngles.y, 0)),
+                    rotationSpeed * Time.deltaTime);
+            }
+        }
+
+        private void HandleRotationInput()
         {
             Ray screenRay = m_Camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(screenRay, out RaycastHit m_Hit))
@@ -50,12 +70,5 @@ namespace Shooter.Inputs
                 m_Crosshair.position = Input.mousePosition;
             }
         }
-
-        private void HandleRotation()
-        {
-            transform.LookAt(m_CursorPos);
-            transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
-        }
     }
-
 }

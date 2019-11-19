@@ -20,7 +20,10 @@ namespace Shooter.Utility
         {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate && rayHit.collider.TryGetComponent(out IDamageable _) && rayHit.collider.CompareTag(shootAbleTag))
+            if (shootTimer >= shootRate 
+                && rayHit.collider != null 
+                && rayHit.collider.TryGetComponent(out IDamageable _) 
+                && rayHit.collider.CompareTag(shootAbleTag))
             {
                 shootTimer = 0;
                 ShootBullet();
@@ -29,7 +32,7 @@ namespace Shooter.Utility
 
         private RaycastHit ShootRaycast()
         {
-            Physics.Raycast(barrelEnd.position, barrelEnd.forward * shootDistance, out RaycastHit rayHit);
+            Physics.Raycast(barrelEnd.position, barrelEnd.forward, out RaycastHit rayHit, shootDistance);
             return rayHit;
         }
 
