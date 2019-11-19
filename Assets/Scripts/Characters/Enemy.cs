@@ -13,14 +13,17 @@ namespace Shooter.Enemy
         private EnemyData data = default;
         private NavMeshAgent agent;
         private GameObject target;
+        private float dealDamageTimer;
         private bool hasSetMovePath;
         private bool isCheckingDistance;
+        private bool hasDealtDamageToObjective;
 
         private enum States
         {
             Idle,
             Move,
-            Attack
+            Attack,
+            Objective
         }
 
         private States currentState;
@@ -28,7 +31,6 @@ namespace Shooter.Enemy
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
-            agent.stoppingDistance = data.DamageDistance / 2;
         }
 
         protected override void StartState()
@@ -45,9 +47,13 @@ namespace Shooter.Enemy
                 case States.Move:
                     CheckRadius(out target);
                     SetPath();
+                    CheckDistanceFromObjective();
                     break;
                 case States.Attack:
                     Attack(target);
+                    break;
+                case States.Objective:
+                    DealDamageToObjective();
                     break;
                 default:
                     break;
@@ -81,6 +87,14 @@ namespace Shooter.Enemy
             }
         }
 
+        private void CheckDistanceFromObjective()
+        {
+            if (Vector3.Distance(transform.position, data.ObjectivePosition) <= 1.5f)
+            {
+                currentState = States.Objective;
+            }
+        }
+
         private IEnumerator PathDelay()
         {
             if (agent.enabled)
@@ -96,11 +110,11 @@ namespace Shooter.Enemy
         {
             if (target != null && agent.enabled)
             {
-                agent.SetDestination(target.transform.position);
                 if (!isCheckingDistance)
                 {
                     isCheckingDistance = true;
-                    StartCoroutine(CheckDistance(target));
+                    agent.SetDestination(target.transform.position);
+                    StartCoroutine(CheckDistanceTo(target));
                 }
             }
             else
@@ -109,24 +123,31 @@ namespace Shooter.Enemy
             }
         }
 
-        private IEnumerator CheckDistance(GameObject target)
+        private IEnumerator CheckDistanceTo(GameObject target)
         {
-            CalculateVectorValues(target, out float distance, out float dotProduct);
+            dealDamageTimer += Time.deltaTime;
 
+            CalculateVectorValues(target, out float distance, out float dotProduct);
+            ActWithDistance(target, distance, dotProduct);
+
+            yield return new WaitForSeconds(data.DistanceCheckInterval);
+            isCheckingDistance = false;
+        }
+
+        private void ActWithDistance(GameObject target, float distance, float dotProduct)
+        {
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
                 currentState = States.Move;
             }
-            else if (distance <= data.DamageDistance && target.TryGetComponent(out IDamageable player))
+            else if (distance <= data.DamageDistance && target.TryGetComponent(out IDamageable player)
+                && dealDamageTimer >= data.DealDamageInterval)
             {
-            Debug.Log(distance);
-
+                Debug.Log(distance);
                 Debug.Log($"{gameObject.name} dealt {data.DamageAmount} damage");
+                Debug.Log(player.Hitpoints);
                 player.TakeDamage(data.DamageAmount);
             }
-
-            yield return new WaitForSeconds(data.DistanceCheckInterval);
-            isCheckingDistance = false;
         }
 
         private void CalculateVectorValues(GameObject target, out float distance, out float dotProduct)
@@ -134,6 +155,22 @@ namespace Shooter.Enemy
             distance = Vector3.Distance(transform.position, target.transform.position);
             dotProduct = Vector3.Dot(transform.forward,
             (target.transform.position - transform.position).normalized);
+        }
+
+        private void DealDamageToObjective()
+        {
+            if (!hasDealtDamageToObjective)
+            {
+                hasDealtDamageToObjective = true;
+                StartCoroutine(ObjectiveDamageDelay());
+            }
+        }
+
+        private IEnumerator ObjectiveDamageDelay()
+        {
+            data.Objective.TakeDamage(data.DamageAmount);
+            yield return new WaitForSeconds(data.DealDamageInterval);
+            hasDealtDamageToObjective = false;
         }
 
         protected override void OnZeroHP()

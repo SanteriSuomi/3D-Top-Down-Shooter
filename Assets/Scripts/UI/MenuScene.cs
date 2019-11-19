@@ -1,36 +1,16 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Shooter.UI
 {
     public class MenuScene : MonoBehaviour
     {
-        private CanvasGroup m_FadeGroup;
         [SerializeField] private GameObject m_VolumeButton = default;
         [SerializeField] private GameObject m_VolumeOffButton = default;
         [SerializeField] private GameObject m_Menu = default;
         [SerializeField] private GameObject m_MenuTwo = default;
         [SerializeField] private GameObject m_SettingsMenu = default;
-        [SerializeField]
-        private float m_FadeInSpeed = 0.5f;
         private readonly string levelSceneString = "SCE_Level";
-
-        private void Start()
-        {
-            m_FadeGroup = GetComponentInChildren<CanvasGroup>();
-            m_FadeGroup.alpha = 1;
-            StartCoroutine(StartFade());
-        }
-
-        private IEnumerator StartFade()
-        {
-            while (m_FadeGroup.alpha > 0)
-            {
-                m_FadeGroup.alpha = 1 - Time.timeSinceLevelLoad * m_FadeInSpeed;
-                yield return null;
-            }
-        }
 
         public void OnPlayClick()
         {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Shooter.Player;
+using UnityEngine;
 
 namespace Shooter.AI
 {
@@ -8,6 +9,7 @@ namespace Shooter.AI
         [SerializeField]
         private Vector3 objectivePosition = new Vector3(0, 0, 0);
         public Vector3 ObjectivePosition { get { return objectivePosition; } }
+        public Objective Objective { get; private set; }
         [SerializeField]
         private LayerMask layersToDetect = default;
         public LayerMask LayersToDetect { get { return layersToDetect; } }
@@ -32,5 +34,13 @@ namespace Shooter.AI
         [SerializeField]
         private float pathUpdateInterval = 0.25f;
         public float PathUpdateInterval { get { return pathUpdateInterval; } }
+        [SerializeField]
+        private float dealDamageInterval = 0.5f;
+        public float DealDamageInterval { get { return dealDamageInterval; } }
+
+        private void OnEnable()
+        {
+            Objective = FindObjectOfType<Objective>();
+        }
     }
 }

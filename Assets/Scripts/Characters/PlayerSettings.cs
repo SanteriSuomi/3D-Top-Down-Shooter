@@ -35,10 +35,10 @@ namespace Shooter.Player
 
         public float PlayerSensitivityMultiplier { get; set; }
 
-        private void Start()
+        private void OnDisable()
         {
-            OnHitpointChangeEvent.Invoke(hitPoints);
-            OnFundsChangeEvent.Invoke(funds);
+            OnHitpointChangeEvent?.Invoke(hitPoints);
+            OnFundsChangeEvent?.Invoke(funds);
         }
 
         public void LoadPlayer()

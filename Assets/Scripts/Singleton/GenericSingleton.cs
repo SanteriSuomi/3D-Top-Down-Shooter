@@ -36,13 +36,18 @@ namespace Shooter.Utility
             if (Instance == null)
             {
                 Instance = this as T;
-                DontDestroyOnLoad(gameObject.transform.root);
+
+                //DontDestroyOnLoad(gameObject);
+                if (gameObject.name == "MenuSceneLoad")
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
             }
             else if (Instance != this as T)
             {
                 Destroy(gameObject);
             }
-            else { DontDestroyOnLoad(gameObject.transform.root); }
+            //else { DontDestroyOnLoad(gameObject); }
         }
 
         #if UNITY_STANDALONE

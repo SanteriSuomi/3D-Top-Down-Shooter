@@ -30,7 +30,7 @@ namespace Shooter.Player
 
         protected override void OnZeroHP()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(0);
         }
 
         private void OnDisable()

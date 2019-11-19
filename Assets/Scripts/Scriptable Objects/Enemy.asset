@@ -18,8 +18,9 @@ MonoBehaviour:
     m_Bits: 1024
   checkRadius: 9
   damageDistance: 1
-  dotProductMax: 0.25
+  dotProductMax: 0
   fundGiveAmount: 2
   damageAmount: 5
   distanceCheckInterval: 0.25
   pathUpdateInterval: 0.25
+  dealDamageInterval: 0.2
