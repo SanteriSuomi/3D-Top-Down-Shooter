@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Shooter.Shop
 {
-	public class HealthPotion : MonoBehaviour
-	{
+    public class HealthPotion : MonoBehaviour
+    {
         [SerializeField]
         private GameObject fundsOutText = default;
         [SerializeField]
@@ -15,17 +15,17 @@ namespace Shooter.Shop
         private bool isFundsCoroutineRunning;
 
         public void HealthButton()
-		{
-			if (PlayerSettings.GetInstance().Funds >= fundCost)
-			{
+        {
+            if (PlayerSettings.GetInstance() != null && PlayerSettings.GetInstance().Funds >= fundCost)
+            {
                 PlayerSettings.GetInstance().Funds -= fundCost;
                 PlayerSettings.GetInstance().HitPoints = amountToHeal;
-				Objective.GetInstance().HitPoints = amountToHeal;
-			}
-			else
-			{
+                Objective.GetInstance().HitPoints = amountToHeal;
+            }
+            else
+            {
                 #if UNITY_EDITOR
-                Debug.Log($"You dont have required amount of funds.");
+                Debug.Log($"You don't have the required amount of funds.");
                 #endif
                 if (!isFundsCoroutineRunning)
                 {
@@ -33,7 +33,7 @@ namespace Shooter.Shop
                     StartCoroutine(FundsOutText());
                 }
             }
-		}
+        }
 
         private IEnumerator FundsOutText()
         {

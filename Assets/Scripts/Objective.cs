@@ -9,35 +9,37 @@ namespace Shooter.Player
     {
         [SerializeField]
         private Slider healthBar = default;
-
+        private Transform playerCamera;
         [SerializeField]
         private float startingHitpoints = 100;
         private float hitpoints;
-        public float HitPoints 
+        public float HitPoints
         {
             get { return hitpoints; }
-            set { hitpoints = value; healthBar.value = hitpoints; } 
+            set { hitpoints = value; healthBar.value = hitpoints; }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
             base.Awake();
             HitPoints = startingHitpoints;
+            playerCamera = Camera.main.transform;
         }
 
         private void Update()
         {
+            healthBar.transform.LookAt(playerCamera);
             CheckHitpoints();
         }
 
         public void CheckHitpoints()
         {
+            #if UNITY_EDITOR
+            Debug.Log("Objective has taken damage");
+            #endif
             if (HitPoints <= 0)
             {
                 SceneManager.LoadScene(0);
-                #if UNITY_EDITOR
-                Debug.Log("Objective has taken damage");
-                #endif
             }
         }
 

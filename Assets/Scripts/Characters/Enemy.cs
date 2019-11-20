@@ -18,7 +18,6 @@ namespace Shooter.Enemy
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
-        private bool setInitialRotation;
         private PlayerSettings playerTarget;
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
@@ -45,17 +44,17 @@ namespace Shooter.Enemy
 
         protected override void StartState()
         {
-            ResetBools();
+            ResetState();
             currentTarget = objective.gameObject;
             currentState = States.Move;
         }
 
-        private void ResetBools()
+        private void ResetState()
         {
+            HitPoints = startingHitPoints;
             hasSetMovePath = false;
             isCheckingDistance = false;
             hasDealtDamageToObjective = false;
-            setInitialRotation = false;
         }
 
         protected override void UpdateState()
@@ -86,14 +85,7 @@ namespace Shooter.Enemy
             if (currentTarget != null)
             {
                 Quaternion lookDirection = Quaternion.LookRotation((currentTarget.transform.position - transform.position).normalized, Vector3.up);
-
-                if (!setInitialRotation)
-                {
-                    setInitialRotation = true;
-                    transform.rotation = Quaternion.Euler(lookDirection.eulerAngles);
-                }
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
             }
         }
 

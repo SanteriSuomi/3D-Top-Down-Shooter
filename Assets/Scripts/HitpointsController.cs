@@ -23,5 +23,13 @@ namespace Shooter.Player
         {
             hitpointsText.text = $"{hitpointsTextString}{hitPoints}";
         }
+
+        private void OnDisable()
+        {
+            if (PlayerSettings.GetInstance() != null)
+            {
+                PlayerSettings.GetInstance().OnHitpointChangeEvent -= OnHitpointChange;
+            }
+        }
     }
 }
