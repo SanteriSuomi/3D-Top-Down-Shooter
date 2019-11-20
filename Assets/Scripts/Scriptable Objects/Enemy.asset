@@ -25,4 +25,4 @@ MonoBehaviour:
   pathUpdateInterval: 0.25
   dealDamageInterval: 0.2
   rotationSpeed: 60
-  minimumDistanceFromObjective: 1.25
+  minimumDistanceFromObjective: 1.5

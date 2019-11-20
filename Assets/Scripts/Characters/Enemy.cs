@@ -13,11 +13,12 @@ namespace Shooter.Enemy
         private EnemyData data = default;
         private Objective objective;
         private NavMeshAgent agent;
-        private GameObject target;
+        private GameObject currentTarget;
         private float dealDamageTimer;
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
+        private bool setInitialTarget;
         private IDamageable playerTarget;
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
@@ -42,22 +43,33 @@ namespace Shooter.Enemy
 
         protected override void StartState()
         {
+            ResetBools();
             currentState = States.Move;
+        }
+
+        private void ResetBools()
+        {
+            hasSetMovePath = false;
+            isCheckingDistance = false;
+            hasDealtDamageToObjective = false;
+            setInitialTarget = false;
         }
 
         protected override void UpdateState()
         {
+            InitialTarget();
+            RotateDirectionToTarget(currentTarget);
             switch (currentState)
             {
                 case States.Idle:
                     break;
                 case States.Move:
-                    CheckRadius(out target);
+                    CheckRadius();
                     SetPath();
                     CheckDistanceFromObjective();
                     break;
                 case States.Attack:
-                    Attack(target);
+                    Attack(currentTarget);
                     break;
                 case States.Objective:
                     DealDamageToObjective();
@@ -67,17 +79,35 @@ namespace Shooter.Enemy
             }
         }
 
-        private void CheckRadius(out GameObject target)
+        private void InitialTarget()
+        {
+            if (!setInitialTarget)
+            {
+                setInitialTarget = true;
+                currentTarget = objective.gameObject;
+            }
+        }
+
+        private void RotateDirectionToTarget(GameObject target)
+        {
+            if (target != null)
+            {
+                Quaternion lookDirection = Quaternion.LookRotation((target.transform.position - transform.position).normalized, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
+            }
+        }
+
+        private void CheckRadius()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, data.CheckRadius, data.LayersToDetect);
-            target = null;
+            currentTarget = null;
             if (hits.Length > 0)
             {
                 foreach (Collider hit in hits)
                 {
                     if (hit.CompareTag("Player"))
                     {
-                        target = hit.gameObject;
+                        currentTarget = hit.gameObject;
                     }
                 }
 
@@ -129,12 +159,6 @@ namespace Shooter.Enemy
             {
                 currentState = States.Move;
             }
-        }
-
-        private void RotateDirectionToTarget(GameObject target)
-        {
-            Quaternion lookDirection = Quaternion.LookRotation((target.transform.position - transform.position).normalized, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
         }
 
         private IEnumerator CheckDistanceTo(GameObject target)
