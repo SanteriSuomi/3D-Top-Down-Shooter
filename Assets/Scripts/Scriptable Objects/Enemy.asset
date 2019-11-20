@@ -16,13 +16,13 @@ MonoBehaviour:
   layersToDetect:
     serializedVersion: 2
     m_Bits: 1024
-  checkRadius: 9.25
-  damageDistance: 1
+  checkRadius: 9
+  damageDistance: 1.25
   dotProductMax: 0
   fundGiveAmount: 2
   damageAmount: 5
   distanceCheckInterval: 0.25
   pathUpdateInterval: 0.25
-  dealDamageInterval: 0.2
-  rotationSpeed: 60
-  minimumDistanceFromObjective: 1.5
+  dealDamageInterval: 0.25
+  rotationSpeed: 65
+  minimumDistanceFromObjective: 2.25

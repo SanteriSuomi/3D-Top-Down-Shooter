@@ -18,10 +18,11 @@ namespace Shooter.Enemy
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
-        private bool setInitialTarget;
-        private IDamageable playerTarget;
+        private bool setInitialRotation;
+        private PlayerSettings playerTarget;
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
+        private WaitForSeconds setPathDelay;
 
         private enum States
         {
@@ -39,11 +40,13 @@ namespace Shooter.Enemy
             objective = FindObjectOfType<Objective>();
             objectiveDamageDelay = new WaitForSeconds(data.DealDamageInterval);
             checkDistanceTo = new WaitForSeconds(data.DistanceCheckInterval);
+            setPathDelay = new WaitForSeconds(data.PathUpdateInterval);
         }
 
         protected override void StartState()
         {
             ResetBools();
+            currentTarget = objective.gameObject;
             currentState = States.Move;
         }
 
@@ -52,13 +55,12 @@ namespace Shooter.Enemy
             hasSetMovePath = false;
             isCheckingDistance = false;
             hasDealtDamageToObjective = false;
-            setInitialTarget = false;
+            setInitialRotation = false;
         }
 
         protected override void UpdateState()
         {
-            InitialTarget();
-            RotateDirectionToTarget(currentTarget);
+            RotateDirectionToTarget();
             switch (currentState)
             {
                 case States.Idle:
@@ -69,7 +71,7 @@ namespace Shooter.Enemy
                     CheckDistanceFromObjective();
                     break;
                 case States.Attack:
-                    Attack(currentTarget);
+                    Attack();
                     break;
                 case States.Objective:
                     DealDamageToObjective();
@@ -78,21 +80,19 @@ namespace Shooter.Enemy
                     break;
             }
         }
-
-        private void InitialTarget()
+        
+        private void RotateDirectionToTarget()
         {
-            if (!setInitialTarget)
+            if (currentTarget != null)
             {
-                setInitialTarget = true;
-                currentTarget = objective.gameObject;
-            }
-        }
+                Quaternion lookDirection = Quaternion.LookRotation((currentTarget.transform.position - transform.position).normalized, Vector3.up);
 
-        private void RotateDirectionToTarget(GameObject target)
-        {
-            if (target != null)
-            {
-                Quaternion lookDirection = Quaternion.LookRotation((target.transform.position - transform.position).normalized, Vector3.up);
+                if (!setInitialRotation)
+                {
+                    setInitialRotation = true;
+                    transform.rotation = Quaternion.Euler(lookDirection.eulerAngles);
+                }
+
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
             }
         }
@@ -100,7 +100,6 @@ namespace Shooter.Enemy
         private void CheckRadius()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, data.CheckRadius, data.LayersToDetect);
-            currentTarget = null;
             if (hits.Length > 0)
             {
                 foreach (Collider hit in hits)
@@ -124,35 +123,34 @@ namespace Shooter.Enemy
             }
         }
 
+        private IEnumerator PathDelay()
+        {
+            if (agent.enabled)
+            {
+                agent.SetDestination(objective.transform.position);
+            }
+
+            yield return setPathDelay;
+            hasSetMovePath = false;
+        }
+
         private void CheckDistanceFromObjective()
         {
-            if (Vector3.Distance(transform.position, data.ObjectivePosition) <= data.MinimumDistanceFromObjective)
+            if (Vector3.Distance(transform.position, objective.transform.position) <= data.MinimumDistanceFromObjective)
             {
                 currentState = States.Objective;
             }
         }
 
-        private IEnumerator PathDelay()
+        private void Attack()
         {
-            if (agent.enabled)
+            if (currentTarget != null && agent.enabled)
             {
-                agent.SetDestination(data.ObjectivePosition);
-            }
-
-            yield return new WaitForSeconds(data.PathUpdateInterval);
-            hasSetMovePath = false;
-        }
-
-        private void Attack(GameObject target)
-        {
-            if (target != null && agent.enabled)
-            {
-                RotateDirectionToTarget(target);
                 if (!isCheckingDistance)
                 {
                     isCheckingDistance = true;
-                    agent.SetDestination(target.transform.position);
-                    StartCoroutine(CheckDistanceTo(target));
+                    agent.SetDestination(currentTarget.transform.position);
+                    StartCoroutine(CheckDistanceTo());
                 }
             }
             else
@@ -161,19 +159,26 @@ namespace Shooter.Enemy
             }
         }
 
-        private IEnumerator CheckDistanceTo(GameObject target)
+        private IEnumerator CheckDistanceTo()
         {
-            dealDamageTimer += Time.deltaTime;
-            CalculateVectorValues(target, out float distance, out float dotProduct);
-            ActWithDistance(target, distance, dotProduct);
+            CalculateVectorValues(out float distance, out float dotProduct);
+            ActWithDistance(distance, dotProduct);
 
             yield return checkDistanceTo;
             isCheckingDistance = false;
         }
 
-        private void ActWithDistance(GameObject target, float distance, float dotProduct)
+        private void CalculateVectorValues(out float distance, out float dotProduct)
         {
-            RetrieveDamageable(target);
+            distance = Vector3.Distance(transform.position, currentTarget.transform.position);
+            dotProduct = Vector3.Dot(transform.forward,
+            (currentTarget.transform.position - transform.position).normalized);
+        }
+
+        private void ActWithDistance(float distance, float dotProduct)
+        {
+            dealDamageTimer += Time.deltaTime;
+            RetrieveDamageable();
 
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
@@ -181,26 +186,20 @@ namespace Shooter.Enemy
             }
             else if (distance <= data.DamageDistance && dealDamageTimer >= data.DealDamageInterval)
             {
-                playerTarget.TakeDamage(data.DamageAmount);
+                //playerTarget.TakeDamage(data.DamageAmount);
+                playerTarget.HitPoints -= data.DamageAmount;
                 #if UNITY_EDITOR
-                Debug.Log($"Dealt {data.DamageAmount} damage to {playerTarget}. It now has {playerTarget.Hitpoints} left.");
+                Debug.Log($"Dealt {data.DamageAmount} damage to {playerTarget}. It now has {playerTarget.HitPoints} left.");
                 #endif
             }
         }
 
-        private void RetrieveDamageable(GameObject target)
+        private void RetrieveDamageable()
         {
             if (playerTarget == null)
             {
-                playerTarget = target.GetComponent<IDamageable>();
+                playerTarget = currentTarget.GetComponent<PlayerSettings>();
             }
-        }
-
-        private void CalculateVectorValues(GameObject target, out float distance, out float dotProduct)
-        {
-            distance = Vector3.Distance(transform.position, target.transform.position);
-            dotProduct = Vector3.Dot(transform.forward,
-            (target.transform.position - transform.position).normalized);
         }
 
         private void DealDamageToObjective()
@@ -216,7 +215,7 @@ namespace Shooter.Enemy
         {
             objective.TakeDamage(data.DamageAmount);
             #if UNITY_EDITOR
-            Debug.Log($"Dealt damage to objective. {objective.Hitpoints}");
+            Debug.Log($"Dealt damage to objective. {objective.HitPoints}");
             #endif
             yield return objectiveDamageDelay;
             hasDealtDamageToObjective = false;

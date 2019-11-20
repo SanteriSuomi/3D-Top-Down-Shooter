@@ -7,6 +7,8 @@ namespace Shooter.Utility
         [SerializeField]
         private Transform barrelEnd = default;
         [SerializeField]
+        private LayerMask layersToDetect = default;
+        [SerializeField]
         private string shootAbleTag = "Enemy";
         [SerializeField]
         private float shootDistance = 15;
@@ -32,7 +34,7 @@ namespace Shooter.Utility
 
         private RaycastHit ShootRaycast()
         {
-            Physics.Raycast(barrelEnd.position, barrelEnd.forward, out RaycastHit rayHit, shootDistance);
+            Physics.Raycast(barrelEnd.position, barrelEnd.forward, out RaycastHit rayHit, shootDistance, layersToDetect, QueryTriggerInteraction.Collide);
             return rayHit;
         }
 

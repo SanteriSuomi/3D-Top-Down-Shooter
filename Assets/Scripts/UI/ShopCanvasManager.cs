@@ -7,10 +7,13 @@ namespace Shooter.UI
     {
         [SerializeField]
         private GameObject followerShopButton = default;
+        [SerializeField]
+        private GameObject healthPotionShopButton = default;
 
         public void FollowerShopButton()
         {
             followerShopButton.SetActive(!followerShopButton.activeSelf);
+            healthPotionShopButton.SetActive(!healthPotionShopButton.activeSelf);
         }
     }
 }

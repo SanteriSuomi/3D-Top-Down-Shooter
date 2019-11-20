@@ -1,18 +1,28 @@
 ﻿using Shooter.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Shooter.Player
 {
-    public class Objective : MonoBehaviour, IDamageable
+    public class Objective : GenericSingleton<Objective>, IDamageable
     {
-        public float Hitpoints { get; set; }
+        [SerializeField]
+        private Slider healthBar = default;
+
         [SerializeField]
         private float startingHitpoints = 100;
+        private float hitpoints;
+        public float HitPoints 
+        {
+            get { return hitpoints; }
+            set { hitpoints = value; healthBar.value = hitpoints; } 
+        }
 
         private void Awake()
         {
-            Hitpoints = startingHitpoints;
+            base.Awake();
+            HitPoints = startingHitpoints;
         }
 
         private void Update()
@@ -22,7 +32,7 @@ namespace Shooter.Player
 
         public void CheckHitpoints()
         {
-            if (Hitpoints <= 0)
+            if (HitPoints <= 0)
             {
                 SceneManager.LoadScene(0);
                 #if UNITY_EDITOR
@@ -33,7 +43,7 @@ namespace Shooter.Player
 
         public void TakeDamage(float damage)
         {
-            Hitpoints -= damage;
+            HitPoints -= damage;
         }
     }
 }

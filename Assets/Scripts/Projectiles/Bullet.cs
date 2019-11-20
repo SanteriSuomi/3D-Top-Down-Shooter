@@ -13,11 +13,11 @@ namespace Shooter.Utility
             RigidBody = GetComponent<Rigidbody>();
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collision)
         {
-            if (collision.collider.TryGetComponent(out IDamageable enemy))
+            if (collision.TryGetComponent(out IDamageable enemy))
             {
-                enemy.Hitpoints -= bulletDamage;
+                enemy.HitPoints -= bulletDamage;
                 DeactivateAndEnqueue();
             }
         }

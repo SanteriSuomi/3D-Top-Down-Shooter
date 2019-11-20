@@ -113,7 +113,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825196666617345554}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
   m_Extents: {x: 0.4, y: 1, z: 0.4}
@@ -162,6 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrelEnd: {fileID: 2573217896031200757}
+  layersToDetect:
+    serializedVersion: 2
+    m_Bits: 4294967295
   shootAbleTag: Enemy
   shootDistance: 10
   bulletSpeed: 20

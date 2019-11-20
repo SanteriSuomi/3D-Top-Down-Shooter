@@ -5,14 +5,14 @@ namespace Shooter.AI
 {
     public abstract class Character : MonoBehaviour, IDamageable
     {
-        public float Hitpoints { get; set; }
+        public float HitPoints { get; set; }
         [SerializeField]
         protected float startingHitPoints = 100;
 
         protected abstract void InitializeState();
         private void Awake()
         {
-            Hitpoints = startingHitPoints;
+            HitPoints = startingHitPoints;
             InitializeState();
         }
 
@@ -31,12 +31,12 @@ namespace Shooter.AI
 
         public void TakeDamage(float damage)
         {
-            Hitpoints -= damage;
+            HitPoints -= damage;
         }
 
         public void CheckHitpoints()
         {
-            if (Hitpoints <= float.Epsilon)
+            if (HitPoints <= float.Epsilon)
             {
                 OnZeroHP();
             }

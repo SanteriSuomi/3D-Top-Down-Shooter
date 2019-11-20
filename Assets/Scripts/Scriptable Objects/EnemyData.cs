@@ -6,9 +6,6 @@ namespace Shooter.AI
     public class EnemyData : ScriptableObject
     {
         [SerializeField]
-        private Vector3 objectivePosition = new Vector3(0, 0, 0);
-        public Vector3 ObjectivePosition { get { return objectivePosition; } }
-        [SerializeField]
         private LayerMask layersToDetect = default;
         public LayerMask LayersToDetect { get { return layersToDetect; } }
         [SerializeField]

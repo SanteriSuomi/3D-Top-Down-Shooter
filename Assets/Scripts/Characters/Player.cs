@@ -15,12 +15,12 @@ namespace Shooter.Player
 
         private void OnHitpointsChange(float hitPoints)
         {
-            Hitpoints = hitPoints;
+            HitPoints = hitPoints;
         }
 
         protected override void StartState()
         {
-            Hitpoints = startingHitPoints;
+            HitPoints = startingHitPoints;
         }
 
         protected override void UpdateState()
