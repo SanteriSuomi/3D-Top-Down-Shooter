@@ -38,7 +38,22 @@ namespace Shooter.Inputs
         private void Move()
         {
             Vector3 moveDirection = CalculateDirection();
+            moveDirection = ApplyGravity(moveDirection);
             characterController.Move(moveDirection * moveSpeed);
+        }
+
+        private Vector3 ApplyGravity(Vector3 moveDirection)
+        {
+            if (!characterController.isGrounded)
+            {
+                moveDirection.y += Physics.gravity.y;
+            }
+            else
+            {
+                moveDirection.y = 0;
+            }
+
+            return moveDirection;
         }
 
         private Vector3 CalculateDirection()

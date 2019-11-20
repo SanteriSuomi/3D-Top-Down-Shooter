@@ -11,6 +11,7 @@ namespace Shooter.Enemy
     {
         [SerializeField]
         private EnemyData data = default;
+        private Objective objective;
         private NavMeshAgent agent;
         private GameObject target;
         private float dealDamageTimer;
@@ -34,6 +35,7 @@ namespace Shooter.Enemy
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
+            objective = FindObjectOfType<Objective>();
             objectiveDamageDelay = new WaitForSeconds(data.DealDamageInterval);
             checkDistanceTo = new WaitForSeconds(data.DistanceCheckInterval);
         }
@@ -94,7 +96,7 @@ namespace Shooter.Enemy
 
         private void CheckDistanceFromObjective()
         {
-            if (Vector3.Distance(transform.position, data.ObjectivePosition) <= 1.5f)
+            if (Vector3.Distance(transform.position, data.ObjectivePosition) <= data.MinimumDistanceFromObjective)
             {
                 currentState = States.Objective;
             }
@@ -115,6 +117,7 @@ namespace Shooter.Enemy
         {
             if (target != null && agent.enabled)
             {
+                RotateDirectionToTarget(target);
                 if (!isCheckingDistance)
                 {
                     isCheckingDistance = true;
@@ -128,10 +131,15 @@ namespace Shooter.Enemy
             }
         }
 
+        private void RotateDirectionToTarget(GameObject target)
+        {
+            Quaternion lookDirection = Quaternion.LookRotation((target.transform.position - transform.position).normalized, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDirection, data.RotationSpeed * Time.deltaTime);
+        }
+
         private IEnumerator CheckDistanceTo(GameObject target)
         {
             dealDamageTimer += Time.deltaTime;
-
             CalculateVectorValues(target, out float distance, out float dotProduct);
             ActWithDistance(target, distance, dotProduct);
 
@@ -150,7 +158,6 @@ namespace Shooter.Enemy
             else if (distance <= data.DamageDistance && dealDamageTimer >= data.DealDamageInterval)
             {
                 playerTarget.TakeDamage(data.DamageAmount);
-
                 #if UNITY_EDITOR
                 Debug.Log($"Dealt {data.DamageAmount} damage to {playerTarget}. It now has {playerTarget.Hitpoints} left.");
                 #endif
@@ -183,9 +190,9 @@ namespace Shooter.Enemy
 
         private IEnumerator ObjectiveDamageDelay()
         {
-            data.Objective.TakeDamage(data.DamageAmount);
+            objective.TakeDamage(data.DamageAmount);
             #if UNITY_EDITOR
-            Debug.Log($"Dealt damage to objective. {data.Objective.Hitpoints}");
+            Debug.Log($"Dealt damage to objective. {objective.Hitpoints}");
             #endif
             yield return objectiveDamageDelay;
             hasDealtDamageToObjective = false;

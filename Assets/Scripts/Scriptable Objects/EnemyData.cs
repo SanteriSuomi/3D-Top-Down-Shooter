@@ -1,5 +1,4 @@
-﻿using Shooter.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Shooter.AI
 {
@@ -9,7 +8,6 @@ namespace Shooter.AI
         [SerializeField]
         private Vector3 objectivePosition = new Vector3(0, 0, 0);
         public Vector3 ObjectivePosition { get { return objectivePosition; } }
-        public Objective Objective { get; private set; }
         [SerializeField]
         private LayerMask layersToDetect = default;
         public LayerMask LayersToDetect { get { return layersToDetect; } }
@@ -37,16 +35,11 @@ namespace Shooter.AI
         [SerializeField]
         private float dealDamageInterval = 0.5f;
         public float DealDamageInterval { get { return dealDamageInterval; } }
-
-        private void OnEnable()
-        {
-            if (Objective == null)
-            {
-                Objective = GameObject.FindGameObjectWithTag("Objective").GetComponent<Objective>();
-            }
-            #if UNITY_EDITOR
-            Debug.Log($"Objective pos: {Objective.gameObject.transform.position}");
-            #endif
-        }
+        [SerializeField]
+        private float rotationSpeed = 60;
+        public float RotationSpeed { get { return rotationSpeed; } }
+        [SerializeField]
+        private float minimumDistanceFromObjective = 1.25f;
+        public float MinimumDistanceFromObjective { get { return minimumDistanceFromObjective; } }
     }
 }

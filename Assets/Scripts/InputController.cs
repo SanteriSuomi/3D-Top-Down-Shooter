@@ -8,25 +8,31 @@ namespace Shooter.Inputs
         private GameObject[] joysticks = default;
         [SerializeField]
         private GameObject crosshair = default;
+
         private void Awake()
         {
             PlayerControlsPC pcControls = FindObjectOfType<PlayerControlsPC>();
+            PlayerMove androidPlayerMove = FindObjectOfType<PlayerMove>();
+            PlayerLook androidPlayerLook = FindObjectOfType<PlayerLook>();
 
             if (Input.mousePresent)
             {
-                InitializePCEnvironment(pcControls);
+                InitializePCEnvironment(pcControls, androidPlayerMove, androidPlayerLook);
             }
         }
 
-        private void InitializePCEnvironment(PlayerControlsPC pcControls)
+        private void InitializePCEnvironment(PlayerControlsPC pcControls, PlayerMove androidPlayerMove, PlayerLook androidPlayerLook)
         {
             foreach (GameObject joystick in joysticks)
             {
                 joystick.SetActive(false);
             }
 
-            crosshair.SetActive(true);
+            androidPlayerMove.enabled = false;
+            androidPlayerLook.enabled = false;
             pcControls.enabled = true;
+
+            crosshair.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
         }

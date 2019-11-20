@@ -34,7 +34,22 @@ namespace Shooter.Inputs
             Vector3 moveDirectionSide = transform.right * horizontal;
             Vector3 moveDirectionForward = transform.forward * vertical;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
+            moveDirection = ApplyGravity(moveDirection);
             m_CharacterController.Move(moveDirection * m_MovementSpeed);
+        }
+
+        private Vector3 ApplyGravity(Vector3 moveDirection)
+        {
+            if (!m_CharacterController.isGrounded)
+            {
+                moveDirection.y += Physics.gravity.y;
+            }
+            else
+            {
+                moveDirection.y = 0;
+            }
+
+            return moveDirection;
         }
 
         private void HandleMovementInput(out float horizontal, out float vertical)
@@ -49,9 +64,6 @@ namespace Shooter.Inputs
             Vector3 relativePosition = (m_CursorPos - transform.position).normalized;
             Quaternion lookDirection = Quaternion.LookRotation(relativePosition, Vector3.up);
             float angleBetweenRotations = Quaternion.Angle(transform.rotation, lookDirection);
-            #if UNITY_EDITOR
-            Debug.Log($"Angle: {angleBetweenRotations}");
-            #endif
             if (angleBetweenRotations >= minAngleFloatToRotate)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation,
