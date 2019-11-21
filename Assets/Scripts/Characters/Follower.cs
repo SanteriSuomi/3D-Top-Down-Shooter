@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Shooter.AI
@@ -7,11 +8,18 @@ namespace Shooter.AI
     {
         private NavMeshAgent agent;
         private Transform player;
+        private WaitForSeconds setDestinationDelay;
+        [SerializeField]
+        private float offsetFromPlayer = 2.5f;
+        [SerializeField]
+        private float setDestinationUpdateInterval = 0.25f;
+        private bool setDestination;
 
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
             player = FindObjectOfType<Player.Player>().transform;
+            setDestinationDelay = new WaitForSeconds(setDestinationUpdateInterval);
         }
 
         protected override void StartState()
@@ -21,12 +29,20 @@ namespace Shooter.AI
 
         protected override void UpdateState()
         {
-            Vector3 offPlacement = (transform.position - player.position).normalized * 2.5f;
-            Debug.Log(offPlacement);
-            if (Vector3.Distance(transform.position, player.position) <= 5)
+            if (!setDestination)
             {
-                agent.SetDestination(player.position + offPlacement);
+                setDestination = true;
+                StartCoroutine(SetDestination());
             }
+        }
+
+        private IEnumerator SetDestination()
+        {
+            Vector3 offset = (transform.position - player.position).normalized * offsetFromPlayer;
+            agent.SetDestination(player.position + offset);
+
+            yield return setDestinationDelay;
+            setDestination = false;
         }
 
         protected override void OnZeroHP()

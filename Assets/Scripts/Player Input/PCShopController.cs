@@ -29,6 +29,7 @@ namespace Shooter.Inputs
 
         private void InitializeButtonComponents()
         {
+            shopBuyButtonComponents = new Button[shopBuyButtons.Length];
             for (int i = 0; i < shopBuyButtons.Length; i++)
             {
                 shopBuyButtonComponents[i] = shopBuyButtons[i].GetComponent<Button>();

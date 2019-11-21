@@ -22,7 +22,7 @@ namespace Shooter.Player
             }
         }
 
-        private float funds = 50;
+        private float funds = 100;
         public float Funds
         {
             get { return funds; }
@@ -35,7 +35,7 @@ namespace Shooter.Player
 
         public float PlayerSensitivityMultiplier { get; set; }
 
-        private void OnEnable()
+        private void Start()
         {
             OnHitpointChangeEvent?.Invoke(hitPoints);
             OnFundsChangeEvent?.Invoke(funds);

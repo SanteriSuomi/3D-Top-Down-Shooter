@@ -34,9 +34,7 @@ namespace Shooter.Player
 
         public void CheckHitpoints()
         {
-            #if UNITY_EDITOR
-            Debug.Log("Objective has taken damage");
-            #endif
+
             if (HitPoints <= float.Epsilon)
             {
                 SceneManager.LoadScene(0);
@@ -45,6 +43,9 @@ namespace Shooter.Player
 
         public void TakeDamage(float damage)
         {
+            #if UNITY_EDITOR
+            Debug.Log("Objective has taken damage");
+            #endif
             HitPoints -= damage;
         }
     }
