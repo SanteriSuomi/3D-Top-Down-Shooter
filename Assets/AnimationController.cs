@@ -29,8 +29,7 @@ namespace Shooter.Player
 
         private void Walk()
         {
-            Debug.Log($"Velocity {characterController.velocity.magnitude}");
-            if (characterController.velocity.magnitude >= 0.1f)
+            if (characterController.velocity.sqrMagnitude >= 0.1f)
             {
                 animator.SetFloat("Walking", 1);
             }
