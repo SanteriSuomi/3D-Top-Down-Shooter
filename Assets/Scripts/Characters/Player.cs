@@ -25,7 +25,13 @@ namespace Shooter.Player
 
         protected override void UpdateState()
         {
+            
+        }
 
+        protected override void OnTakeDamage(float damage)
+        {
+            base.OnTakeDamage(damage);
+            playerSettings.HitPoints -= damage;
         }
 
         protected override void OnZeroHP()

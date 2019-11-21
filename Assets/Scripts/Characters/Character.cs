@@ -29,11 +29,16 @@ namespace Shooter.AI
             UpdateState();
         }
 
-        public void TakeDamage(float damage)
+        protected virtual void OnTakeDamage(float damage)
         {
             HitPoints -= damage;
         }
+        public void TakeDamage(float damage)
+        {
+            OnTakeDamage(damage);
+        }
 
+        protected abstract void OnZeroHP();
         public void CheckHitpoints()
         {
             if (HitPoints <= float.Epsilon)
@@ -41,7 +46,5 @@ namespace Shooter.AI
                 OnZeroHP();
             }
         }
-
-        protected abstract void OnZeroHP();
     }
 }

@@ -18,7 +18,7 @@ namespace Shooter.Enemy
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
-        private PlayerSettings playerTarget;
+        private IDamageable damageTarget;
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
         private WaitForSeconds setPathDelay;
@@ -96,7 +96,7 @@ namespace Shooter.Enemy
             {
                 foreach (Collider hit in hits)
                 {
-                    if (hit.CompareTag("Player"))
+                    if (hit.TryGetComponent(out IDamageable _))
                     {
                         currentTarget = hit.gameObject;
                     }
@@ -178,20 +178,16 @@ namespace Shooter.Enemy
             }
             else if (distance <= data.DamageDistance && dealDamageTimer >= data.DealDamageInterval)
             {
-                //playerTarget.TakeDamage(data.DamageAmount);
-                playerTarget.HitPoints -= data.DamageAmount;
+                damageTarget.TakeDamage(HitPoints);
                 #if UNITY_EDITOR
-                Debug.Log($"Dealt {data.DamageAmount} damage to {playerTarget}. It now has {playerTarget.HitPoints} left.");
+                Debug.Log($"Dealt {data.DamageAmount} damage to {damageTarget}. It now has {damageTarget.HitPoints} left.");
                 #endif
             }
         }
 
         private void RetrieveDamageable()
         {
-            if (playerTarget == null)
-            {
-                playerTarget = currentTarget.GetComponent<PlayerSettings>();
-            }
+            damageTarget = currentTarget.GetComponent<IDamageable>();
         }
 
         private void DealDamageToObjective()
