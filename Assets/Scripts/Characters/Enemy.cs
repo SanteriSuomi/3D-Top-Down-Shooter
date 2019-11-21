@@ -96,8 +96,9 @@ namespace Shooter.Enemy
             {
                 foreach (Collider hit in hits)
                 {
-                    if (hit.TryGetComponent(out IDamageable _))
+                    if (hit.TryGetComponent(out IDamageable _) || hit.TryGetComponent(out Player.Player _))
                     {
+                        Debug.Log(hit.enabled);
                         currentTarget = hit.gameObject;
                     }
                 }
@@ -108,7 +109,7 @@ namespace Shooter.Enemy
 
         private void SetPath()
         {
-            if (!hasSetMovePath)
+            if (!hasSetMovePath && gameObject.activeSelf)
             {
                 hasSetMovePath = true;
                 StartCoroutine(PathDelay());
@@ -201,7 +202,7 @@ namespace Shooter.Enemy
 
         private IEnumerator ObjectiveDamageDelay()
         {
-            objective.TakeDamage(data.DamageAmount);
+            objective.TakeDamage(data.DamageAmount / 3);
             #if UNITY_EDITOR
             Debug.Log($"Dealt damage to objective. {objective.HitPoints}");
             #endif

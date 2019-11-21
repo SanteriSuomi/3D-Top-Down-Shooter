@@ -4,6 +4,9 @@ namespace Shooter.Utility
 {
     public class PlayerShoot : MonoBehaviour
     {
+        public delegate void OnAttack(float animFloat);
+        public event OnAttack OnAttackEvent;
+
         [SerializeField]
         private Transform barrelEnd = default;
         [SerializeField]
@@ -29,6 +32,11 @@ namespace Shooter.Utility
             {
                 shootTimer = 0;
                 ShootBullet();
+                OnAttackEvent.Invoke(animFloat: 1);
+            }
+            else
+            {
+                OnAttackEvent.Invoke(animFloat: 0);
             }
         }
 

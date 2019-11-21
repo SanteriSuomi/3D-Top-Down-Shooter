@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1552ba355f899f24eb2826c8367266ae, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  objectivePosition: {x: 0, y: 0, z: 0}
   layersToDetect:
     serializedVersion: 2
     m_Bits: 1024
@@ -23,6 +22,6 @@ MonoBehaviour:
   damageAmount: 5
   distanceCheckInterval: 0.25
   pathUpdateInterval: 0.25
-  dealDamageInterval: 0.25
+  dealDamageInterval: 0.5
   rotationSpeed: 65
   minimumDistanceFromObjective: 2.25
