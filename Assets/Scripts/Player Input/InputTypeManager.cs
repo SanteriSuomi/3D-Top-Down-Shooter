@@ -2,21 +2,26 @@
 
 namespace Shooter.Inputs
 {
-    public class InputController : MonoBehaviour
+    public class InputTypeManager : MonoBehaviour
     {
         [SerializeField]
         private GameObject[] joysticks = default;
         [SerializeField]
         private GameObject crosshair = default;
+        [SerializeField]
+        private GameObject[] pcButtonInfos = default;
 
-        private void Awake()
+        private void Start()
         {
-            PlayerControlsPC pcControls = FindObjectOfType<PlayerControlsPC>();
-            PlayerMove androidPlayerMove = FindObjectOfType<PlayerMove>();
-            PlayerLook androidPlayerLook = FindObjectOfType<PlayerLook>();
-
-            if (Input.mousePresent)
+            if (!Input.mousePresent)
             {
+                enabled = false;
+            }
+            else
+            {
+                PlayerControlsPC pcControls = FindObjectOfType<PlayerControlsPC>();
+                PlayerMove androidPlayerMove = FindObjectOfType<PlayerMove>();
+                PlayerLook androidPlayerLook = FindObjectOfType<PlayerLook>();
                 InitializePCEnvironment(pcControls, androidPlayerMove, androidPlayerLook);
             }
         }
@@ -26,6 +31,11 @@ namespace Shooter.Inputs
             foreach (GameObject joystick in joysticks)
             {
                 joystick.SetActive(false);
+            }
+
+            foreach (GameObject info in pcButtonInfos)
+            {
+                info.SetActive(true);
             }
 
             androidPlayerMove.enabled = false;

@@ -28,8 +28,8 @@ namespace Shooter.Player
 
         private void Update()
         {
-            healthBar.transform.LookAt(playerCamera);
             CheckHitpoints();
+            healthBar.transform.LookAt(playerCamera);
         }
 
         public void CheckHitpoints()
@@ -37,7 +37,7 @@ namespace Shooter.Player
             #if UNITY_EDITOR
             Debug.Log("Objective has taken damage");
             #endif
-            if (HitPoints <= 0)
+            if (HitPoints <= float.Epsilon)
             {
                 SceneManager.LoadScene(0);
             }
