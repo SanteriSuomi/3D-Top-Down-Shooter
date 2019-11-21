@@ -24,6 +24,8 @@ namespace Shooter.UI
         private string maxFollowersAchieved = "Maximum amount of followers achieved";
         [SerializeField]
         private string notEnoughFunds = "Not enough funds";
+        [SerializeField]
+        private float shopObjectSpawnRange = 4;
 
         protected override void Awake()
         {
@@ -67,7 +69,7 @@ namespace Shooter.UI
         {
             PlayerSettings.GetInstance().Funds -= shopObject.Cost;
             GameObject spawnedObject = Instantiate(shopObject.Prefab);
-            spawnedObject.transform.position = player.position + new Vector3(Random.Range(-5, 5), 0, 0);
+            spawnedObject.transform.position = player.position + new Vector3(Random.Range(-4f, 4f), 0, 0);
         }
 
         private IEnumerator FundsOutText(string text)
