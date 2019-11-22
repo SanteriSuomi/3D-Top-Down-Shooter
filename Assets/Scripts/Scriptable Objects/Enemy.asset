@@ -19,10 +19,11 @@ MonoBehaviour:
   damageDistance: 1.5
   dotProductMax: 0
   fundGiveAmount: 2.5
+  scoreGiveAmount: 1
   damageAmount: 5
   distanceCheckInterval: 0.2
   pathUpdateInterval: 0.2
-  dealDamageInterval: 0.325
+  dealDamageInterval: 0.3
   rotationSpeed: 67.5
   minimumDistanceFromObjective: 2.5
   objectiveDamageMultiplier: 1.1

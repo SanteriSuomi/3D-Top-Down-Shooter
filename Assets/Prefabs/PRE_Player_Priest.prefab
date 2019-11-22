@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc749c133bfdd4340ad9dd9b3581a7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.03
+  moveSpeed: 0.025
 --- !u!114 &1821325825687777726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,7 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b6a59e6bdc11f45a0d52ac1c0b414d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 22.5
+  rotationSpeed: 25
   rotationSmooth: 0.5
 --- !u!114 &7461705626946648825
 MonoBehaviour:
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   shootAbleTag: Enemy
   shootDistance: 9
   bulletSpeed: 15
-  shootRate: 0.45
+  shootRate: 0.55
 --- !u!114 &2744014230273442584
 MonoBehaviour:
   m_ObjectHideFlags: 0

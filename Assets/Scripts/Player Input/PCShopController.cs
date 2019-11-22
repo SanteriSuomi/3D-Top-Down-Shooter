@@ -7,8 +7,7 @@ namespace Shooter.Inputs
     {
         [SerializeField]
         private GameObject[] shopBuyButtons = default;
-        [SerializeField]
-        private Button[] shopBuyButtonComponents = default;
+        private Button[] shopBuyButtonComponents;
         [SerializeField]
         private KeyCode shopButtonKey = KeyCode.E;
         [SerializeField]

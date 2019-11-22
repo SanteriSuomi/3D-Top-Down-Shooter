@@ -12,7 +12,7 @@ namespace Shooter.Enemy
     {
         [SerializeField]
         private EnemyData data = default;
-        private new Transform camera;
+        private Transform camera;
         private Slider healthBar;
         private Objective objective;
         private NavMeshAgent agent;
