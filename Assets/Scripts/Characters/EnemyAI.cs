@@ -4,16 +4,20 @@ using Shooter.Utility;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Shooter.Enemy
 {
-    public class Enemy : Character
+    public class EnemyAI : Character
     {
         [SerializeField]
         private EnemyData data = default;
+        private new Transform camera;
+        private Slider healthBar;
         private Objective objective;
         private NavMeshAgent agent;
         private GameObject currentTarget;
+        private AudioSource audioSource;
         private float dealDamageTimer;
         private bool hasSetMovePath;
         private bool isCheckingDistance;
@@ -22,6 +26,7 @@ namespace Shooter.Enemy
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
         private WaitForSeconds setPathDelay;
+        private float healthBarUpdateTimer;
 
         private enum States
         {
@@ -35,8 +40,12 @@ namespace Shooter.Enemy
 
         protected override void InitializeState()
         {
+            camera = Camera.main.transform;
             agent = GetComponent<NavMeshAgent>();
+            healthBar = GetComponentInChildren<Slider>();
+            healthBar.maxValue = startingHitPoints;
             objective = FindObjectOfType<Objective>();
+            audioSource = GetComponent<AudioSource>();
             objectiveDamageDelay = new WaitForSeconds(data.DealDamageInterval);
             checkDistanceTo = new WaitForSeconds(data.DistanceCheckInterval);
             setPathDelay = new WaitForSeconds(data.PathUpdateInterval);
@@ -52,6 +61,7 @@ namespace Shooter.Enemy
         private void ResetState()
         {
             HitPoints = startingHitPoints;
+            healthBar.value = startingHitPoints;
             hasSetMovePath = false;
             isCheckingDistance = false;
             hasDealtDamageToObjective = false;
@@ -59,6 +69,7 @@ namespace Shooter.Enemy
 
         protected override void UpdateState()
         {
+            UpdateHealthBar();
             RotateDirectionToTarget();
             switch (currentState)
             {
@@ -79,7 +90,18 @@ namespace Shooter.Enemy
                     break;
             }
         }
-        
+
+        private void UpdateHealthBar()
+        {
+            healthBarUpdateTimer += Time.deltaTime;
+            if (healthBarUpdateTimer >= data.HealthBarUpdateInterval)
+            {
+                healthBarUpdateTimer = 0;
+                healthBar.value = HitPoints;
+                healthBar.transform.LookAt(camera);
+            }
+        }
+
         private void RotateDirectionToTarget()
         {
             if (currentTarget != null)
@@ -98,7 +120,6 @@ namespace Shooter.Enemy
                 {
                     if (hit.TryGetComponent(out IDamageable _) || hit.TryGetComponent(out Player.Player _))
                     {
-                        Debug.Log(hit.enabled);
                         currentTarget = hit.gameObject;
                     }
                 }
@@ -137,14 +158,12 @@ namespace Shooter.Enemy
 
         private void Attack()
         {
-            if (currentTarget != null && agent.enabled)
+            dealDamageTimer += Time.deltaTime;
+            if (currentTarget != null && !isCheckingDistance && enabled)
             {
-                if (!isCheckingDistance)
-                {
-                    isCheckingDistance = true;
-                    agent.SetDestination(currentTarget.transform.position);
-                    StartCoroutine(CheckDistanceTo());
-                }
+                isCheckingDistance = true;
+                agent.SetDestination(currentTarget.transform.position + new Vector3(0, 0.5f, 0));
+                StartCoroutine(CheckDistanceTo());
             }
             else
             {
@@ -170,8 +189,7 @@ namespace Shooter.Enemy
 
         private void ActWithDistance(float distance, float dotProduct)
         {
-            dealDamageTimer += Time.deltaTime;
-            RetrieveDamageable();
+            RetrieveDamageComponent();
 
             if (distance >= data.CheckRadius || dotProduct < data.DotProductMax)
             {
@@ -179,14 +197,23 @@ namespace Shooter.Enemy
             }
             else if (distance <= data.DamageDistance && dealDamageTimer >= data.DealDamageInterval)
             {
-                damageTarget.TakeDamage(HitPoints);
+                dealDamageTimer = 0;
+                PlayAttackSound();
+                if (currentTarget.TryGetComponent(out PlayerSettings playerSettings))
+                {
+                    playerSettings.HitPoints -= data.DamageAmount;
+                }
+                else
+                {
+                    damageTarget.TakeDamage(data.DamageAmount);
+                }
                 #if UNITY_EDITOR
                 Debug.Log($"Dealt {data.DamageAmount} damage to {damageTarget}. It now has {damageTarget.HitPoints} left.");
                 #endif
             }
         }
 
-        private void RetrieveDamageable()
+        private void RetrieveDamageComponent()
         {
             damageTarget = currentTarget.GetComponent<IDamageable>();
         }
@@ -202,12 +229,21 @@ namespace Shooter.Enemy
 
         private IEnumerator ObjectiveDamageDelay()
         {
-            objective.TakeDamage(data.DamageAmount / 3);
+            PlayAttackSound();
+            objective.TakeDamage(data.DamageAmount);
             #if UNITY_EDITOR
             Debug.Log($"Dealt damage to objective. {objective.HitPoints}");
             #endif
             yield return objectiveDamageDelay;
             hasDealtDamageToObjective = false;
+        }
+
+        private void PlayAttackSound()
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
 
         protected override void OnZeroHP()

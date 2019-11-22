@@ -16,12 +16,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   checkRadius: 9
-  damageDistance: 1.25
+  damageDistance: 1.5
   dotProductMax: 0
-  fundGiveAmount: 2
+  fundGiveAmount: 2.5
   damageAmount: 5
-  distanceCheckInterval: 0.25
-  pathUpdateInterval: 0.25
-  dealDamageInterval: 0.5
-  rotationSpeed: 65
-  minimumDistanceFromObjective: 2.25
+  distanceCheckInterval: 0.2
+  pathUpdateInterval: 0.2
+  dealDamageInterval: 0.31
+  rotationSpeed: 67.5
+  minimumDistanceFromObjective: 3
+  objectiveDamageMultiplier: 1
+  healthBarUpdateInterval: 0.05

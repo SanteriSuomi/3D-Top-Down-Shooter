@@ -1,6 +1,6 @@
 ﻿namespace Shooter.Utility
 {
-    public class EnemyPool : GenericObjectPool<Enemy.Enemy>
+    public class EnemyPool : GenericObjectPool<Enemy.EnemyAI>
     {
     }
 }

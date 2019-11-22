@@ -22,7 +22,7 @@ namespace Shooter.Player
             }
         }
 
-        private float funds = 100;
+        private float funds = 10;
         public float Funds
         {
             get { return funds; }

@@ -77,10 +77,19 @@ namespace Shooter.Inputs
 
         private void GetTouchPosition()
         {
-            if (Input.touchCount > 0)
+            try
             {
-                currentTouch = Input.GetTouch(currentTouchIndex);
-                touchPosition = currentTouch.position;
+                if (Input.touchCount > 0)
+                {
+                    currentTouch = Input.GetTouch(currentTouchIndex);
+                    touchPosition = currentTouch.position;
+                }
+            }
+            catch (System.Exception e)
+            {
+                #if UNITY_EDITOR
+                Debug.Log(e);
+                #endif
             }
         }
 

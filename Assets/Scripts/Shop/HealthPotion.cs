@@ -20,7 +20,7 @@ namespace Shooter.Shop
             {
                 PlayerSettings.GetInstance().Funds -= fundCost;
                 PlayerSettings.GetInstance().HitPoints = amountToHeal;
-                Objective.GetInstance().HitPoints = amountToHeal;
+                Objective.GetInstance().HitPoints = amountToHeal * 5;
             }
             else
             {

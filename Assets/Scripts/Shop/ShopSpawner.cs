@@ -19,7 +19,7 @@ namespace Shooter.UI
         private bool isFundsCoroutineRunning;
         [SerializeField]
         private int maxAmountOfFollowers = 3;
-        private int amountOfFollowers = 0;
+        public int AmountOfFollowers { get; set; } = 0;
         [SerializeField]
         private string maxFollowersAchieved = "Maximum amount of followers achieved";
         [SerializeField]
@@ -36,7 +36,8 @@ namespace Shooter.UI
 
         public void SpawnObject(ShopObject shopObject)
         {
-            if (shopObject.Prefab.TryGetComponent(out Follower follower) && amountOfFollowers == maxAmountOfFollowers || shopObject.Cost > PlayerSettings.GetInstance().Funds)
+            shopObject.Prefab.TryGetComponent(out Follower follower);
+            if (AmountOfFollowers == maxAmountOfFollowers || shopObject.Cost > PlayerSettings.GetInstance().Funds)
             {
                 if (!isFundsCoroutineRunning)
                 {
@@ -59,17 +60,20 @@ namespace Shooter.UI
 
             if (follower != null)
             {
-                amountOfFollowers++;
+                AmountOfFollowers++;
             }
 
             InstantiateObject(shopObject);
+
+            follower = null;
         }
 
         private void InstantiateObject(ShopObject shopObject)
         {
             PlayerSettings.GetInstance().Funds -= shopObject.Cost;
             GameObject spawnedObject = Instantiate(shopObject.Prefab);
-            spawnedObject.transform.position = player.position + new Vector3(Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange), 0, 0);
+            Vector3 spawnPos = player.position + new Vector3(Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange), 0, Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange));
+            spawnedObject.transform.position = spawnPos;
         }
 
         private IEnumerator FundsOutText(string text)

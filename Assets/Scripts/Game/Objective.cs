@@ -16,7 +16,11 @@ namespace Shooter.Player
         public float HitPoints
         {
             get { return hitpoints; }
-            set { hitpoints = value; healthBar.value = hitpoints; }
+            set
+            {
+                hitpoints = value; 
+                healthBar.value = hitpoints;
+            }
         }
 
         protected override void Awake()

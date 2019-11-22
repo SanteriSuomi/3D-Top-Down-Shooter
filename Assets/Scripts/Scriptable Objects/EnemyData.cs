@@ -38,5 +38,11 @@ namespace Shooter.AI
         [SerializeField]
         private float minimumDistanceFromObjective = 1.25f;
         public float MinimumDistanceFromObjective { get { return minimumDistanceFromObjective; } }
+        [SerializeField]
+        private float objectiveDamageMultiplier = 0.5f;
+        public float ObjectiveDamageMultiplier { get { return objectiveDamageMultiplier; } }
+        [SerializeField]
+        private float healthBarUpdateInterval = 0.1f;
+        public float HealthBarUpdateInterval { get { return healthBarUpdateInterval; } }
     }
 }

@@ -59,13 +59,6 @@ namespace Shooter.Utility
         }
         #endif
 
-        #if UNITY_EDITOR
-        private void OnApplicationQuit()
-        {
-            ApplicationIsQuitting = true;
-        }
-        #endif
-
         #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)
         {

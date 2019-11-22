@@ -1,4 +1,5 @@
 ﻿using Shooter.AI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Shooter.Player
@@ -36,6 +37,9 @@ namespace Shooter.Player
 
         protected override void OnZeroHP()
         {
+            #if UNITY_STANDALONE
+            Cursor.visible = true;
+            #endif
             SceneManager.LoadScene(0);
         }
 

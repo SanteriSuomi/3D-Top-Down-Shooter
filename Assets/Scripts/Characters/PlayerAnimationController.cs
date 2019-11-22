@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Shooter.Player
 {
-    public class AnimationController : MonoBehaviour
+    public class PlayerAnimationController : MonoBehaviour
     {
         private PlayerShoot playerShoot;
         private CharacterController characterController;

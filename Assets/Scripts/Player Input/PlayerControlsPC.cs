@@ -38,6 +38,12 @@ namespace Shooter.Inputs
             m_CharacterController.Move(moveDirection * m_MovementSpeed);
         }
 
+        private void HandleMovementInput(out float horizontal, out float vertical)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+        }
+
         private Vector3 ApplyGravity(Vector3 moveDirection)
         {
             if (!m_CharacterController.isGrounded)
@@ -50,12 +56,6 @@ namespace Shooter.Inputs
             }
 
             return moveDirection;
-        }
-
-        private void HandleMovementInput(out float horizontal, out float vertical)
-        {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
         }
 
         private void Rotation()
