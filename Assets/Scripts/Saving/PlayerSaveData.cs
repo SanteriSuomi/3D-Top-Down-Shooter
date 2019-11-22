@@ -8,6 +8,7 @@ namespace Shooter.Utility
 	{
         public float Hitpoints { get; set; }
         public float Funds { get; set; }
+        public float Score { get; set; }
         public float PlayerSensitivityMultiplier { get; set; }
 
         private float[] position;
@@ -34,6 +35,7 @@ namespace Shooter.Utility
 		{
             Hitpoints = player.HitPoints;
             Funds = player.Funds;
+            Score = player.Score;
             PlayerSensitivityMultiplier = player.PlayerSensitivityMultiplier;
 
             position = new float[3];

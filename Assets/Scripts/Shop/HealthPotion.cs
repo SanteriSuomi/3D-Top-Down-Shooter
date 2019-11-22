@@ -8,11 +8,17 @@ namespace Shooter.Shop
     {
         [SerializeField]
         private GameObject fundsOutText = default;
+        private float originalObjectiveHitPoints;
         [SerializeField]
         private float fundCost = 50;
         [SerializeField]
         private float amountToHeal = 100;
         private bool isFundsCoroutineRunning;
+
+        private void Awake()
+        {
+            originalObjectiveHitPoints = Objective.GetInstance().HitPoints;
+        }
 
         public void HealthButton()
         {
@@ -20,7 +26,7 @@ namespace Shooter.Shop
             {
                 PlayerSettings.GetInstance().Funds -= fundCost;
                 PlayerSettings.GetInstance().HitPoints = amountToHeal;
-                Objective.GetInstance().HitPoints = amountToHeal * 5;
+                Objective.GetInstance().HitPoints = originalObjectiveHitPoints;
             }
             else
             {

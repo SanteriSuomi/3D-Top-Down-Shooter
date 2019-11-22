@@ -21,6 +21,9 @@ namespace Shooter.AI
         private float fundGiveAmount = 2;
         public float FundGiveAmount { get { return fundGiveAmount; } }
         [SerializeField]
+        private float scoreGiveAmount = 1;
+        public float ScoreGiveAmount { get { return scoreGiveAmount; } }
+        [SerializeField]
         private float damageAmount = 5;
         public float DamageAmount { get { return damageAmount; } }
         [SerializeField]
@@ -44,5 +47,11 @@ namespace Shooter.AI
         [SerializeField]
         private float healthBarUpdateInterval = 0.1f;
         public float HealthBarUpdateInterval { get { return healthBarUpdateInterval; } }
+        [SerializeField]
+        private float levitationAmplitude = 0.25f;
+        public float LevitationAmplitude { get { return levitationAmplitude; } }
+        [SerializeField]
+        private float levitationFrequency = 1.5f;
+        public float LevitationFrequency { get { return levitationFrequency; } }
     }
 }

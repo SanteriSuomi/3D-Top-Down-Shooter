@@ -52,6 +52,11 @@ namespace Shooter.Utility
             //else { DontDestroyOnLoad(gameObject); }
         }
 
+        private void OnDestroy()
+        {
+            ApplicationIsQuitting = true;
+        }
+
         #if UNITY_STANDALONE
         private void OnApplicationQuit()
         {

@@ -11,6 +11,9 @@ namespace Shooter.Player
         public delegate void OnFundsChange(float funds);
         public event OnFundsChange OnFundsChangeEvent;
 
+        public delegate void OnScoreChange(float score);
+        public event OnScoreChange OnScoreChangeEvent;
+
         private float hitPoints = 100;
         public float HitPoints
         {
@@ -33,12 +36,24 @@ namespace Shooter.Player
             }
         }
 
+        private float score = 0;
+        public float Score
+        {
+            get { return score; }
+            set
+            {
+                score = value;
+                OnScoreChangeEvent.Invoke(score);
+            }
+        }
+
         public float PlayerSensitivityMultiplier { get; set; }
 
         private void Start()
         {
             OnHitpointChangeEvent?.Invoke(hitPoints);
             OnFundsChangeEvent?.Invoke(funds);
+            OnScoreChangeEvent?.Invoke(score);
         }
 
         public void LoadPlayer()
@@ -47,6 +62,7 @@ namespace Shooter.Player
 
             HitPoints = data.Hitpoints;
             Funds = data.Funds;
+            Score = data.Score;
             PlayerSensitivityMultiplier = data.PlayerSensitivityMultiplier;
 
             Vector3 position;

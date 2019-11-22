@@ -69,6 +69,7 @@ namespace Shooter.Enemy
 
         protected override void UpdateState()
         {
+            Levitate();
             UpdateHealthBar();
             RotateDirectionToTarget();
             switch (currentState)
@@ -89,6 +90,13 @@ namespace Shooter.Enemy
                 default:
                     break;
             }
+        }
+
+        private void Levitate()
+        {
+            transform.position = new Vector3(transform.position.x, 
+                transform.position.y + Mathf.Sin(Time.time * data.LevitationFrequency) * data.LevitationAmplitude, 
+                transform.position.z);
         }
 
         private void UpdateHealthBar()
@@ -249,6 +257,7 @@ namespace Shooter.Enemy
         protected override void OnZeroHP()
         {
             PlayerSettings.GetInstance().Funds += data.FundGiveAmount;
+            PlayerSettings.GetInstance().Score += data.ScoreGiveAmount;
             EnemyPool.GetInstance().Enqueue(this);
         }
 
