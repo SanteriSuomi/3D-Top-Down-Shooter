@@ -7,9 +7,9 @@ namespace Shooter.Inputs
         [SerializeField]
         private GameObject[] joysticks = default;
         [SerializeField]
-        private GameObject crosshair = default;
-        [SerializeField]
         private GameObject[] pcButtonInfos = default;
+        [SerializeField]
+        private GameObject crosshair = default;
 
         private void Start()
         {

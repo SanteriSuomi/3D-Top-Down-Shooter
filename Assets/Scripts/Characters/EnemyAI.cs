@@ -12,20 +12,20 @@ namespace Shooter.Enemy
     {
         [SerializeField]
         private EnemyData data = default;
-        private Transform camera;
+        private Transform mainCamera;
         private Slider healthBar;
         private Objective objective;
         private NavMeshAgent agent;
         private GameObject currentTarget;
         private AudioSource audioSource;
-        private float dealDamageTimer;
-        private bool hasSetMovePath;
-        private bool isCheckingDistance;
-        private bool hasDealtDamageToObjective;
-        private IDamageable damageTarget;
         private WaitForSeconds objectiveDamageDelay;
         private WaitForSeconds checkDistanceTo;
         private WaitForSeconds setPathDelay;
+        private IDamageable damageTarget;
+        private bool hasSetMovePath;
+        private bool isCheckingDistance;
+        private bool hasDealtDamageToObjective;
+        private float dealDamageTimer;
         private float healthBarUpdateTimer;
 
         private enum States
@@ -40,7 +40,7 @@ namespace Shooter.Enemy
 
         protected override void InitializeState()
         {
-            camera = Camera.main.transform;
+            mainCamera = Camera.main.transform;
             agent = GetComponent<NavMeshAgent>();
             healthBar = GetComponentInChildren<Slider>();
             healthBar.maxValue = startingHitPoints;
@@ -106,7 +106,7 @@ namespace Shooter.Enemy
             {
                 healthBarUpdateTimer = 0;
                 healthBar.value = HitPoints;
-                healthBar.transform.LookAt(camera);
+                healthBar.transform.LookAt(mainCamera);
             }
         }
 

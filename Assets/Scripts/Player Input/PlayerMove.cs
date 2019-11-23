@@ -33,11 +33,13 @@ namespace Shooter.Inputs
             {
                 Move();
             }
-            else if (characterController.velocity.sqrMagnitude >= 0)
+            #if UNITY_ANDROID
+            if (characterController.velocity.sqrMagnitude >= 0)
             {
                 // Temporary solution to animation controller bugging due to velocity being > 0 when being still.
                 characterController.Move(Vector3.zero);
             }
+            #endif
         }
 
         private void Move()
@@ -69,7 +71,7 @@ namespace Shooter.Inputs
             return moveDirection;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             InputEventHandler.JoystickMoveEvent -= JoystickMove;
             InputEventHandler.JoystickMoveInputEvent -= JoystickMoveInput;

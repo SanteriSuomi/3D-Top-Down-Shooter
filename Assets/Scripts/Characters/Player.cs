@@ -1,5 +1,4 @@
 ﻿using Shooter.AI;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Shooter.Player

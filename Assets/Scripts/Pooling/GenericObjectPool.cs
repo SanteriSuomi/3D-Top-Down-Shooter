@@ -19,13 +19,13 @@ namespace Shooter.Utility
 
         private void InitializePools()
         {
-            GameObject parent = new GameObject($"{typeof(T).Name} Pool Objects");
             pool = new Queue<T>(poolSize);
+            Transform parent = new GameObject($"{typeof(T).Name} Pool Objects").transform;
             for (var i = 0; i < poolSize; i++)
             {
                 T pooledObject = Instantiate(prefabToPool);
                 pooledObject.gameObject.SetActive(false);
-                pooledObject.transform.parent = parent.transform;
+                pooledObject.transform.SetParent(parent);
                 pool.Enqueue(pooledObject);
             }
         }

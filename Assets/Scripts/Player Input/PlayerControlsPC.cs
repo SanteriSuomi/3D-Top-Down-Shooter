@@ -4,13 +4,13 @@ namespace Shooter.Inputs
 {
     public class PlayerControlsPC : MonoBehaviour
     {
-        private CharacterController m_CharacterController;
-        private Camera m_Camera;
-        private Vector3 m_CursorPos;
+        private CharacterController characterController;
+        private Camera mainCamera;
+        private Vector3 cursorHitPosition;
         [SerializeField]
-        private float m_MovementSpeed = 5;
+        private RectTransform crossHair = default;
         [SerializeField]
-        private RectTransform m_Crosshair = default;
+        private float movementSpeed = 5;
         [SerializeField]
         private float rotationSpeed = 5;
         [SerializeField]
@@ -18,14 +18,20 @@ namespace Shooter.Inputs
 
         private void Awake()
         {
-            m_CharacterController = GetComponent<CharacterController>();
-            m_Camera = Camera.main;
+            characterController = GetComponent<CharacterController>();
+            mainCamera = Camera.main;
         }
 
         private void Update()
         {
+            Crosshair();
             Move();
             Rotation();
+        }
+
+        private void Crosshair()
+        {
+            crossHair.position = Input.mousePosition;
         }
 
         private void Move()
@@ -35,7 +41,7 @@ namespace Shooter.Inputs
             Vector3 moveDirectionForward = transform.forward * vertical;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
             moveDirection = ApplyGravity(moveDirection);
-            m_CharacterController.Move(moveDirection * m_MovementSpeed);
+            characterController.Move(moveDirection * movementSpeed);
         }
 
         private void HandleMovementInput(out float horizontal, out float vertical)
@@ -46,7 +52,7 @@ namespace Shooter.Inputs
 
         private Vector3 ApplyGravity(Vector3 moveDirection)
         {
-            if (!m_CharacterController.isGrounded)
+            if (!characterController.isGrounded)
             {
                 moveDirection.y += Physics.gravity.y;
             }
@@ -61,7 +67,7 @@ namespace Shooter.Inputs
         private void Rotation()
         {
             HandleRotationInput();
-            Vector3 relativePosition = (m_CursorPos - transform.position).normalized;
+            Vector3 relativePosition = (cursorHitPosition - transform.position).normalized;
             Quaternion lookDirection = Quaternion.LookRotation(relativePosition, Vector3.up);
             float angleBetweenRotations = Quaternion.Angle(transform.rotation, lookDirection);
             if (angleBetweenRotations >= minAngleFloatToRotate)
@@ -74,12 +80,11 @@ namespace Shooter.Inputs
 
         private void HandleRotationInput()
         {
-            Ray screenRay = m_Camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(screenRay, out RaycastHit m_Hit))
+            Ray screenRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(screenRay, out RaycastHit hit))
             {
-                m_CursorPos = m_Hit.point;
-                m_CursorPos.y = 0;
-                m_Crosshair.position = Input.mousePosition;
+                cursorHitPosition = hit.point;
+                cursorHitPosition.y = 0;
             }
         }
     }

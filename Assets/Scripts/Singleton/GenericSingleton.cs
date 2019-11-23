@@ -57,13 +57,6 @@ namespace Shooter.Utility
             ApplicationIsQuitting = true;
         }
 
-        #if UNITY_STANDALONE
-        private void OnApplicationQuit()
-        {
-            ApplicationIsQuitting = true;
-        }
-        #endif
-
         #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)
         {
@@ -75,6 +68,13 @@ namespace Shooter.Utility
             {
                 ApplicationIsQuitting = false;
             }
+        }
+        #endif
+
+        #if UNITY_STANDALONE
+        private void OnApplicationQuit()
+        {
+            ApplicationIsQuitting = true;
         }
         #endif
     }

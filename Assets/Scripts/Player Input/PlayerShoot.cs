@@ -23,21 +23,31 @@ namespace Shooter.Utility
 
         private void Update()
         {
+            Shoot();
+        }
+
+        private void Shoot()
+        {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate 
-                && rayHit.collider != null 
-                && rayHit.collider.TryGetComponent(out IDamageable _) 
+            if (shootTimer >= shootRate
+                && rayHit.collider != null
+                && rayHit.collider.TryGetComponent(out IDamageable _)
                 && rayHit.collider.CompareTag(shootAbleTag))
             {
                 shootTimer = 0;
                 ShootBullet();
-                OnAttackEvent.Invoke(animFloat: 1);
+                ShootAnimation(1);
             }
             else
             {
-                OnAttackEvent.Invoke(animFloat: 0);
+                ShootAnimation(0);
             }
+        }
+
+        private void ShootAnimation(float animFloat)
+        {
+            OnAttackEvent.Invoke(animFloat);
         }
 
         private RaycastHit ShootRaycast()
