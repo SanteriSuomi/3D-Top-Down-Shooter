@@ -1089,9 +1089,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   shootAbleTag: Enemy
-  shootDistance: 9
-  bulletSpeed: 15
-  shootRate: 0.55
+  shootDistance: 9.5
+  bulletSpeed: 12.5
+  shootRate: 0.6
 --- !u!114 &2744014230273442584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1129,10 +1129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93acfc32eb9c9a4b9b62ee6eb5470e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementSpeed: 4.25
-  m_Crosshair: {fileID: 0}
+  crossHair: {fileID: 0}
+  movementSpeed: 5
   rotationSpeed: 5.5
-  minAngleFloatToRotate: 8
+  minAngleFloatToRotate: 8.5
 --- !u!114 &2937107595918229556
 MonoBehaviour:
   m_ObjectHideFlags: 0

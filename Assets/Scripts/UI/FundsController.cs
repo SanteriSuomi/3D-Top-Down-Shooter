@@ -15,10 +15,7 @@ namespace Shooter.UI
         {
             base.Awake();
             fundsText = GetComponent<TextMeshProUGUI>();
-            if (PlayerSettings.GetInstance() != null)
-            {
-                PlayerSettings.GetInstance().OnFundsChangeEvent += OnFundsChange;
-            }
+            PlayerSettings.GetInstance().OnFundsChangeEvent += OnFundsChange;
         }
 
         private void OnFundsChange(float funds)
@@ -26,7 +23,7 @@ namespace Shooter.UI
             fundsText.text = $"{fundsTextString}: {funds}";
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             if (PlayerSettings.GetInstance() != null)
             {

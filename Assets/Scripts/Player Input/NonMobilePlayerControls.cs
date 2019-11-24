@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Shooter.Inputs
 {
-    public class PlayerControlsPC : MonoBehaviour
+    public class NonMobilePlayerControls : MonoBehaviour
     {
         private CharacterController characterController;
         private Camera mainCamera;
-        private Vector3 cursorHitPosition;
+        private InputActions inputActions;
+        private Vector2 movementInput;
+        private Vector2 lookInput;
+        private Vector3 lookHitPosition;
         [SerializeField]
         private RectTransform crossHair = default;
         [SerializeField]
@@ -20,6 +24,31 @@ namespace Shooter.Inputs
         {
             characterController = GetComponent<CharacterController>();
             mainCamera = Camera.main;
+            inputActions = new InputActions();
+            inputActions.Player.Movement.performed += MovementPerformed;
+            inputActions.Player.Movement.canceled += MovementCanceled;
+            inputActions.Player.Look.performed += LookPerformed;
+        }
+
+        private void OnEnable()
+        {
+            inputActions.Player.Movement.Enable();
+            inputActions.Player.Look.Enable();
+        }
+
+        private void MovementPerformed(InputAction.CallbackContext context)
+        {
+            movementInput = context.ReadValue<Vector2>();
+        }
+
+        private void MovementCanceled(InputAction.CallbackContext context)
+        {
+            movementInput = Vector2.zero;
+        }
+
+        private void LookPerformed(InputAction.CallbackContext context)
+        {
+            lookInput = context.ReadValue<Vector2>();
         }
 
         private void Update()
@@ -31,23 +60,16 @@ namespace Shooter.Inputs
 
         private void Crosshair()
         {
-            crossHair.position = Input.mousePosition;
+            crossHair.position = lookInput;
         }
 
         private void Move()
         {
-            HandleMovementInput(out float horizontal, out float vertical);
-            Vector3 moveDirectionSide = transform.right * horizontal;
-            Vector3 moveDirectionForward = transform.forward * vertical;
+            Vector3 moveDirectionSide = transform.right * movementInput.x;
+            Vector3 moveDirectionForward = transform.forward * movementInput.y;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
             moveDirection = ApplyGravity(moveDirection);
             characterController.Move(moveDirection * movementSpeed);
-        }
-
-        private void HandleMovementInput(out float horizontal, out float vertical)
-        {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
         }
 
         private Vector3 ApplyGravity(Vector3 moveDirection)
@@ -66,8 +88,8 @@ namespace Shooter.Inputs
 
         private void Rotation()
         {
-            HandleRotationInput();
-            Vector3 relativePosition = (cursorHitPosition - transform.position).normalized;
+            RotationInput();
+            Vector3 relativePosition = (lookHitPosition - transform.position).normalized;
             Quaternion lookDirection = Quaternion.LookRotation(relativePosition, Vector3.up);
             float angleBetweenRotations = Quaternion.Angle(transform.rotation, lookDirection);
             if (angleBetweenRotations >= minAngleFloatToRotate)
@@ -78,14 +100,20 @@ namespace Shooter.Inputs
             }
         }
 
-        private void HandleRotationInput()
+        private void RotationInput()
         {
-            Ray screenRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray screenRay = mainCamera.ScreenPointToRay(lookInput);
             if (Physics.Raycast(screenRay, out RaycastHit hit))
             {
-                cursorHitPosition = hit.point;
-                cursorHitPosition.y = 0;
+                lookHitPosition = hit.point;
+                lookHitPosition.y = 0;
             }
+        }
+
+        private void OnDisable()
+        {
+            inputActions.Player.Movement.Disable();
+            inputActions.Player.Look.Disable();
         }
     }
 }

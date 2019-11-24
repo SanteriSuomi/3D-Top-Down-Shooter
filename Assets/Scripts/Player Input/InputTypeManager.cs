@@ -19,14 +19,14 @@ namespace Shooter.Inputs
             }
             else
             {
-                PlayerControlsPC pcControls = FindObjectOfType<PlayerControlsPC>();
+                NonMobilePlayerControls pcControls = FindObjectOfType<NonMobilePlayerControls>();
                 PlayerMove androidPlayerMove = FindObjectOfType<PlayerMove>();
                 PlayerLook androidPlayerLook = FindObjectOfType<PlayerLook>();
                 InitializePCEnvironment(pcControls, androidPlayerMove, androidPlayerLook);
             }
         }
 
-        private void InitializePCEnvironment(PlayerControlsPC pcControls, PlayerMove androidPlayerMove, PlayerLook androidPlayerLook)
+        private void InitializePCEnvironment(NonMobilePlayerControls pcControls, PlayerMove androidPlayerMove, PlayerLook androidPlayerLook)
         {
             foreach (GameObject joystick in joysticks)
             {

@@ -8,7 +8,6 @@ namespace Shooter.UI
     public class MenuSceneLoad : GenericSingleton<MenuSceneLoad>
     {
         public bool LoadPlayerSettings { get; set; }
-
         private float sensitivitySliderValue = 1;
         private readonly string levelSceneString = "SCE_Level";
 
@@ -41,7 +40,7 @@ namespace Shooter.UI
             PlayerSettings.GetInstance().PlayerSensitivityMultiplier = sensitivitySliderValue;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoad;
         }

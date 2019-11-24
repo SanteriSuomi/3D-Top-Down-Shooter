@@ -20,10 +20,10 @@ namespace Shooter.Utility
             {
                 binaryFormatter.Serialize(fileStream, data);
             }
-            catch (Exception e)
+            catch (InvalidOperationException e)
             {
                 #if UNITY_EDITOR
-                Debug.LogWarning($"{typeof(SaveSystem).Name} Failed to serialize. {e}");
+                Debug.LogError($"{typeof(SaveSystem).Name} failed to serialize. {e}");
                 #endif
             }
             finally
@@ -43,10 +43,10 @@ namespace Shooter.Utility
                 {
                     data = binaryFormatter.Deserialize(fileStream) as PlayerSaveData;
                 }
-                catch (Exception e)
+                catch (InvalidOperationException e)
                 {
                     #if UNITY_EDITOR
-                    Debug.LogWarning($"{typeof(SaveSystem).Name} Failed to deserialize. {e}");
+                    Debug.LogError($"{typeof(SaveSystem).Name} failed to deserialize. {e}");
                     #endif
                 }
                 finally

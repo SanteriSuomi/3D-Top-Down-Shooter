@@ -6,9 +6,9 @@ namespace Shooter.Utility
     public class FpsCounter : MonoBehaviour
     {
         private TextMeshProUGUI fpsCounter;
-        private float timer;
         [SerializeField]
         private float timerInterval = 0.25f;
+        private float timer;
 
         private void Awake()
         {

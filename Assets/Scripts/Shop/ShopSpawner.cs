@@ -36,50 +36,49 @@ namespace Shooter.UI
 
         public void SpawnObject(ShopObject shopObject)
         {
-            if (AmountOfFollowers == maxAmountOfFollowers || shopObject.Cost > PlayerSettings.GetInstance().Funds)
+            if (AmountOfFollowers >= maxAmountOfFollowers || shopObject.Cost > PlayerSettings.GetInstance().Funds)
             {
                 if (!isFundsCoroutineRunning)
                 {
                     isFundsCoroutineRunning = true;
                     BuyFailedPopup(shopObject);
                 }
-
-                return;
             }
-
-            Initialize(shopObject);
+            else
+            {
+                Initialize(shopObject);
+            }
         }
 
         private void BuyFailedPopup(ShopObject shopObject)
         {
-            Follower follower = shopObject.Prefab.GetComponent<Follower>();
-            if (follower != null)
+            if (shopObject.Prefab.TryGetComponent(out Follower _))
             {
-                StartCoroutine(FundsOutText(maxFollowersAchieved));
+                StartCoroutine(BuiFailedPopupCoroutine(maxFollowersAchieved));
                 AmountOfFollowers++;
             }
             else
             {
-                StartCoroutine(FundsOutText(notEnoughFunds));
+                StartCoroutine(BuiFailedPopupCoroutine(notEnoughFunds));
             }
         }
 
-        private void Initialize(ShopObject shopObject)
-        {
-            PlayerSettings.GetInstance().Funds -= shopObject.Cost;
-            GameObject spawnedObject = Instantiate(shopObject.Prefab);
-            Vector3 spawnPos = player.position + new Vector3(Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange), 
-                0, Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange));
-            spawnedObject.transform.position = spawnPos;
-        }
-
-        private IEnumerator FundsOutText(string text)
+        private IEnumerator BuiFailedPopupCoroutine(string text)
         {
             fundsOutText.text = text;
             fundsOutText.gameObject.SetActive(true);
             yield return fundsOut;
             fundsOutText.gameObject.SetActive(false);
             isFundsCoroutineRunning = false;
+        }
+
+        private void Initialize(ShopObject shopObject)
+        {
+            PlayerSettings.GetInstance().Funds -= shopObject.Cost;
+            GameObject spawnedObject = Instantiate(shopObject.Prefab);
+            Vector3 spawnPos = player.position + new Vector3(Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange),
+                0, Random.Range(-shopObjectSpawnRange, shopObjectSpawnRange));
+            spawnedObject.transform.position = spawnPos;
         }
     }
 }

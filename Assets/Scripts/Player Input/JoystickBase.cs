@@ -85,7 +85,7 @@ namespace Shooter.Inputs
                     touchPosition = currentTouch.position;
                 }
             }
-            catch (System.Exception e)
+            catch (System.IndexOutOfRangeException e)
             {
                 #if UNITY_EDITOR
                 Debug.Log(e);

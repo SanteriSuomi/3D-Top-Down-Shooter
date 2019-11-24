@@ -33,63 +33,153 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shop Enable"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c18d46f-3996-4284-be15-78cd94d00ce9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shop Health"",
+                    ""type"": ""Button"",
+                    ""id"": ""edec3788-c9c9-4d27-885f-403ba395cc93"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shop Follower"",
+                    ""type"": ""Button"",
+                    ""id"": ""d038af77-19df-49fa-9f9c-1f5d6dd9a740"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""84b20475-cd41-4cf5-a929-1117202caebe"",
+                    ""id"": ""1bb4d9d7-1288-4ba6-bb38-c33e9ba110cf"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""NormalizeVector2"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""54532b7e-8408-40a5-862b-b78875c15051"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e5c5fd07-8ed3-4861-9040-9621b4c2e269"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""e84988d0-d796-4a7b-9826-1104947aa2c0"",
+                    ""name"": ""left"",
+                    ""id"": ""0a67ad75-852c-4e66-a858-3f36f49b957f"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""ce3c6867-3289-4e27-9da8-5bf640d74286"",
+                    ""name"": ""down"",
+                    ""id"": ""12beea1b-3f5a-47f3-84c2-e0b40a62a0af"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""02738e5e-9986-47cf-a25a-6c841315f3eb"",
+                    ""name"": ""right"",
+                    ""id"": ""98839b4c-3426-4340-814c-04696f5c4b8e"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrow Keys"",
+                    ""id"": ""8cb18daf-c465-44a4-b9e5-39f5fc5ad7a6"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1bb4d9d7-1288-4ba6-bb38-c33e9ba110cf"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""name"": ""up"",
+                    ""id"": ""6886c39b-bfae-45d7-851d-92ddb1e8f440"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""dc96ab29-3da0-4932-9c64-03030bae1026"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""65b586bb-4dc3-479c-8c09-eeca00d625ec"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5c075fca-8d0e-46f5-9205-212543fb994d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -110,6 +200,72 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52b064e3-a0a5-495b-89ce-bb12e0d0ac22"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Shop Enable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a7424a7-69b8-481b-ac39-4fb03cbe5733"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Shop Enable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc1e298c-f4c6-43d0-a37e-c00a3971d6db"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Shop Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f1f5258-84e8-48cb-a07a-c7ab65bdb614"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Shop Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e96372f7-d851-44fa-87e0-aa822c875439"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Shop Follower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""922fe3ab-960f-4e6c-9b5e-62282a95f877"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shop Follower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -686,6 +842,9 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_ShopEnable = m_Player.FindAction("Shop Enable", throwIfNotFound: true);
+        m_Player_ShopHealth = m_Player.FindAction("Shop Health", throwIfNotFound: true);
+        m_Player_ShopFollower = m_Player.FindAction("Shop Follower", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -750,12 +909,18 @@ public class @InputActions : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_ShopEnable;
+    private readonly InputAction m_Player_ShopHealth;
+    private readonly InputAction m_Player_ShopFollower;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @ShopEnable => m_Wrapper.m_Player_ShopEnable;
+        public InputAction @ShopHealth => m_Wrapper.m_Player_ShopHealth;
+        public InputAction @ShopFollower => m_Wrapper.m_Player_ShopFollower;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -771,6 +936,15 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @ShopEnable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopEnable;
+                @ShopEnable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopEnable;
+                @ShopEnable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopEnable;
+                @ShopHealth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopHealth;
+                @ShopHealth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopHealth;
+                @ShopHealth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopHealth;
+                @ShopFollower.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopFollower;
+                @ShopFollower.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopFollower;
+                @ShopFollower.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShopFollower;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -781,6 +955,15 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @ShopEnable.started += instance.OnShopEnable;
+                @ShopEnable.performed += instance.OnShopEnable;
+                @ShopEnable.canceled += instance.OnShopEnable;
+                @ShopHealth.started += instance.OnShopHealth;
+                @ShopHealth.performed += instance.OnShopHealth;
+                @ShopHealth.canceled += instance.OnShopHealth;
+                @ShopFollower.started += instance.OnShopFollower;
+                @ShopFollower.performed += instance.OnShopFollower;
+                @ShopFollower.canceled += instance.OnShopFollower;
             }
         }
     }
@@ -947,6 +1130,9 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnShopEnable(InputAction.CallbackContext context);
+        void OnShopHealth(InputAction.CallbackContext context);
+        void OnShopFollower(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

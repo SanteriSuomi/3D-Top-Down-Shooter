@@ -14,6 +14,9 @@ namespace Shooter.Player
         public delegate void OnScoreChange(float score);
         public event OnScoreChange OnScoreChangeEvent;
 
+        [SerializeField]
+        private int autoSaveIntervalSeconds = 60;
+
         private float hitPoints = 100;
         public float HitPoints
         {
@@ -56,6 +59,14 @@ namespace Shooter.Player
             OnScoreChangeEvent?.Invoke(score);
         }
 
+        private void Update()
+        {
+            if (Mathf.RoundToInt(Time.timeSinceLevelLoad) % autoSaveIntervalSeconds == 0)
+            {
+                SavePlayer();
+            }
+        }
+
         public void LoadPlayer()
         {
             PlayerSaveData data = SaveSystem.LoadPlayer();
@@ -91,7 +102,7 @@ namespace Shooter.Player
         #if UNITY_STANDALONE
         private void OnApplicationQuit()
         {
-            SaveSystem.SavePlayer(this);
+            SavePlayer();
         }
         #endif
 

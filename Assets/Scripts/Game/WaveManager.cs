@@ -19,8 +19,9 @@ namespace Shooter.AI
         private float timer;
         private bool decreasedInterval;
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             waitForSecondsIntervalDelay = new WaitForSeconds(1);
             timerInterval = initialTimerInterval;
         }
