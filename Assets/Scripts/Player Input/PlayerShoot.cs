@@ -4,7 +4,7 @@ namespace Shooter.Utility
 {
     public class PlayerShoot : MonoBehaviour
     {
-        public delegate void OnAttack(float animFloat);
+        public delegate void OnAttack(bool playAnim);
         public event OnAttack OnAttackEvent;
 
         [SerializeField]
@@ -37,17 +37,17 @@ namespace Shooter.Utility
             {
                 shootTimer = 0;
                 ShootBullet();
-                ShootAnimation(1);
+                ShootAnimation(true);
             }
             else
             {
-                ShootAnimation(0);
+                ShootAnimation(false);
             }
         }
 
-        private void ShootAnimation(float animFloat)
+        private void ShootAnimation(bool playAnim)
         {
-            OnAttackEvent.Invoke(animFloat);
+            OnAttackEvent.Invoke(playAnim);
         }
 
         private RaycastHit ShootRaycast()

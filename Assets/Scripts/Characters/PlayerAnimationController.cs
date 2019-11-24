@@ -19,9 +19,9 @@ namespace Shooter.Player
             animator = GetComponent<Animator>();
         }
 
-        private void OnAttack(float animFloat)
+        private void OnAttack(bool playAnim)
         {
-            //animator.SetFloat("Attacking", animFloat);
+            animator.SetBool("shoot", playAnim);
         }
 
         private void Update()
