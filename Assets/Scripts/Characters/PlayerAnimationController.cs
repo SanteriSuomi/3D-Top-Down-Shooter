@@ -5,6 +5,8 @@ namespace Shooter.Player
 {
     public class PlayerAnimationController : MonoBehaviour
     {
+        [SerializeField]
+        private float animationRotationSpeed = 7.5f;
         private PlayerShoot playerShoot;
         private CharacterController characterController;
         private Animator animator;
@@ -19,29 +21,37 @@ namespace Shooter.Player
 
         private void OnAttack(float animFloat)
         {
-            animator.SetFloat("Attacking", animFloat);
+            //animator.SetFloat("Attacking", animFloat);
         }
 
         private void Update()
         {
-            Walk();
+            AnimRotation();
         }
 
-        private void Walk()
+        private void AnimRotation()
         {
             if (characterController.velocity.sqrMagnitude > 0)
             {
-                OnWalk(1);
+                float velocityX = characterController.velocity.x;
+                float velocityY = characterController.velocity.z;
+                SetAnimVelocity(new Vector2(velocityX, velocityY));
+
+                Vector3 direction = characterController.velocity.normalized;
+                direction.y = 0;
+                Quaternion lookDirection = Quaternion.LookRotation(direction, Vector2.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, animationRotationSpeed * Time.deltaTime);
             }
             else
             {
-                OnWalk(0);
+                SetAnimVelocity(new Vector2(0, 0));
             }
         }
 
-        private void OnWalk(float animFloat)
+        private void SetAnimVelocity(Vector2 velocity)
         {
-            animator.SetFloat("Walking", animFloat);
+            animator.SetFloat("velocityX", velocity.x);
+            animator.SetFloat("velocityY", velocity.y);
         }
 
         private void OnDisable()
