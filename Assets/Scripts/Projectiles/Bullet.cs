@@ -4,13 +4,13 @@ namespace Shooter.Utility
 {
     public class Bullet : MonoBehaviour
     {
-        public Rigidbody RigidBody { get; set; }
+        public Rigidbody BulletRigidBody { get; set; }
         [SerializeField]
         private float bulletDamage = 2.5f;
 
         private void Awake()
         {
-            RigidBody = GetComponent<Rigidbody>();
+            BulletRigidBody = GetComponent<Rigidbody>();
         }
 
         private void OnTriggerEnter(Collider collision)

@@ -2,8 +2,6 @@
 using Shooter.Player;
 using Shooter.Shop;
 using Shooter.Utility;
-using System.Collections;
-using TMPro;
 using UnityEngine;
 
 namespace Shooter.UI
@@ -11,16 +9,11 @@ namespace Shooter.UI
     public class ShopSpawner : GenericSingleton<ShopSpawner>
     {
         public int AmountOfFollowers { get; set; } = 0;
-        [SerializeField]
-        private TextMeshProUGUI fundsOutText = default;
         private Transform player;
-        private WaitForSeconds fundsOut;
         [SerializeField]
         private string maxFollowersAchieved = "Maximum amount of followers achieved";
         [SerializeField]
         private string notEnoughFunds = "Not enough funds";
-        [SerializeField]
-        private float fundsOutTextTimer = 2;
         [SerializeField]
         private float shopObjectSpawnRange = 4;
         [SerializeField]
@@ -31,7 +24,6 @@ namespace Shooter.UI
         {
             base.Awake();
             player = FindObjectOfType<Player.Player>().transform;
-            fundsOut = new WaitForSeconds(fundsOutTextTimer);
         }
 
         public void SpawnObject(ShopObject shopObject)
@@ -54,22 +46,13 @@ namespace Shooter.UI
         {
             if (shopObject.Prefab.TryGetComponent(out Follower _))
             {
-                StartCoroutine(BuiFailedPopupCoroutine(maxFollowersAchieved));
+                NoFundsEventHandler.TriggerFundsOutPopUp(maxFollowersAchieved);
                 AmountOfFollowers++;
             }
             else
             {
-                StartCoroutine(BuiFailedPopupCoroutine(notEnoughFunds));
+                NoFundsEventHandler.TriggerFundsOutPopUp(notEnoughFunds);
             }
-        }
-
-        private IEnumerator BuiFailedPopupCoroutine(string text)
-        {
-            fundsOutText.text = text;
-            fundsOutText.gameObject.SetActive(true);
-            yield return fundsOut;
-            fundsOutText.gameObject.SetActive(false);
-            isFundsCoroutineRunning = false;
         }
 
         private void Initialize(ShopObject shopObject)

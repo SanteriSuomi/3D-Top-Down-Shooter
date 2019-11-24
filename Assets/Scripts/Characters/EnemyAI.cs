@@ -170,7 +170,11 @@ namespace Shooter.Enemy
             if (currentTarget != null && !isCheckingDistance && enabled)
             {
                 isCheckingDistance = true;
-                agent.SetDestination(currentTarget.transform.position + new Vector3(0, 0.5f, 0));
+                if (agent.enabled)
+                {
+                    agent.SetDestination(currentTarget.transform.position + new Vector3(0, 0.5f, 0));
+                }
+
                 StartCoroutine(CheckDistanceTo());
             }
             else
@@ -182,7 +186,7 @@ namespace Shooter.Enemy
         private IEnumerator CheckDistanceTo()
         {
             CalculateVectorValues(out float distance, out float dotProduct);
-            ActWithDistance(distance, dotProduct);
+            CheckForAction(distance, dotProduct);
 
             yield return checkDistanceTo;
             isCheckingDistance = false;
@@ -195,7 +199,7 @@ namespace Shooter.Enemy
             (currentTarget.transform.position - transform.position).normalized);
         }
 
-        private void ActWithDistance(float distance, float dotProduct)
+        private void CheckForAction(float distance, float dotProduct)
         {
             RetrieveDamageComponent();
 

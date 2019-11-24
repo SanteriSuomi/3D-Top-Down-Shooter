@@ -44,23 +44,12 @@ namespace Shooter.AI
 
         protected override void UpdateState()
         {
-            transform.LookAt(currentLookAtTarget);
+            LookAtPlayer();
             Collider[] hits = Physics.OverlapSphere(transform.position, damageRadius, layersToHit);
             numberOfHitsInArea = hits.Length;
             if (numberOfHitsInArea > 0 && hits[0].CompareTag("Enemy") && !hasDealtDamage)
             {
-                hasDealtDamage = true;
-                hits[0].TryGetComponent(out IDamageable enemy);
-                if (enemy != null)
-                {
-                    StartCoroutine(DealDamage(enemy));
-                }
-                else
-                {
-                    #if UNITY_EDITOR
-                    Debug.Log("Enemy is null");
-                    #endif
-                }
+                GetEnemy(hits);
             }
             else if (!setDestination)
             {
@@ -69,15 +58,36 @@ namespace Shooter.AI
             }
         }
 
+        private void LookAtPlayer()
+        {
+            transform.LookAt(currentLookAtTarget);
+        }
+
+        private void GetEnemy(Collider[] hits)
+        {
+            hasDealtDamage = true;
+            hits[0].TryGetComponent(out IDamageable enemy);
+            if (enemy != null)
+            {
+                StartCoroutine(DealDamage(enemy));
+            }
+            else
+            {
+                #if UNITY_EDITOR
+                Debug.LogWarning("Enemy is null");
+                #endif
+            }
+        }
+
         private IEnumerator DealDamage(IDamageable enemy)
         {
-            UpdateRotationToEnemy(enemy);
+            UpdateRotationTargetToEnemy(enemy);
             enemy.TakeDamage(damage);
             yield return dealDamageDelay;
             hasDealtDamage = false;
         }
 
-        private void UpdateRotationToEnemy(IDamageable enemy)
+        private void UpdateRotationTargetToEnemy(IDamageable enemy)
         {
             MonoBehaviour enemyObject = enemy as MonoBehaviour;
             currentLookAtTarget = enemyObject.transform;
@@ -85,14 +95,17 @@ namespace Shooter.AI
 
         private IEnumerator SetDestination()
         {
-            UpdateRotationToPlayer();
+            UpdateRotationTargetToPlayer();
             Vector3 offset = (transform.position - player.position).normalized * offsetFromPlayer;
-            agent.SetDestination(player.position + offset);
+            if (agent.enabled)
+            {
+                agent.SetDestination(player.position + offset);
+            }
             yield return setDestinationDelay;
             setDestination = false;
         }
 
-        private void UpdateRotationToPlayer()
+        private void UpdateRotationTargetToPlayer()
         {
             if (numberOfHitsInArea <= 0)
             {

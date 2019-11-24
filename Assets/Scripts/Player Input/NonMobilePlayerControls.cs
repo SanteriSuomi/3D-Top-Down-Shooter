@@ -8,11 +8,11 @@ namespace Shooter.Inputs
         private CharacterController characterController;
         private Camera mainCamera;
         private InputActions inputActions;
+        [SerializeField]
+        private RectTransform crossHair = default;
         private Vector2 movementInput;
         private Vector2 lookInput;
         private Vector3 lookHitPosition;
-        [SerializeField]
-        private RectTransform crossHair = default;
         [SerializeField]
         private float movementSpeed = 5;
         [SerializeField]

@@ -7,9 +7,9 @@ namespace Shooter.Player
 {
     public class Objective : GenericSingleton<Objective>, IDamageable
     {
+        private Transform playerCamera;
         [SerializeField]
         private Slider healthBar = default;
-        private Transform playerCamera;
         [SerializeField]
         private float startingHitpoints = 100;
         private float hitpoints;
@@ -38,7 +38,6 @@ namespace Shooter.Player
 
         public void CheckHitpoints()
         {
-
             if (HitPoints <= float.Epsilon)
             {
                 SceneManager.LoadScene(0);

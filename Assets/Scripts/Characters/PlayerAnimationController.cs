@@ -29,14 +29,19 @@ namespace Shooter.Player
 
         private void Walk()
         {
-            if (characterController.velocity.sqrMagnitude >= 0.1f)
+            if (characterController.velocity.sqrMagnitude > 0)
             {
-                animator.SetFloat("Walking", 1);
+                OnWalk(1);
             }
             else
             {
-                animator.SetFloat("Walking", 0);
+                OnWalk(0);
             }
+        }
+
+        private void OnWalk(float animFloat)
+        {
+            animator.SetFloat("Walking", animFloat);
         }
 
         private void OnDisable()

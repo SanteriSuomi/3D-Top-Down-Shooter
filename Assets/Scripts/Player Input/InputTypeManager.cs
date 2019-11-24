@@ -43,6 +43,7 @@ namespace Shooter.Inputs
             pcControls.enabled = true;
 
             crosshair.SetActive(true);
+
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
         }

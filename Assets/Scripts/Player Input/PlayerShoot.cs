@@ -31,7 +31,6 @@ namespace Shooter.Utility
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
             if (shootTimer >= shootRate
-                && rayHit.collider != null
                 && rayHit.collider.TryGetComponent(out IDamageable _)
                 && rayHit.collider.CompareTag(shootAbleTag))
             {
@@ -60,7 +59,7 @@ namespace Shooter.Utility
         {
             Bullet bullet = BulletPool.GetInstance().Dequeue();
             bullet.transform.position = barrelEnd.position;
-            bullet.RigidBody.velocity = barrelEnd.forward * bulletSpeed;
+            bullet.BulletRigidBody.velocity = barrelEnd.forward * bulletSpeed;
         }
 
         #if UNITY_EDITOR
