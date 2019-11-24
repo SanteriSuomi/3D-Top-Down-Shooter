@@ -1089,8 +1089,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   shootAbleTag: Enemy
-  shootDistance: 9.5
-  bulletSpeed: 12.5
+  shootDistance: 9
+  bulletSpeed: 15
   shootRate: 0.6
 --- !u!114 &2744014230273442584
 MonoBehaviour:
@@ -1117,6 +1117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22723b29d6febeb4aa1fe619167ef380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoSaveIntervalSeconds: 60
 --- !u!114 &7407321196773451090
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,13 +7,15 @@ namespace Shooter.Shop
     public class FundsOut : MonoBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI fundsOutText;
+        private TextMeshProUGUI fundsOutText = default;
+        [SerializeField]
+        private float fundsOutTextTime = 2;
         private WaitForSeconds buyFailedPopUp;
         private bool isFundsCoroutineRunning;
 
         private void Awake()
         {
-            buyFailedPopUp = new WaitForSeconds(2);
+            buyFailedPopUp = new WaitForSeconds(fundsOutTextTime);
             NoFundsEventHandler.OnFundsOutEvent += OnFundsOut;
         }
 
@@ -21,6 +23,7 @@ namespace Shooter.Shop
         {
             if (!isFundsCoroutineRunning)
             {
+                isFundsCoroutineRunning = true;
                 StartCoroutine(BuyFailedPopupCoroutine(text));
             }
         }

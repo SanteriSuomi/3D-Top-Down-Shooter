@@ -25,8 +25,8 @@ MonoBehaviour:
   pathUpdateInterval: 0.2
   dealDamageInterval: 0.3
   rotationSpeed: 67.5
-  minimumDistanceFromObjective: 1.5
+  minimumDistanceFromObjective: 1.35
   objectiveDamageMultiplier: 1.1
   healthBarUpdateInterval: 0.05
   levitationAmplitude: 0.175
-  levitationFrequency: 4
+  levitationFrequency: 5

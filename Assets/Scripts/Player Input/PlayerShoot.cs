@@ -30,7 +30,8 @@ namespace Shooter.Utility
         {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate
+            if (rayHit.collider 
+                && shootTimer >= shootRate
                 && rayHit.collider.TryGetComponent(out IDamageable _)
                 && rayHit.collider.CompareTag(shootAbleTag))
             {

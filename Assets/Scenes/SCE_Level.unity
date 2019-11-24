@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fundsOutText: {fileID: 1558766273}
+  fundsOutTextTime: 2
 --- !u!1 &16044445
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,10 +961,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fd4a8a53ff8de479c2854ffc71eb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fundsOutText: {fileID: 1558766273}
   maxFollowersAchieved: Maximum amount of followers achieved
   notEnoughFunds: Not enough funds
-  fundsOutTextTimer: 2
   shopObjectSpawnRange: 5
   maxAmountOfFollowers: 3
 --- !u!4 &184631650
