@@ -10,11 +10,13 @@ namespace Shooter.Utility
 
         private void Awake()
         {
+            // Cache the rigidbody in a public property once, since it's going to be used a lot.
             BulletRigidBody = GetComponent<Rigidbody>();
         }
 
         private void OnTriggerEnter(Collider collision)
         {
+            // Make sure collision is an enemy.
             if (collision.TryGetComponent(out IDamageable enemy))
             {
                 enemy.HitPoints -= bulletDamage;
@@ -24,6 +26,7 @@ namespace Shooter.Utility
 
         private void OnBecameInvisible()
         {
+            // Re-pool the object when it becomes invisible.
             DeactivateAndEnqueue();
         }
 

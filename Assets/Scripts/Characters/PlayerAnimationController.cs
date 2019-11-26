@@ -39,8 +39,11 @@ namespace Shooter.Player
 
                 Vector3 direction = characterController.velocity.normalized;
                 direction.y = 0;
-                Quaternion lookDirection = Quaternion.LookRotation(direction, Vector2.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, animationRotationSpeed * Time.deltaTime);
+                if (direction.sqrMagnitude > 0)
+                {
+                    Quaternion lookDirection = Quaternion.LookRotation(direction, Vector2.up);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, animationRotationSpeed * Time.deltaTime);
+                }
             }
             else
             {

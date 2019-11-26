@@ -12,6 +12,7 @@ namespace Shooter.AI
         protected abstract void InitializeState();
         private void Awake()
         {
+            // Initialize the global hitpoints with a starting hitpoints.
             HitPoints = startingHitPoints;
             InitializeState();
         }
@@ -25,12 +26,14 @@ namespace Shooter.AI
         protected abstract void UpdateState();
         private void Update()
         {
+            // Constantly check if hitpoints are below a certain threshold.
             CheckHitpoints();
             UpdateState();
         }
 
         protected virtual void OnTakeDamage(float damage)
         {
+            // Method to be called with TakeDamage, but can also be used independently.
             HitPoints -= damage;
         }
         public void TakeDamage(float damage)
@@ -41,6 +44,7 @@ namespace Shooter.AI
         protected abstract void OnZeroHP();
         public void CheckHitpoints()
         {
+            // If hitpoints are equal or below zero, activate the abstract OnZeroHP method.
             if (HitPoints <= float.Epsilon)
             {
                 OnZeroHP();
