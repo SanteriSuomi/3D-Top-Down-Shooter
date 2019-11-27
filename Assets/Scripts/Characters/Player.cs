@@ -37,6 +37,7 @@ namespace Shooter.Player
 
         protected override void OnZeroHP()
         {
+            // Make sure the cursor is enabled for the menu.
             #if UNITY_STANDALONE
             Cursor.visible = true;
             #endif

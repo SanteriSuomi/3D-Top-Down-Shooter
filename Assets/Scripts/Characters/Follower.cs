@@ -9,14 +9,13 @@ namespace Shooter.AI
     public class Follower : Character
     {
         private NavMeshAgent agent;
-        private Transform player;
         private WaitForSeconds setDestinationDelay;
         private WaitForSeconds dealDamageDelay;
         private Transform currentLookAtTarget;
         [SerializeField]
         private LayerMask layersToHit = default;
         [SerializeField]
-        private float offsetFromPlayer = 2.5f;
+        private float offsetFromTarget = 2.5f;
         [SerializeField]
         private float setDestinationUpdateInterval = 0.25f;
         [SerializeField]
@@ -32,49 +31,78 @@ namespace Shooter.AI
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
-            player = FindObjectOfType<Player.Player>().transform;
             setDestinationDelay = new WaitForSeconds(setDestinationUpdateInterval);
             dealDamageDelay = new WaitForSeconds(dealDamageDelayInterval);
         }
 
         protected override void StartState()
         {
-            // Intentionally left empty.
+            // Reset state on start.
+            setDestination = false;
+            hasDealtDamage = false;
         }
 
         protected override void UpdateState()
         {
-            LookAtPlayer();
-            Collider[] hits = Physics.OverlapSphere(transform.position, damageRadius, layersToHit);
-            numberOfHitsInArea = hits.Length;
-            if (numberOfHitsInArea > 0 && hits[0].CompareTag("Enemy") && !hasDealtDamage)
+            // Make sure the AI is enabled before continuing.
+            if (enabled && gameObject.activeSelf)
             {
-                GetEnemy(hits);
-            }
-            else if (!setDestination)
-            {
-                setDestination = true;
-                StartCoroutine(SetDestination());
+                LookAtPlayer();
+                // Get nearby colliders in a sphere radius.
+                Collider[] hits = Physics.OverlapSphere(transform.position, damageRadius, layersToHit);
+                // Store the number of colliders in a radius in a field.
+                numberOfHitsInArea = hits.Length;
+                if (numberOfHitsInArea > 0 && !hasDealtDamage && hits[0].CompareTag("Enemy"))
+                {
+                    hasDealtDamage = true;
+                    GetEnemy(hits);
+                }
+                else if (!setDestination)
+                {
+                    setDestination = true;
+                    UpdateRotationTargetToPlayer(hits[0].transform);
+                    StartCoroutine(SetDestination(hits[0].transform.position));
+                }
             }
         }
 
         private void LookAtPlayer()
         {
+            // Constantly rotate toward the target.
             transform.LookAt(currentLookAtTarget);
+        }
+
+        private void UpdateRotationTargetToPlayer(Transform target)
+        {
+            // Make sure there are enough hits in the area...
+            if (numberOfHitsInArea <= 0)
+            {
+                // And then update the look target.
+                currentLookAtTarget = target;
+            }
+        }
+
+        private IEnumerator SetDestination(Vector3 targetPos)
+        {
+            // Calculate a position offset from the target to follow.
+            Vector3 offset = (transform.position - targetPos).normalized * offsetFromTarget;
+            // Update the destination to be the target position + the offset.
+            agent.SetDestination(targetPos + offset);
+            yield return setDestinationDelay;
+            setDestination = false;
         }
 
         private void GetEnemy(Collider[] hits)
         {
-            hasDealtDamage = true;
-            hits[0].TryGetComponent(out IDamageable enemy);
-            if (enemy != null)
+            // Attempt to get the enemy component for damaging the enemy.
+            if (hits[0].TryGetComponent(out IDamageable enemy))
             {
                 StartCoroutine(DealDamage(enemy));
             }
             else
             {
                 #if UNITY_EDITOR
-                Debug.LogWarning("Enemy is null");
+                Debug.LogWarning("Enemy is null.");
                 #endif
             }
         }
@@ -82,6 +110,7 @@ namespace Shooter.AI
         private IEnumerator DealDamage(IDamageable enemy)
         {
             UpdateRotationTargetToEnemy(enemy);
+            // Damage the target.
             enemy.TakeDamage(damage);
             yield return dealDamageDelay;
             hasDealtDamage = false;
@@ -89,32 +118,14 @@ namespace Shooter.AI
 
         private void UpdateRotationTargetToEnemy(IDamageable enemy)
         {
+            // Cast the enemy interface to a monobehaviour so we can get the target transform.
             MonoBehaviour enemyObject = enemy as MonoBehaviour;
             currentLookAtTarget = enemyObject.transform;
         }
 
-        private IEnumerator SetDestination()
-        {
-            UpdateRotationTargetToPlayer();
-            Vector3 offset = (transform.position - player.position).normalized * offsetFromPlayer;
-            if (agent.enabled)
-            {
-                agent.SetDestination(player.position + offset);
-            }
-            yield return setDestinationDelay;
-            setDestination = false;
-        }
-
-        private void UpdateRotationTargetToPlayer()
-        {
-            if (numberOfHitsInArea <= 0)
-            {
-                currentLookAtTarget = player;
-            }
-        }
-
         protected override void OnZeroHP()
         {
+            // If the follower dies, make sure to update the amount of followers counter.
             ShopSpawner.GetInstance().AmountOfFollowers -= 1;
             Destroy(gameObject);
         }

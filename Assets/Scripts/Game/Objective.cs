@@ -19,6 +19,7 @@ namespace Shooter.Player
             set
             {
                 hitpoints = value; 
+                // Update the healthbar value too.
                 healthBar.value = hitpoints;
             }
         }
@@ -26,6 +27,7 @@ namespace Shooter.Player
         protected override void Awake()
         {
             base.Awake();
+            // Hitpoints should start with these hitpoints.
             HitPoints = startingHitpoints;
             playerCamera = Camera.main.transform;
         }
@@ -33,22 +35,26 @@ namespace Shooter.Player
         private void Update()
         {
             CheckHitpoints();
-            healthBar.transform.LookAt(playerCamera);
+            UpdateRotation();
         }
 
         public void CheckHitpoints()
         {
+            // If objective gets destroyed, go back to main menu.
             if (HitPoints <= float.Epsilon)
             {
                 SceneManager.LoadScene(0);
             }
         }
 
+        private void UpdateRotation()
+        {
+            // Rotate healthbar towards player camera.
+            healthBar.transform.LookAt(playerCamera);
+        }
+
         public void TakeDamage(float damage)
         {
-            #if UNITY_EDITOR
-            Debug.Log("Objective has taken damage");
-            #endif
             HitPoints -= damage;
         }
     }

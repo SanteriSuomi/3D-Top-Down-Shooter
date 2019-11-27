@@ -5,7 +5,7 @@ namespace Shooter.Player
 {
     public class PlayerAudioController : MonoBehaviour
     {
-        PlayerShoot playerShoot;
+        private PlayerShoot playerShoot;
         private AudioSource[] audioSource;
         private CharacterController characterController;
 
@@ -19,6 +19,7 @@ namespace Shooter.Player
 
         private void OnAttack(bool playAnim)
         {
+            // Play the attack audio only when it isn't playing and it's activated by invoking the event.
             if (!audioSource[0].isPlaying && playAnim)
             {
                 audioSource[0].Play();
@@ -34,6 +35,7 @@ namespace Shooter.Player
         {
             if (characterController.velocity.sqrMagnitude > 0 && !audioSource[1].isPlaying)
             {
+                // If player's velocity magnitude is more than 0, footstep sound has to be played.
                 audioSource[1].Play();
             }
         }

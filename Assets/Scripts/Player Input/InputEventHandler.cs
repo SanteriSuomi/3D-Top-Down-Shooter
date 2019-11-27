@@ -4,6 +4,10 @@ namespace Shooter.Inputs
 {
     public class InputEventHandler : MonoBehaviour
     {
+        //
+        // InputEventHandler is a static class for handling the eventing between the player move/look and the joysticks.
+        //
+
         #region Joystick Move Delegate/Event Intermediaries
         public delegate void JoystickMoveDelegate(bool move);
         public static event JoystickMoveDelegate JoystickMoveEvent;

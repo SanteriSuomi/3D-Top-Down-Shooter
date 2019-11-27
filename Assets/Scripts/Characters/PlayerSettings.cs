@@ -5,6 +5,7 @@ namespace Shooter.Player
 {
     public class PlayerSettings : GenericSingleton<PlayerSettings>
     {
+        // Delegates and events invoked when according values get updated here.
         public delegate void OnHitpointChange(float hitPoints);
         public event OnHitpointChange OnHitpointChangeEvent;
 
@@ -24,6 +25,7 @@ namespace Shooter.Player
             set
             {
                 hitPoints = value;
+                // Update all the other places that use player hitpoints when hitpoints get updated.
                 OnHitpointChangeEvent.Invoke(hitPoints);
             }
         }
@@ -49,11 +51,12 @@ namespace Shooter.Player
                 OnScoreChangeEvent.Invoke(score);
             }
         }
-
+        // Sensitivity multiplier is used from main menu sensitivity settings, and used to for rotation sensitivity.
         public float PlayerSensitivityMultiplier { get; set; }
 
         private void Start()
         {
+            // Sync all the values that use there value here initially.
             OnHitpointChangeEvent?.Invoke(hitPoints);
             OnFundsChangeEvent?.Invoke(funds);
             OnScoreChangeEvent?.Invoke(score);
@@ -61,6 +64,7 @@ namespace Shooter.Player
 
         private void Update()
         {
+            // Autosave is done every X second interval from the level load.
             if (Mathf.RoundToInt(Time.timeSinceLevelLoad) % autoSaveIntervalSeconds == 0)
             {
                 SavePlayer();
@@ -69,6 +73,7 @@ namespace Shooter.Player
 
         public void LoadPlayer()
         {
+            // Use the savesystem class for deserializing the playersavedata and update the the player values (on load).
             PlayerSaveData data = SaveSystem.LoadPlayer();
 
             HitPoints = data.Hitpoints;
@@ -88,7 +93,7 @@ namespace Shooter.Player
             rotation.z = data.GetRotation()[2];
             transform.rotation = Quaternion.Euler(rotation);
         }
-
+        // Since on OnApplicationQuit does not work correctly on mobile, use the OnApplicationPause method for android.
         #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)
         {
