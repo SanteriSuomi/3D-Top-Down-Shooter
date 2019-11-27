@@ -23,17 +23,12 @@ namespace Shooter.Utility
 
         private void Update()
         {
-            Shoot();
-        }
-
-        private void Shoot()
-        {
             shootTimer += Time.deltaTime;
             RaycastHit rayHit = ShootRaycast();
-            if (rayHit.collider 
-                && shootTimer >= shootRate
-                && rayHit.collider.TryGetComponent(out IDamageable _)
-                && rayHit.collider.CompareTag(shootAbleTag))
+            if (shootTimer >= shootRate
+                && rayHit.collider
+                && rayHit.collider.CompareTag(shootAbleTag)
+                && rayHit.collider.TryGetComponent(out IDamageable _))
             {
                 shootTimer = 0;
                 ShootBullet();
@@ -45,22 +40,25 @@ namespace Shooter.Utility
             }
         }
 
-        private void ShootAnimation(bool playAnim)
-        {
-            OnAttackEvent.Invoke(playAnim);
-        }
-
         private RaycastHit ShootRaycast()
         {
+            // Raycast forward from the player, and make sure to collide with trigger colliders.
             Physics.Raycast(barrelEnd.position, barrelEnd.forward, out RaycastHit rayHit, shootDistance, layersToDetect, QueryTriggerInteraction.Collide);
             return rayHit;
         }
 
         private void ShootBullet()
         {
+            // De-pool the bullet and apply velocity to it.
             Bullet bullet = BulletPool.GetInstance().Dequeue();
             bullet.transform.position = barrelEnd.position;
             bullet.BulletRigidBody.velocity = barrelEnd.forward * bulletSpeed;
+        }
+
+        private void ShootAnimation(bool playAnim)
+        {
+            // Method that controls the shooting animation.
+            OnAttackEvent.Invoke(playAnim);
         }
 
         #if UNITY_EDITOR

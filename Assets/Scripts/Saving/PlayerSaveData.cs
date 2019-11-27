@@ -6,6 +6,9 @@ namespace Shooter.Utility
 	[Serializable]
 	public class PlayerSaveData
 	{
+        //
+        // Serialized class that contains data that gets serialized when saving the game. On load, this data gets deserialized and re-applied.
+        //
         public float Hitpoints { get; set; }
         public float Funds { get; set; }
         public float Score { get; set; }

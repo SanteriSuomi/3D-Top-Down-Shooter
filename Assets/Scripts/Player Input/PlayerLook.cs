@@ -7,13 +7,13 @@ namespace Shooter.Inputs
     {
         private PlayerSettings playerSettings;
         private Vector2 deltaLookValue;
-        private bool joystickLook;
-        private float rotation;
         [SerializeField]
         private float rotationSpeed = 10;
         [SerializeField]
         [Range(0, 1)]
         private float rotationSmooth = 0.8f;
+        private float rotation;
+        private bool joystickLook;
 
         private void Awake()
         {
@@ -24,11 +24,13 @@ namespace Shooter.Inputs
 
         private void JoystickLook(bool look)
         {
+            // Method that controls whether or not looking should be activated.
             joystickLook = look;
         }
 
         private void JoystickLookInput(Vector2 delta)
         {
+            // The value from the joystick handling the rotation.
             deltaLookValue = delta;
         }
 
@@ -42,11 +44,13 @@ namespace Shooter.Inputs
 
         private void Rotate()
         {
+            // Update rotation by adding the required values to it.
             rotation += deltaLookValue.x * rotationSpeed * playerSettings.PlayerSensitivityMultiplier * Time.deltaTime;
+            // Update the rotation with the rotation value.
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rotation, 0), rotationSmooth);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             InputEventHandler.JoystickLookEvent -= JoystickLook;
             InputEventHandler.JoystickLookInputEvent -= JoystickLookInput;

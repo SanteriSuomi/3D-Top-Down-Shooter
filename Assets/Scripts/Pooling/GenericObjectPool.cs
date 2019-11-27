@@ -20,7 +20,9 @@ namespace Shooter.Utility
         private void InitializePools()
         {
             pool = new Queue<T>(poolSize);
+            // Put all the pooled objects under their respective parent.
             Transform parent = new GameObject($"{typeof(T).Name} Pool Objects").transform;
+            // Instantiate, deactivate, parent and add the objects to the pool.
             for (var i = 0; i < poolSize; i++)
             {
                 T pooledObject = Instantiate(prefabToPool);
@@ -32,6 +34,7 @@ namespace Shooter.Utility
 
         public T Dequeue()
         {
+            // Get an object from the end of the queue and return it.
             T poppedObject = pool.Dequeue();
             poppedObject.gameObject.SetActive(true);
             return poppedObject;
@@ -39,6 +42,7 @@ namespace Shooter.Utility
 
         public void Enqueue(T item)
         {
+            // Put an object back to the end of the pool queue.
             T pushedObject = item;
             pushedObject.gameObject.SetActive(false);
             pool.Enqueue(pushedObject);

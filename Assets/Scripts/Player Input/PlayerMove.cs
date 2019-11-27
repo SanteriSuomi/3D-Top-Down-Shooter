@@ -19,11 +19,13 @@ namespace Shooter.Inputs
 
         private void JoystickMove(bool move)
         {
+            // Method that controls whether or not moving should be activated.
             joystickMove = move;
         }
 
         private void JoystickMoveInput(Vector2 delta)
         {
+            // The value from the joystick handling the movement.
             deltaMoveValue = delta;
         }
 
@@ -33,10 +35,11 @@ namespace Shooter.Inputs
             {
                 Move();
             }
+
             #if UNITY_STANDALONE
             if (characterController.velocity.sqrMagnitude > 0)
             {
-                // Temporary solution to animation controller bugging due to velocity being > 0 when being still.
+                // "Temporary" solution to animation controller bugging due to velocity being over zero when being still.
                 characterController.Move(Vector3.zero);
             }
             #endif
