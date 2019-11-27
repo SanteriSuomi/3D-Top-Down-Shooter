@@ -5,6 +5,9 @@ namespace Shooter.Shop
     [CreateAssetMenu(fileName = "Shop Object", menuName = "ScriptableObjects/Shop Object", order = 1)]
     public class ShopObject : ScriptableObject
     {
+        //
+        // Scriptable Object for creating new shoppable items.
+        //
         [SerializeField]
         private GameObject prefab = default;
         public GameObject Prefab  { get { return prefab; } }

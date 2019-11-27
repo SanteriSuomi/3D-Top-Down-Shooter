@@ -7,6 +7,7 @@
 
         public static void TriggerFundsOutPopUp(string text)
         {
+            // Activate the funds out text when invoked.
             OnFundsOutEvent.Invoke(text);
         }
     }

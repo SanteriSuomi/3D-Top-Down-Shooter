@@ -62,6 +62,7 @@ namespace Shooter.Utility
 			}
 		}
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1172:Unused method parameters should be removed", Justification = "Parameter is not unused.")]
         private static PlayerSaveData Deserialize(BinaryFormatter binaryFormatter, FileStream fileStream, PlayerSaveData data)
         {
             try

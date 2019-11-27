@@ -5,6 +5,9 @@ namespace Shooter.AI
     [CreateAssetMenu(fileName = "Enemy Data", menuName = "ScriptableObjects/Enemy Data", order = 2)]
     public class EnemyData : ScriptableObject
     {
+        //
+        // Shared data between all enemy AI.
+        //
         [SerializeField]
         private LayerMask layersToDetect = default;
         public LayerMask LayersToDetect { get { return layersToDetect; } }

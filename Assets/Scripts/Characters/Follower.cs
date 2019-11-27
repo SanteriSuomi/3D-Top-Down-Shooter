@@ -1,4 +1,5 @@
-﻿using Shooter.UI;
+﻿using Shooter.Shop;
+using Shooter.UI;
 using Shooter.Utility;
 using System.Collections;
 using UnityEngine;
@@ -6,11 +7,12 @@ using UnityEngine.AI;
 
 namespace Shooter.AI
 {
-    public class Follower : Character
+    public class Follower : Character, IShopSpawnable
     {
         private NavMeshAgent agent;
         private WaitForSeconds setDestinationDelay;
         private WaitForSeconds dealDamageDelay;
+        private Transform player;
         private Transform currentLookAtTarget;
         [SerializeField]
         private LayerMask layersToHit = default;
@@ -31,6 +33,7 @@ namespace Shooter.AI
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
+            player = FindObjectOfType<Player.Player>().transform;
             setDestinationDelay = new WaitForSeconds(setDestinationUpdateInterval);
             dealDamageDelay = new WaitForSeconds(dealDamageDelayInterval);
         }
@@ -128,6 +131,14 @@ namespace Shooter.AI
             // If the follower dies, make sure to update the amount of followers counter.
             ShopSpawner.GetInstance().AmountOfFollowers -= 1;
             Destroy(gameObject);
+        }
+
+        public void SpawnItem(float spawnRange)
+        {
+            Follower spawnedObject = Instantiate(this);
+            Vector3 spawnPos = player.position + new Vector3(Random.Range(-spawnRange, spawnRange),
+                0, Random.Range(-spawnRange, spawnRange));
+            spawnedObject.transform.position = spawnPos;
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Shooter.Shop
     {
         [SerializeField]
         private GameObject fundsOutText = default;
+        private WaitForSeconds fundsOutTextTimer;
+        [SerializeField]
+        private float fundsOutTextTime = 2;
         private float originalObjectiveHitPoints;
         [SerializeField]
         private float fundCost = 50;
@@ -18,12 +21,15 @@ namespace Shooter.Shop
         private void Awake()
         {
             originalObjectiveHitPoints = Objective.GetInstance().HitPoints;
+            fundsOutTextTimer = new WaitForSeconds(fundsOutTextTime);
         }
 
         public void HealthButton()
         {
+            // Make sure the playersettings exists and there are enough funds.
             if (PlayerSettings.GetInstance() != null && PlayerSettings.GetInstance().Funds >= fundCost)
             {
+                // Apply healthpotion to the objective and player.
                 PlayerSettings.GetInstance().Funds -= fundCost;
                 PlayerSettings.GetInstance().HitPoints = amountToHeal;
                 Objective.GetInstance().HitPoints = originalObjectiveHitPoints;
@@ -43,8 +49,9 @@ namespace Shooter.Shop
 
         private IEnumerator FundsOutText()
         {
+            // Show the funds out text.
             fundsOutText.SetActive(true);
-            yield return new WaitForSeconds(2);
+            yield return fundsOutTextTimer;
             fundsOutText.SetActive(false);
             isFundsCoroutineRunning = false;
         }

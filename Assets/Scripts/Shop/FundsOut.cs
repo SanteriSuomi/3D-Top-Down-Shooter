@@ -8,9 +8,9 @@ namespace Shooter.Shop
     {
         [SerializeField]
         private TextMeshProUGUI fundsOutText = default;
+        private WaitForSeconds buyFailedPopUp;
         [SerializeField]
         private float fundsOutTextTime = 2;
-        private WaitForSeconds buyFailedPopUp;
         private bool isFundsCoroutineRunning;
 
         private void Awake()
