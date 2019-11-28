@@ -1,25 +1,32 @@
-﻿using UnityEngine;
+﻿using Shooter.Utility;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Shooter.UI
 {
-    public class MenuScene : MonoBehaviour
+    // Disable "mark as static errors, as these events are accessed by unity events.
+    #pragma warning disable CA1822
+    public class MenuScene : GenericSingleton<MenuScene>
     {
         //
         // MenuScene controls the main menu.
         //
-        [SerializeField] private GameObject m_VolumeButton = default;
-        [SerializeField] private GameObject m_VolumeOffButton = default;
-        [SerializeField] private GameObject m_Menu = default;
-        [SerializeField] private GameObject m_MenuTwo = default;
-        [SerializeField] private GameObject m_SettingsMenu = default;
-        private readonly string levelSceneString = "SCE_Level";
+        [SerializeField]
+        private GameObject volumeOnButton = default;
+        [SerializeField]
+        private GameObject volumeOffButton = default;
+        [SerializeField]
+        private GameObject menu = default;
+        [SerializeField]
+        private GameObject menuTwo = default;
+        [SerializeField]
+        private GameObject settingsMenu = default;
 
         public void OnPlayClick()
         {
-            m_Menu.SetActive(false);
-            m_MenuTwo.SetActive(true);
-            m_SettingsMenu.SetActive(false);
+            menu.SetActive(false);
+            menuTwo.SetActive(true);
+            settingsMenu.SetActive(false);
         }
 
         public void OnPlayClickNewGame()
@@ -36,21 +43,22 @@ namespace Shooter.UI
             LoadScene();
         }
 
-        private static void LoadSettings(bool load)
+        private void LoadSettings(bool load)
         {
+            // Applies whether or not player settings should be loaded.
             MenuSceneLoad.GetInstance().LoadPlayerSettings = load;
         }
 
         private void LoadScene()
         {
-            SceneManager.LoadScene(levelSceneString);
+            SceneManager.LoadScene(LevelShared.levelSceneString);
         }
 
         public void OnSettingsClick()
         {
-            m_Menu.SetActive(false);
-            m_MenuTwo.SetActive(false);
-            m_SettingsMenu.SetActive(true);
+            menu.SetActive(false);
+            menuTwo.SetActive(false);
+            settingsMenu.SetActive(true);
         }
 
         public void OnQuitClick()
@@ -60,23 +68,23 @@ namespace Shooter.UI
 
         public void OnVolumeOnButtonClick()
         {
-            AudioListener.volume = 0.0f;
-            m_VolumeOffButton.SetActive(true);
-            m_VolumeButton.SetActive(false);
+            AudioListener.volume = 0;
+            volumeOffButton.SetActive(true);
+            volumeOnButton.SetActive(false);
         }
 
         public void OnVolumeOffButtonClick()
         {
-            AudioListener.volume = 1f;
-            m_VolumeButton.SetActive(true);
-            m_VolumeOffButton.SetActive(false);
+            AudioListener.volume = 1;
+            volumeOnButton.SetActive(true);
+            volumeOffButton.SetActive(false);
         }
 
         public void OnReturnToMenuButtonClick()
         {
-            m_Menu.SetActive(true);
-            m_MenuTwo.SetActive(false);
-            m_SettingsMenu.SetActive(false);
+            menu.SetActive(true);
+            menuTwo.SetActive(false);
+            settingsMenu.SetActive(false);
         }
 
         public void SetVolume(float volume)

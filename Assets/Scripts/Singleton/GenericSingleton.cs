@@ -57,11 +57,8 @@ namespace Shooter.Utility
             }
             //else { DontDestroyOnLoad(gameObject); }
         }
-        // All the below methods are to make sure singleton instance gets returned whilst game is quitting.
-        private void OnDestroy()
-        {
-            ApplicationIsQuitting = true;
-        }
+
+        // All the below methods are to make sure singleton instance gets returned whilst game is quitting/going on pause.
 
         #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)

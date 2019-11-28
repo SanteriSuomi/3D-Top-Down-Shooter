@@ -1,0 +1,70 @@
+﻿using Photon.Pun;
+using Photon.Realtime;
+using Shooter.Utility;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace Shooter.Network
+{
+    public class NetworkLauncher : MonoBehaviourPunCallbacks
+    {
+        [SerializeField]
+        private string gameVersion = "1";
+        [SerializeField]
+        private byte maxPlayersPerRoom = 2;
+
+        private void Awake()
+        {
+            PhotonNetwork.AutomaticallySyncScene = false;
+        }
+
+        public void Connect()
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.JoinRandomRoom();
+            }
+            else
+            {
+                PhotonNetwork.GameVersion = gameVersion;
+                PhotonNetwork.ConnectUsingSettings();
+            }
+
+            StartCoroutine(LoadMainSceneAsync());
+        }
+
+        private IEnumerator LoadMainSceneAsync()
+        {
+            // Asynchronously load the main scene.
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LevelShared.levelSceneString, LoadSceneMode.Single);
+            // Freeze until scene is loaded.
+            while (!asyncLoad.isDone && PhotonNetwork.IsConnectedAndReady)
+            {
+                yield return null;
+            }
+        }
+
+        public override void OnConnectedToMaster()
+        {
+            Debug.Log($"{PhotonNetwork.NickName} was connected to master");
+            PhotonNetwork.JoinRandomRoom();
+        }
+
+        public override void OnJoinRandomFailed(short returnCode, string message)
+        {
+            Debug.Log($"{PhotonNetwork.NickName} failed to join a random room");
+            PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+        }
+
+        public override void OnJoinedRoom()
+        {
+            // To-do.
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            Debug.Log($"{PhotonNetwork.NickName} was disconnected, cause: {cause}");
+        }
+    }
+}

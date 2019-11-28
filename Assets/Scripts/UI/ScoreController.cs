@@ -23,5 +23,13 @@ namespace Shooter.UI
             // Update score text every time playerSettings funds get updated.
             scoreText.text = $"{scoreTextString}{score}";
         }
+
+        private void OnDisable()
+        {
+            if (PlayerSettings.GetInstance() != null)
+            {
+                PlayerSettings.GetInstance().OnScoreChangeEvent -= OnScoreChange;
+            }
+        }
     }
 }
