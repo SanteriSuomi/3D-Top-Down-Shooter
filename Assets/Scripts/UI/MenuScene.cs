@@ -5,6 +5,9 @@ namespace Shooter.UI
 {
     public class MenuScene : MonoBehaviour
     {
+        //
+        // MenuScene controls the main menu.
+        //
         [SerializeField] private GameObject m_VolumeButton = default;
         [SerializeField] private GameObject m_VolumeOffButton = default;
         [SerializeField] private GameObject m_Menu = default;
@@ -21,12 +24,14 @@ namespace Shooter.UI
 
         public void OnPlayClickNewGame()
         {
+            // Signal that settings cannot be loaded.
             LoadSettings(load: false);
             LoadScene();
         }
 
         public void OnPlayClickLoadGame()
         {
+            // Signal that settings can be loaded.
             LoadSettings(load: true);
             LoadScene();
         }

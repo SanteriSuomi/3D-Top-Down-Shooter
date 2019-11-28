@@ -9,14 +9,17 @@ namespace Shooter.Utility
 
         public static T GetInstance()
         {
+            // If application is quitting, make sure to not return singleton instance.
             if (ApplicationIsQuitting) { return null; }
 
             if (Instance == null)
             {
+                // Make sure that instance is null.
                 Instance = FindObjectOfType<T>();
 
                 if (Instance == null)
                 {
+                    // If it's null, create a new GameObject and add the T component to it.
                     GameObject gameObject = new GameObject { name = typeof(T).Name };
                     Instance = gameObject.AddComponent<T>();
                 }
@@ -30,6 +33,7 @@ namespace Shooter.Utility
         {
             if (gameObject.transform.parent != null)
             {
+                // Alert if this instance has a parent. (child objects cannot be DontDestroyOnLoad'd).
                 #if UNITY_EDITOR
                 Debug.Log($"{typeof(T).Name} has a parent. Is this intended?");
                 #endif
@@ -37,22 +41,24 @@ namespace Shooter.Utility
 
             if (Instance == null)
             {
+                // Apply the inherited component to this instance.
                 Instance = this as T;
-
+                // Make the gameObject persist between scenes.
                 //DontDestroyOnLoad(gameObject);
                 if (gameObject.name == "MenuSceneLoad")
                 {
                     DontDestroyOnLoad(gameObject);
                 }
             }
+            // If this is some other component, destroy it.
             else if (Instance != this as T)
             {
                 Destroy(gameObject);
             }
             //else { DontDestroyOnLoad(gameObject); }
         }
-
-        private void OnDisable()
+        // All the below methods are to make sure singleton instance gets returned whilst game is quitting.
+        private void OnDestroy()
         {
             ApplicationIsQuitting = true;
         }

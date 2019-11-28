@@ -27,6 +27,7 @@ namespace Shooter.Utility
 
         private void DisplayFPS()
         {
+            // Calculate frames per second and update it.
             float fps = Mathf.RoundToInt(1 / Time.deltaTime);
             fpsCounter.SetText($"{fps}");
         }

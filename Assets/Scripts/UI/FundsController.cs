@@ -20,6 +20,7 @@ namespace Shooter.UI
 
         private void OnFundsChange(float funds)
         {
+            // Update funds text every time playerSettings funds get updated.
             fundsText.text = $"{fundsTextString}: {funds}";
         }
 

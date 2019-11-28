@@ -21,6 +21,7 @@ namespace Shooter.Player
 
         private void OnHitpointChange(float hitPoints)
         {
+            // Update hitpoints text every time playerSettings funds get updated.
             hitpointsText.text = $"{hitpointsTextString}{hitPoints}";
         }
 

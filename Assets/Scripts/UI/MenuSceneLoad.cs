@@ -19,6 +19,7 @@ namespace Shooter.UI
 
         public void OnSensitivitySliderValueChanged(Slider slider)
         {
+            // Dynamically update this sensitivity field with the value from sensitivity slider in menus.
             sensitivitySliderValue = slider.value;
         }
 
@@ -26,11 +27,13 @@ namespace Shooter.UI
         {
             if (scene.name == levelSceneString && LoadPlayerSettings)
             {
+                // If user pressed load button, update the sensitivity and load the player.
                 UpdateSensitivity();
                 PlayerSettings.GetInstance().LoadPlayer();
             }
             else if (scene.name == levelSceneString)
             {
+                // Otherwise only update sensitivity.
                 UpdateSensitivity();
             }
         }

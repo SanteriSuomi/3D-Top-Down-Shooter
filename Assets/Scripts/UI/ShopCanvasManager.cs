@@ -5,6 +5,9 @@ namespace Shooter.UI
 {
     public class ShopCanvasManager : GenericSingleton<ShopCanvasManager>
     {
+        //
+        // ShopCanvasManager manages activating/disabling shop buttons.
+        //
         [SerializeField]
         private GameObject followerShopButton = default;
         [SerializeField]

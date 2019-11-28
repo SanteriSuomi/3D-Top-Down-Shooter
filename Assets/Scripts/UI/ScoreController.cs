@@ -20,6 +20,7 @@ namespace Shooter.UI
 
         private void OnScoreChange(float score)
         {
+            // Update score text every time playerSettings funds get updated.
             scoreText.text = $"{scoreTextString}{score}";
         }
     }
