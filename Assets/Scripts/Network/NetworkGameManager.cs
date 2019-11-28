@@ -30,7 +30,8 @@ namespace Shooter.Network
         [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Member is accessed by unity events")]
         public void LeaveRoom()
         {
-            PhotonNetwork.LeaveRoom();
+            Debug.Log($"{PhotonNetwork.NickName} has left the room.");
+            PhotonNetwork.Disconnect();
         }
 
         public override void OnLeftRoom()

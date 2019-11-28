@@ -4566,6 +4566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faa1565874585f4b88e7bd5cce6e98f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quitRoomButton: {fileID: 1959935203}
 --- !u!1 &1822483207
 GameObject:
   m_ObjectHideFlags: 0

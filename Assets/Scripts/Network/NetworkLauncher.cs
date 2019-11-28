@@ -58,14 +58,20 @@ namespace Shooter.Network
         public override void OnConnectedToMaster()
         {
             Debug.Log($"{clientNickName} was connected to master.");
-            PhotonNetwork.JoinRandomRoom();
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.JoinRandomRoom();
+            }
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log($"{clientNickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
-            bool newRoomCreated = PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
-            Debug.Log($"New room creation: {newRoomCreated.ToString().ToLower()}.");
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                Debug.Log($"{clientNickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
+                bool newRoomCreated = PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+                Debug.Log($"New room creation: {newRoomCreated.ToString().ToLower()}.");
+            }
         }
 
         public override void OnJoinedRoom()
