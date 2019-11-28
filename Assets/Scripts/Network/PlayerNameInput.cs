@@ -9,11 +9,16 @@ namespace Shooter.Network
     public class PlayerNameInput : MonoBehaviour
     {
         const string playerNamePrefKey = "PlayerName";
+        private TMP_InputField inputField;
+
+        private void Awake()
+        {
+            inputField = GetComponent<TMP_InputField>();
+        }
 
         private void Start()
         {
             string defaultName = string.Empty;
-            TMP_InputField inputField = GetComponent<TMP_InputField>();
             if (inputField != null && PlayerPrefs.HasKey(playerNamePrefKey))
             {
                 defaultName = PlayerPrefs.GetString(playerNamePrefKey);

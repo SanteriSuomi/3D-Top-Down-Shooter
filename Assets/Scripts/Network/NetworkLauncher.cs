@@ -13,14 +13,24 @@ namespace Shooter.Network
         private string gameVersion = "1";
         [SerializeField]
         private byte maxPlayersPerRoom = 2;
+        [SerializeField]
+        private bool automaticSceneSync = true;
+        private string clientNickName;
 
         private void Awake()
         {
-            PhotonNetwork.AutomaticallySyncScene = false;
+            DontDestroyOnLoad(gameObject);
+            PhotonNetwork.AutomaticallySyncScene = automaticSceneSync;
+            clientNickName = string.Empty;
         }
 
         public void Connect()
         {
+            if (string.IsNullOrEmpty(clientNickName))
+            {
+                clientNickName = PhotonNetwork.NickName;
+            }
+
             if (PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -37,9 +47,9 @@ namespace Shooter.Network
         private IEnumerator LoadMainSceneAsync()
         {
             // Asynchronously load the main scene.
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LevelShared.levelSceneString, LoadSceneMode.Single);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LevelShared.LevelSceneString, LoadSceneMode.Single);
             // Freeze until scene is loaded.
-            while (!asyncLoad.isDone && PhotonNetwork.IsConnectedAndReady)
+            while (!asyncLoad.isDone && !PhotonNetwork.IsConnectedAndReady)
             {
                 yield return null;
             }
@@ -47,24 +57,25 @@ namespace Shooter.Network
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log($"{PhotonNetwork.NickName} was connected to master");
+            Debug.Log($"{clientNickName} was connected to master.");
             PhotonNetwork.JoinRandomRoom();
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log($"{PhotonNetwork.NickName} failed to join a random room");
-            PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+            Debug.Log($"{clientNickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
+            bool newRoomCreated = PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+            Debug.Log($"New room creation: {newRoomCreated.ToString().ToLower()}.");
         }
 
         public override void OnJoinedRoom()
         {
-            // To-do.
+            Debug.Log($"{clientNickName} joined a room.");
         }
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            Debug.Log($"{PhotonNetwork.NickName} was disconnected, cause: {cause}");
+            Debug.Log($"{clientNickName} was disconnected, cause: {cause}.");
         }
     }
 }

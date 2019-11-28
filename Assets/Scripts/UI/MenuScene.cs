@@ -51,7 +51,7 @@ namespace Shooter.UI
 
         private void LoadScene()
         {
-            SceneManager.LoadScene(LevelShared.levelSceneString);
+            SceneManager.LoadScene(LevelShared.LevelSceneString);
         }
 
         public void OnSettingsClick()

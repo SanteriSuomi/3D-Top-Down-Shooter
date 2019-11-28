@@ -2,6 +2,6 @@
 {
     public static class LevelShared
     {
-        public static string levelSceneString { get; set; } = "SCE_Level";
+        public static string LevelSceneString { get; set; } = "SCE_Level";
     }
 }
