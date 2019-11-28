@@ -15,22 +15,15 @@ namespace Shooter.Network
         private byte maxPlayersPerRoom = 2;
         [SerializeField]
         private bool automaticSceneSync = true;
-        private string clientNickName;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             PhotonNetwork.AutomaticallySyncScene = automaticSceneSync;
-            clientNickName = string.Empty;
         }
 
         public void Connect()
         {
-            if (string.IsNullOrEmpty(clientNickName))
-            {
-                clientNickName = PhotonNetwork.NickName;
-            }
-
             if (PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -57,9 +50,9 @@ namespace Shooter.Network
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log($"{clientNickName} was connected to master.");
             if (PhotonNetwork.IsConnectedAndReady)
             {
+                Debug.Log($"{PhotonNetwork.NickName} was connected to master.");
                 PhotonNetwork.JoinRandomRoom();
             }
         }
@@ -68,7 +61,7 @@ namespace Shooter.Network
         {
             if (PhotonNetwork.IsConnectedAndReady)
             {
-                Debug.Log($"{clientNickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
+                Debug.Log($"{PhotonNetwork.NickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
                 bool newRoomCreated = PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
                 Debug.Log($"New room creation: {newRoomCreated.ToString().ToLower()}.");
             }
@@ -76,12 +69,7 @@ namespace Shooter.Network
 
         public override void OnJoinedRoom()
         {
-            Debug.Log($"{clientNickName} joined a room.");
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log($"{clientNickName} was disconnected, cause: {cause}.");
+            Debug.Log($"{PhotonNetwork.NickName} joined a room.");
         }
     }
 }
