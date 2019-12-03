@@ -1,4 +1,5 @@
-﻿using Shooter.AI;
+﻿using Photon.Pun;
+using Shooter.AI;
 using Shooter.Network;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -22,7 +23,7 @@ namespace Shooter.Player
 
         protected override void StartState()
         {
-            if (!photonView.IsMine)
+            if (PhotonNetwork.InRoom && !photonView.IsMine)
             {
                 // Warn if this isn't a local player.
                 #if UNITY_EDITOR
@@ -59,7 +60,7 @@ namespace Shooter.Player
             NetworkGameManager.GetInstance().LeaveRoomAndDisconnect();
         }
 
-        public override void OnDisable()
+        public override void OnDestroy()
         {
             playerSettings.OnHitpointChangeEvent -= OnHitpointsChange;
         }

@@ -24,7 +24,7 @@ namespace Shooter.UI
             scoreText.text = $"{scoreTextString}{score}";
         }
 
-        public override void OnDisable()
+        public override void OnDestroy()
         {
             if (PlayerSettings.GetInstance() != null)
             {

@@ -24,7 +24,7 @@ namespace Shooter.UI
             fundsText.text = $"{fundsTextString}: {funds}";
         }
 
-        public override void OnDisable()
+        public override void OnDestroy()
         {
             if (PlayerSettings.GetInstance() != null)
             {

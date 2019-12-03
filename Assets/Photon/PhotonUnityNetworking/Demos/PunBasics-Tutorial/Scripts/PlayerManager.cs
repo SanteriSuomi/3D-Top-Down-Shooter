@@ -111,10 +111,10 @@ namespace Photon.Pun.Demo.PunBasics
         }
 
 
-		public override void OnDisable()
+		public override void OnDestroy()
 		{
 			// Always call the base to remove callbacks
-			base.OnDisable ();
+			base.OnDestroy ();
 
 			#if UNITY_5_4_OR_NEWER
 			UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;

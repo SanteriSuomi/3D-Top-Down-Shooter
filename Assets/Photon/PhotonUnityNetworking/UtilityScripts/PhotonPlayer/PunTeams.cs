@@ -56,9 +56,9 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        public override void OnDisable()
+        public override void OnDestroy()
         {
-            base.OnDisable();
+            base.OnDestroy();
             this.Start();
         }
 

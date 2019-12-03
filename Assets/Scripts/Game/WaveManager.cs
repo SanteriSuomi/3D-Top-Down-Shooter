@@ -53,7 +53,7 @@ namespace Shooter.AI
         private void SpawnEnemy()
         {
             // Get the enemy from the pool.
-            Enemy.EnemyAI enemy = EnemyPool.GetInstance().Dequeue();
+            Enemy.EnemyGhost enemy = EnemyPool.GetInstance().Dequeue();
             // Spawn enemy at a random spawnpoint in the array.
             enemy.gameObject.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position + new Vector3(0, 1, 0);
         }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Shooter.Enemy
 {
-    public class EnemyAI : Character
+    public class EnemyGhost : Character
     {
         // Scriptable object data container that's shared along all enemy instances.
         [SerializeField]

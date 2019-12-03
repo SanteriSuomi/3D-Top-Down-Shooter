@@ -15,6 +15,7 @@ namespace Shooter.Network
         private byte maxPlayersPerRoom = 2;
         [SerializeField]
         private bool automaticSceneSync = true;
+        private bool isAttemptingConnection;
 
         private void Awake()
         {
@@ -24,28 +25,32 @@ namespace Shooter.Network
 
         public void Connect()
         {
-            if (PhotonNetwork.IsConnected)
+            if (!isAttemptingConnection)
             {
-                PhotonNetwork.JoinRandomRoom();
-            }
-            else
-            {
-                PhotonNetwork.GameVersion = gameVersion;
-                PhotonNetwork.ConnectUsingSettings();
-            }
+                isAttemptingConnection = true;
+                StartCoroutine(LoadMainSceneAsync());
 
-            StartCoroutine(LoadMainSceneAsync());
+                if (PhotonNetwork.IsConnected)
+                {
+                    PhotonNetwork.JoinRandomRoom();
+                }
+                else
+                {
+                    PhotonNetwork.GameVersion = gameVersion;
+                    PhotonNetwork.ConnectUsingSettings();
+                }
+            }
         }
 
         private IEnumerator LoadMainSceneAsync()
         {
             // Asynchronously load the main scene.
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LevelShared.LevelSceneString, LoadSceneMode.Single);
+            AsyncOperation asyncSceneLoad = SceneManager.LoadSceneAsync(LevelShared.LevelSceneString, LoadSceneMode.Single);
+            asyncSceneLoad.allowSceneActivation = false;
             // Freeze until scene is loaded.
-            while (!asyncLoad.isDone && !PhotonNetwork.IsConnectedAndReady)
-            {
-                yield return null;
-            }
+            yield return new WaitWhile(() => !asyncSceneLoad.isDone && !PhotonNetwork.IsConnectedAndReady);
+            isAttemptingConnection = false;
+            asyncSceneLoad.allowSceneActivation = true;
         }
 
         public override void OnConnectedToMaster()
@@ -69,7 +74,7 @@ namespace Shooter.Network
 
         public override void OnJoinedRoom()
         {
-            Debug.Log($"{PhotonNetwork.NickName} joined a room.");
+            Debug.Log($"{PhotonNetwork.NickName} joined the room {PhotonNetwork.CurrentRoom.Name}.");
         }
     }
 }

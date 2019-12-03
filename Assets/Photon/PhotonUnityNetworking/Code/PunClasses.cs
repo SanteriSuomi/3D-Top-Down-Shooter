@@ -225,7 +225,7 @@ namespace Photon.Pun
             PhotonNetwork.AddCallbackTarget(this);
         }
 
-        public virtual void OnDisable()
+        public virtual void OnDestroy()
         {
             PhotonNetwork.RemoveCallbackTarget(this);
         }

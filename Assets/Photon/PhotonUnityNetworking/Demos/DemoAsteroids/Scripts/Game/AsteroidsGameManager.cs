@@ -52,9 +52,9 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
-        public override void OnDisable()
+        public override void OnDestroy()
         {
-            base.OnDisable();
+            base.OnDestroy();
 
             CountdownTimer.OnCountdownTimerHasExpired -= OnCountdownTimerIsExpired;
         }
