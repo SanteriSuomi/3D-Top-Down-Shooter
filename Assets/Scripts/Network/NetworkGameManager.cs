@@ -3,18 +3,14 @@ using UnityEngine.SceneManagement;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using Photon.Realtime;
+using Shooter.Utility;
 
 namespace Shooter.Network
 {
-    public class NetworkGameManager : MonoBehaviourPunCallbacks
+    public class NetworkGameManager : GenericSingleton<NetworkGameManager>
     {
         [SerializeField]
         private GameObject quitRoomButton = default;
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
 
         private void Start()
         {

@@ -1,9 +1,10 @@
-﻿using Shooter.Utility;
+﻿using Photon.Pun;
+using Shooter.Utility;
 using UnityEngine;
 
 namespace Shooter.AI
 {
-    public abstract class Character : MonoBehaviour, IDamageable
+    public abstract class Character : MonoBehaviourPunCallbacks, IDamageable
     {
         public float HitPoints { get; set; }
         [SerializeField]

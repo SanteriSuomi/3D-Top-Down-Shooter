@@ -1,6 +1,7 @@
 ﻿using Shooter.AI;
+using Shooter.Network;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Assertions;
 
 namespace Shooter.Player
 {
@@ -21,12 +22,20 @@ namespace Shooter.Player
 
         protected override void StartState()
         {
+            if (!photonView.IsMine)
+            {
+                // Warn if this isn't a local player.
+                #if UNITY_EDITOR
+                Debug.LogWarning("This player is not local player");
+                #endif
+            }
+
             HitPoints = startingHitPoints;
         }
 
         protected override void UpdateState()
         {
-            
+            // Empty on purpose.
         }
 
         protected override void OnTakeDamage(float damage)
@@ -37,14 +46,20 @@ namespace Shooter.Player
 
         protected override void OnZeroHP()
         {
-            // Make sure the cursor is enabled for the menu.
             #if UNITY_STANDALONE
+            // Make sure the cursor is enabled for the menu (only on computer builds).
             Cursor.visible = true;
             #endif
-            SceneManager.LoadScene(0);
+
+            #if UNITY_EDITOR
+            // When player dies they will get back to the main menu or "lobby".
+            Assert.IsNotNull(NetworkGameManager.GetInstance());
+            #endif
+
+            NetworkGameManager.GetInstance().LeaveRoomAndDisconnect();
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
             playerSettings.OnHitpointChangeEvent -= OnHitpointsChange;
         }

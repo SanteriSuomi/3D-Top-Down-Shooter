@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Shooter.Utility
 {
-    public class PlayerShoot : MonoBehaviour
+    public class PlayerShoot : MonoBehaviourPunCallbacks
     {
         public delegate void OnAttack(bool playAnim);
         public event OnAttack OnAttackEvent;
@@ -23,20 +24,23 @@ namespace Shooter.Utility
 
         private void Update()
         {
-            shootTimer += Time.deltaTime;
-            RaycastHit rayHit = ShootRaycast();
-            if (shootTimer >= shootRate
-                && rayHit.collider
-                && rayHit.collider.CompareTag(shootAbleTag)
-                && rayHit.collider.TryGetComponent(out IDamageable _))
+            if (photonView.IsMine)
             {
-                shootTimer = 0;
-                ShootBullet();
-                ShootAnimation(true);
-            }
-            else
-            {
-                ShootAnimation(false);
+                shootTimer += Time.deltaTime;
+                RaycastHit rayHit = ShootRaycast();
+                if (shootTimer >= shootRate
+                    && rayHit.collider
+                    && rayHit.collider.CompareTag(shootAbleTag)
+                    && rayHit.collider.TryGetComponent(out IDamageable _))
+                {
+                    shootTimer = 0;
+                    ShootBullet();
+                    ShootAnimation(true);
+                }
+                else
+                {
+                    ShootAnimation(false);
+                }
             }
         }
 

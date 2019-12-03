@@ -45,7 +45,7 @@ namespace Shooter.Utility
                 Instance = this as T;
                 // Make the gameObject persist between scenes.
                 //DontDestroyOnLoad(gameObject);
-                if (gameObject.name == "MenuSceneLoad")
+                if (gameObject.name == "MenuSceneLoad" || gameObject.name == "NetworkGameManager") // Temporarily only activate DontDestroyOnLoad on certain objects...
                 {
                     DontDestroyOnLoad(gameObject);
                 }
@@ -59,7 +59,6 @@ namespace Shooter.Utility
         }
 
         // All the below methods are to make sure singleton instance gets returned whilst game is quitting/going on pause.
-
         #if UNITY_ANDROID
         private void OnApplicationPause(bool isPaused)
         {

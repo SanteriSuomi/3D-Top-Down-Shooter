@@ -43,7 +43,7 @@ namespace Shooter.UI
             PlayerSettings.GetInstance().PlayerSensitivityMultiplier = sensitivitySliderValue;
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoad;
         }
