@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using Shooter.Player;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Shooter.Utility
 {
@@ -62,7 +63,7 @@ namespace Shooter.Utility
 			}
 		}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1172:Unused method parameters should be removed", Justification = "Parameter is not unused.")]
+        [SuppressMessage("Major Code Smell", "S1172:Unused method parameters should be removed", Justification = "Parameter is not unused.")]
         private static PlayerSaveData Deserialize(BinaryFormatter binaryFormatter, FileStream fileStream, PlayerSaveData data)
         {
             try

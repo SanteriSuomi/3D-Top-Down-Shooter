@@ -23,7 +23,7 @@ namespace Shooter.UI
             {
                 NoFundsEventHandler.TriggerFundsOutPopUp(notEnoughFunds);
             }
-            else if (maxAmountOfFollowers > AmountOfFollowers && shopObject.Prefab.TryGetComponent(out IShopSpawnable _))
+            else if (AmountOfFollowers >= maxAmountOfFollowers && shopObject.Prefab.TryGetComponent(out IShopSpawnable _))
             {
                 NoFundsEventHandler.TriggerFundsOutPopUp(maxFollowersAchieved);
             }

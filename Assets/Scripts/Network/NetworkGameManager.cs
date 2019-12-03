@@ -41,5 +41,10 @@ namespace Shooter.Network
             Cursor.visible = true;
             SceneManager.LoadScene(0);
         }
+
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        {
+            Debug.Log($"{newPlayer.NickName} has joined the room.");
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace Shooter.Enemy
         private bool hasSetMovePath;
         private bool isCheckingDistance;
         private bool hasDealtDamageToObjective;
+        private bool isTargetingObjective;
 
         private enum States
         {
@@ -73,11 +74,12 @@ namespace Shooter.Enemy
             hasSetMovePath = false;
             isCheckingDistance = false;
             hasDealtDamageToObjective = false;
+            isTargetingObjective = false;
         }
 
         protected override void UpdateState()
         {
-            // Make sure the component is and gameOBject is enabled, to prevent errors when getting re-pooled.
+            // Make sure the component is and gameObject is enabled, to prevent errors when getting re-pooled.
             if (enabled && gameObject.activeSelf)
             {
                 // Methods not in the state machine get updated regardless of what state the AI is in.
@@ -248,6 +250,12 @@ namespace Shooter.Enemy
         {
             if (!hasDealtDamageToObjective)
             {
+                if (!isTargetingObjective)
+                {
+                    // Update rotation target to the objective only once per instance.
+                    isTargetingObjective = true;
+                    currentTarget = objective.gameObject;
+                }
                 hasDealtDamageToObjective = true;
                 StartCoroutine(ObjectiveDamageDelay());
             }
@@ -256,6 +264,7 @@ namespace Shooter.Enemy
         private IEnumerator ObjectiveDamageDelay()
         {
             PlayAttackSound();
+            // Deal damage to objective using it's interface.
             objective.TakeDamage(data.DamageAmount);
             yield return objectiveDamageDelay;
             hasDealtDamageToObjective = false;
