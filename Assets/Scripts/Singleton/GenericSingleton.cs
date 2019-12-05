@@ -9,17 +9,17 @@ namespace Shooter.Utility
 
         public static T GetInstance()
         {
-            // If application is quitting, make sure to not return singleton instance.
+            // If application is quitting, make sure to not return the singleton instance.
             if (ApplicationIsQuitting) { return null; }
 
             if (Instance == null)
             {
-                // Make sure that instance is null.
+                // Attempt to find a matching type in the project.
                 Instance = FindObjectOfType<T>();
 
                 if (Instance == null)
                 {
-                    // If it's null, create a new GameObject and add the T component to it.
+                    // If the instance is still null, create a new GameObject and add the T component to it.
                     GameObject gameObject = new GameObject { name = typeof(T).Name };
                     Instance = gameObject.AddComponent<T>();
                 }
@@ -33,9 +33,9 @@ namespace Shooter.Utility
         {
             if (gameObject.transform.parent != null)
             {
-                // Alert if this instance has a parent. (child objects cannot be DontDestroyOnLoad'd).
+                // Alert if this instance has a parent. (child objects cannot be DontDestroyOnLoaded).
                 #if UNITY_EDITOR
-                Debug.Log($"{typeof(T).Name} has a parent. Is this intended?");
+                Debug.Log($"{typeof(T).Name} has a parent. Child objects cannot be DontDestroyOnLoaded.");
                 #endif
             }
 

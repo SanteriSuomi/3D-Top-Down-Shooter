@@ -6,11 +6,16 @@ namespace Shooter.Pathfinding
 {
     public class GridManager : GenericSingleton<GridManager>
     {
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        public float GridCellSize { get; set; }
-        public bool ShowGrid { get; set; } = true;
-        public bool ShowObstacleBlocks { get; set; } = true;
+        [SerializeField]
+        private int rows = 67;
+        [SerializeField]
+        private int columns = 67;
+        [SerializeField]
+        private float gridCellSize = 2;
+        [SerializeField]
+        private bool showGrid = true;
+        [SerializeField]
+        private bool showObstacleBlocks = true;
 
         private readonly int nodeColumnDimension = 0;
         private readonly int nodeRowDimension = 1;
@@ -23,29 +28,31 @@ namespace Shooter.Pathfinding
 
         private GameObject[] obstacleList;
 
+        // Reminder for two dimensional node array:
+        // Column right to left.
+        // Row bottom to top.
         private Node[,] nodes;
         public Node[,] GetNodes()
         {
             return nodes;
         }
-        public void SetNodes(Node node, int row, int column)
+        public void SetNodes(Node node, int column, int row)
         {
-            nodes[row, column] = node;
+            nodes[column, row] = node;
         }
 
         protected override void Awake()
         {
             base.Awake();
+            origin = transform.position;
             obstacleList = GameObject.FindGameObjectsWithTag("Obstacle");
             CalculateObstacles();
         }
 
         private void CalculateObstacles()
         {
-            // Reminder for two dimensional node array:
-            // Column right to left.
-            // Row bottom to top.
-            nodes = new Node[Columns, Rows];
+
+            nodes = new Node[columns, rows];
             int index = 0;
             for (int column = 0; column < nodes.GetLength(nodeColumnDimension); column++)
             {
@@ -58,14 +65,23 @@ namespace Shooter.Pathfinding
                 }
             }
 
+            MarkObstacles();
+        }
+
+        private void MarkObstacles()
+        {
             if (obstacleList != null && obstacleList.Length > 0)
             {
                 foreach (GameObject obstacle in obstacleList)
                 {
                     int indexCell = GetGridIndex(obstacle.transform.position);
-                    int row = GetRow(indexCell);
-                    int column = GetColumn(indexCell);
-                    nodes[row, column].MarkAsObstacle();
+                    if (indexCell > 0)
+                    {
+                        Debug.Log(obstacle);
+                        int column = GetColumn(indexCell);
+                        int row = GetRow(indexCell);
+                        nodes[column, row].MarkAsObstacle();
+                    }
                 }
             }
         }
@@ -73,8 +89,8 @@ namespace Shooter.Pathfinding
         public Vector3 GetGridCellCenter(int index)
         {
             Vector3 cellPosition = GetGridCellPosition(index);
-            cellPosition.x += GridCellSize / 2.0f;
-            cellPosition.z += GridCellSize / 2.0f;
+            cellPosition.x += gridCellSize / 2.0f;
+            cellPosition.z += gridCellSize / 2.0f;
             return cellPosition;
         }
 
@@ -82,8 +98,8 @@ namespace Shooter.Pathfinding
         {
             int row = GetRow(index);
             int column = GetColumn(index);
-            float xPosInGrid = column * GridCellSize;
-            float zPosInGrid = row * GridCellSize;
+            float xPosInGrid = column * gridCellSize;
+            float zPosInGrid = row * gridCellSize;
             return origin + new Vector3(xPosInGrid, 0, zPosInGrid);
         }
 
@@ -95,29 +111,29 @@ namespace Shooter.Pathfinding
             }
 
             position -= origin;
-            int column = (int)(position.x / GridCellSize);
-            int row = (int)(position.z / GridCellSize);
-            return row * Columns + column;
+            int column = (int)(position.x / gridCellSize);
+            int row = (int)(position.z / gridCellSize);
+            return row * columns + column;
         }
 
         public bool IsInBounds(Vector3 position)
         {
-            float width = Columns * GridCellSize;
-            float height = Rows * GridCellSize;
-            return position.x >= origin.x 
-                && position.x <= origin.x + width 
-                && position.x <= origin.z + height 
+            float width = columns * gridCellSize;
+            float height = rows * gridCellSize;
+            return position.x >= origin.x
+                && position.x <= origin.x + width
+                && position.x <= origin.z + height
                 && position.z >= origin.z;
-        }
-
-        public int GetRow(int index)
-        {
-            return index / Columns;
         }
 
         public int GetColumn(int index)
         {
-            return index % Columns;
+            return index % columns;
+        }
+
+        public int GetRow(int index)
+        {
+            return index / columns;
         }
 
         public void GetNeighbours(Node node, ArrayList neighbours)
@@ -151,7 +167,7 @@ namespace Shooter.Pathfinding
 
         private void AssignNeighbour(int row, int column, ArrayList neighbours)
         {
-            if (row != -1 && column != -1 && row < Rows && column < Columns)
+            if (row != -1 && column != -1 && row < rows && column < columns)
             {
                 Node nodeToAdd = nodes[row, column];
                 if (!nodeToAdd.IsObstacle)
@@ -161,18 +177,18 @@ namespace Shooter.Pathfinding
             }
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (ShowGrid)
+            if (showGrid)
             {
-                DebugDrawGrid(transform.position, Rows, Columns, GridCellSize, Color.blue);
+                DebugDrawGrid(transform.position, rows, columns, gridCellSize, Color.blue);
             }
 
             Gizmos.DrawSphere(transform.position, 0.5f);
-            if (ShowObstacleBlocks)
+            if (showObstacleBlocks)
             {
-                Vector3 cellSize = new Vector3(GridCellSize, 1, GridCellSize);
+                Vector3 cellSize = new Vector3(gridCellSize, 1, gridCellSize);
                 if (obstacleList != null && obstacleList.Length > 0)
                 {
                     foreach (GameObject obstacle in obstacleList)
@@ -202,6 +218,6 @@ namespace Shooter.Pathfinding
                 Debug.DrawLine(startPosition, endPosition, color);
             }
         }
-        #endif
+#endif
     }
 }

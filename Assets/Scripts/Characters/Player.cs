@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using Shooter.AI;
+﻿using Shooter.AI;
 using Shooter.Network;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -23,14 +22,6 @@ namespace Shooter.Player
 
         protected override void StartState()
         {
-            if (PhotonNetwork.InRoom && !photonView.IsMine)
-            {
-                // Warn if this isn't a local player.
-                #if UNITY_EDITOR
-                Debug.LogWarning("This player is not local player");
-                #endif
-            }
-
             HitPoints = startingHitPoints;
         }
 

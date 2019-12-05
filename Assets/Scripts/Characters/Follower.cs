@@ -40,7 +40,7 @@ namespace Shooter.AI
 
         protected override void StartState()
         {
-            // Reset state on start.
+            // Make sure state has reset on start.
             setDestination = false;
             hasDealtDamage = false;
         }
@@ -55,16 +55,19 @@ namespace Shooter.AI
                 Collider[] hits = Physics.OverlapSphere(transform.position, damageRadius, layersToHit);
                 // Store the number of colliders in a radius in a field.
                 numberOfHitsInArea = hits.Length;
-                if (numberOfHitsInArea > 0 && !hasDealtDamage && hits[0].CompareTag("Enemy"))
+                if (numberOfHitsInArea > 0)
                 {
-                    hasDealtDamage = true;
-                    GetEnemy(hits);
-                }
-                else if (!setDestination)
-                {
-                    setDestination = true;
-                    UpdateRotationTargetToPlayer(hits[0].transform);
-                    StartCoroutine(SetDestination(hits[0].transform.position));
+                    if (!hasDealtDamage && hits[0].CompareTag("Enemy"))
+                    {
+                        hasDealtDamage = true;
+                        GetEnemy(hits);
+                    }
+                    else if (!setDestination)
+                    {
+                        setDestination = true;
+                        UpdateRotationTargetToPlayer(hits[0].transform);
+                        StartCoroutine(SetDestination(hits[0].transform.position));
+                    }
                 }
             }
         }
@@ -130,12 +133,12 @@ namespace Shooter.AI
         {
             // If the follower dies, make sure to update the amount of followers counter.
             ShopSpawner.GetInstance().AmountOfFollowers -= 1;
-            Destroy(gameObject);
+            FollowerPool.GetInstance().Enqueue(this);
         }
 
         public void SpawnItem(float spawnRange)
         {
-            Follower spawnedObject = Instantiate(this);
+            Follower spawnedObject = FollowerPool.GetInstance().Dequeue();
             Vector3 spawnPos = player.position + new Vector3(Random.Range(-spawnRange, spawnRange),
                 0, Random.Range(-spawnRange, spawnRange));
             spawnedObject.transform.position = spawnPos;

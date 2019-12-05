@@ -24,23 +24,20 @@ namespace Shooter.Utility
 
         private void Update()
         {
-            if (photonView.IsMine)
+            shootTimer += Time.deltaTime;
+            RaycastHit rayHit = ShootRaycast();
+            if (shootTimer >= shootRate
+                && rayHit.collider
+                && rayHit.collider.CompareTag(shootAbleTag)
+                && rayHit.collider.TryGetComponent(out IDamageable _))
             {
-                shootTimer += Time.deltaTime;
-                RaycastHit rayHit = ShootRaycast();
-                if (shootTimer >= shootRate
-                    && rayHit.collider
-                    && rayHit.collider.CompareTag(shootAbleTag)
-                    && rayHit.collider.TryGetComponent(out IDamageable _))
-                {
-                    shootTimer = 0;
-                    ShootBullet();
-                    ShootAnimation(true);
-                }
-                else
-                {
-                    ShootAnimation(false);
-                }
+                shootTimer = 0;
+                ShootBullet();
+                ShootAnimation(true);
+            }
+            else
+            {
+                ShootAnimation(false);
             }
         }
 

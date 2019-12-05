@@ -30,6 +30,7 @@ namespace Shooter.Shop
 
         private IEnumerator BuyFailedPopupCoroutine(string text)
         {
+            // Execute the "funds out" text popup.
             fundsOutText.text = text;
             fundsOutText.gameObject.SetActive(true);
             yield return buyFailedPopUp;

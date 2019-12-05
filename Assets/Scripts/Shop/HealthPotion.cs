@@ -1,5 +1,4 @@
 ﻿using Shooter.Player;
-using System.Collections;
 using UnityEngine;
 
 namespace Shooter.Shop
@@ -7,21 +6,16 @@ namespace Shooter.Shop
     public class HealthPotion : MonoBehaviour
     {
         [SerializeField]
-        private GameObject fundsOutText = default;
-        private WaitForSeconds fundsOutTextTimer;
-        [SerializeField]
-        private float fundsOutTextTime = 2;
-        private float originalObjectiveHitPoints;
+        private ShopText shopText = default;
         [SerializeField]
         private float fundCost = 50;
         [SerializeField]
         private float amountToHeal = 100;
-        private bool isFundsCoroutineRunning;
+        private float originalObjectiveHitPoints;
 
         private void Awake()
         {
             originalObjectiveHitPoints = Objective.GetInstance().HitPoints;
-            fundsOutTextTimer = new WaitForSeconds(fundsOutTextTime);
         }
 
         public void HealthButton()
@@ -36,24 +30,8 @@ namespace Shooter.Shop
             }
             else
             {
-                #if UNITY_EDITOR
-                Debug.Log($"You don't have the required amount of funds.");
-                #endif
-                if (!isFundsCoroutineRunning)
-                {
-                    isFundsCoroutineRunning = true;
-                    StartCoroutine(FundsOutText());
-                }
+                NoFundsEventHandler.TriggerFundsOutPopUp(shopText.FundsOut);
             }
-        }
-
-        private IEnumerator FundsOutText()
-        {
-            // Show the funds out text.
-            fundsOutText.SetActive(true);
-            yield return fundsOutTextTimer;
-            fundsOutText.SetActive(false);
-            isFundsCoroutineRunning = false;
         }
     }
 }

@@ -9,9 +9,7 @@ namespace Shooter.UI
     {
         public int AmountOfFollowers { get; set; } = 0;
         [SerializeField]
-        private string maxFollowersAchieved = "Maximum amount of followers achieved";
-        [SerializeField]
-        private string notEnoughFunds = "Not enough funds";
+        private ShopText shopText = default;
         [SerializeField]
         private float shopObjectSpawnRange = 4;
         [SerializeField]
@@ -21,11 +19,11 @@ namespace Shooter.UI
         {
             if (shopObject.Cost > PlayerSettings.GetInstance().Funds)
             {
-                NoFundsEventHandler.TriggerFundsOutPopUp(notEnoughFunds);
+                NoFundsEventHandler.TriggerFundsOutPopUp(shopText.FundsOut);
             }
             else if (AmountOfFollowers >= maxAmountOfFollowers && shopObject.Prefab.TryGetComponent(out IShopSpawnable _))
             {
-                NoFundsEventHandler.TriggerFundsOutPopUp(maxFollowersAchieved);
+                NoFundsEventHandler.TriggerFundsOutPopUp(shopText.MaxFollowersAchieved);
             }
             else
             {
