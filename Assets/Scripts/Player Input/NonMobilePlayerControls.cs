@@ -8,8 +8,7 @@ namespace Shooter.Inputs
         //
         // NonMobilePlayerControls is the controls (rotation/movement) for non-mobile platforms such as PC.
         //
-        [SerializeField]
-        private RectTransform crossHair = default;
+        private RectTransform crossHair;
         private CharacterController characterController;
         private Camera mainCamera;
         private InputActions inputActions;
@@ -37,6 +36,12 @@ namespace Shooter.Inputs
             inputActions.Player.Movement.performed += MovementPerformed;
             inputActions.Player.Movement.canceled += MovementCanceled;
             inputActions.Player.Look.performed += LookPerformed;
+        }
+
+        private void Start()
+        {
+            // Find crosshair reference after player loading.
+            crossHair = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         }
 
         private void OnEnable()

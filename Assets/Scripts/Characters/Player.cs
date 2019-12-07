@@ -43,11 +43,7 @@ namespace Shooter.Player
             Cursor.visible = true;
             #endif
 
-            #if UNITY_EDITOR
             // When player dies they will get back to the main menu or "lobby".
-            Assert.IsNotNull(NetworkGameManager.GetInstance());
-            #endif
-
             NetworkGameManager.GetInstance().LeaveRoomAndDisconnect();
         }
 

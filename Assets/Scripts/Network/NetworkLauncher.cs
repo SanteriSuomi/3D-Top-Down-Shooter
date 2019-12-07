@@ -9,6 +9,9 @@ namespace Shooter.Network
 {
     public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
+        //
+        // NetworkLauncher handles launching the main level in multiplayer mode.
+        //
         [SerializeField]
         private string gameVersion = "1";
         [SerializeField]
@@ -19,23 +22,29 @@ namespace Shooter.Network
 
         private void Awake()
         {
+            // Don't destroy this object on load as it's needed for the scene change.
             DontDestroyOnLoad(gameObject);
+            // Set automatic scene sync using the serialized variable.
             PhotonNetwork.AutomaticallySyncScene = automaticSceneSync;
         }
 
         public void Connect()
         {
+            // If player is not attempting connection already...
             if (!isAttemptingConnection)
             {
+                // Make sure not to start many scene loads simultaneously.
                 isAttemptingConnection = true;
+                // Start loading the scene asynchronously.
                 StartCoroutine(LoadMainSceneAsync());
-
                 if (PhotonNetwork.IsConnected)
                 {
+                    // Join a random network room if network is already connected.
                     PhotonNetwork.JoinRandomRoom();
                 }
                 else
                 {
+                    // Otherwise connect to the network using the current version settings.
                     PhotonNetwork.GameVersion = gameVersion;
                     PhotonNetwork.ConnectUsingSettings();
                 }
@@ -57,7 +66,10 @@ namespace Shooter.Network
         {
             if (PhotonNetwork.IsConnectedAndReady)
             {
+                #if UNITY_EDITOR
                 Debug.Log($"{PhotonNetwork.NickName} was connected to master.");
+                #endif
+                // Once connected to network, attempt another room connection.
                 PhotonNetwork.JoinRandomRoom();
             }
         }
@@ -66,15 +78,15 @@ namespace Shooter.Network
         {
             if (PhotonNetwork.IsConnectedAndReady)
             {
+                #if UNITY_EDITOR
                 Debug.Log($"{PhotonNetwork.NickName} failed to join a random room. A room most likely does not exist. A new room creation will be attempted.");
+                #endif
+                // If there are no empty rooms to join, create a new room with default options (max players).
                 bool newRoomCreated = PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
-                Debug.Log($"New room creation: {newRoomCreated.ToString().ToLower()}.");
+                #if UNITY_EDITOR
+                Debug.Log($"New room has been created: {newRoomCreated.ToString().ToLower()}.");
+                #endif
             }
-        }
-
-        public override void OnJoinedRoom()
-        {
-            Debug.Log($"{PhotonNetwork.NickName} joined the room {PhotonNetwork.CurrentRoom.Name}.");
         }
     }
 }
