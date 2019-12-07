@@ -1,9 +1,10 @@
-﻿using Shooter.Utility;
+﻿using Photon.Pun;
+using Shooter.Utility;
 using UnityEngine;
 
 namespace Shooter.Player
 {
-    public class PlayerSettings : GenericSingleton<PlayerSettings>
+    public class PlayerSettings : GenericSingleton<PlayerSettings>, IPunObservable
     {
         // Delegates and events invoked when according values get updated here.
         public delegate void OnHitpointChange(float hitPoints);
@@ -14,6 +15,22 @@ namespace Shooter.Player
 
         public delegate void OnScoreChange(float score);
         public event OnScoreChange OnScoreChangeEvent;
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(hitPoints);
+                stream.SendNext(funds);
+                stream.SendNext(score);
+            }
+            else if (stream.IsReading)
+            {
+                HitPoints = (float)stream.ReceiveNext();
+                Funds = (float)stream.ReceiveNext();
+                Score = (float)stream.ReceiveNext();
+            }
+        }
 
         [SerializeField]
         private int autoSaveIntervalSeconds = 60;

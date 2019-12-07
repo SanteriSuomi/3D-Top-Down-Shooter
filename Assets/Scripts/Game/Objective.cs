@@ -1,15 +1,25 @@
-﻿using Shooter.Utility;
+﻿using Photon.Pun;
+using Shooter.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Shooter.Player
 {
-    public class Objective : GenericSingleton<Objective>, IDamageable
+    public class Objective : GenericSingleton<Objective>, IDamageable, IPunObservable
     {
         private Transform playerCamera;
         [SerializeField]
         private Slider healthBar = default;
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsReading)
+            {
+                HitPoints = (float)stream.ReceiveNext();
+            }
+        }
+
         [SerializeField]
         private float startingHitpoints = 100;
         private float hitpoints;

@@ -28,6 +28,12 @@ namespace Shooter.Inputs
             characterController = GetComponent<CharacterController>();
             mainCamera = Camera.main;
             inputActions = new InputActions();
+            RegisterEvents();
+        }
+
+        private void RegisterEvents()
+        {
+            // Start observing all the needed events from the input system.
             inputActions.Player.Movement.performed += MovementPerformed;
             inputActions.Player.Movement.canceled += MovementCanceled;
             inputActions.Player.Look.performed += LookPerformed;
@@ -72,7 +78,6 @@ namespace Shooter.Inputs
         private void Move()
         {
             Vector3 moveDirection = CalculateDirection();
-            moveDirection = ApplyGravity(moveDirection);
             characterController.Move(moveDirection * movementSpeed);
         }
 
@@ -83,22 +88,6 @@ namespace Shooter.Inputs
             Vector3 moveDirectionForward = transform.forward * movementInput.y;
             // Create a movementDirection from the two movementDirections, and make sure it's framerate independent.
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSide) * Time.deltaTime;
-            return moveDirection;
-        }
-
-        private Vector3 ApplyGravity(Vector3 moveDirection)
-        {
-            // When the character is on the ground.
-            if (!characterController.isGrounded)
-            {
-                // Apply gravity to the current movementDirection.
-                moveDirection.y += Physics.gravity.y;
-            }
-            else
-            {
-                moveDirection.y = 0;
-            }
-
             return moveDirection;
         }
 

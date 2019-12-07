@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Shooter.Inputs
 {
@@ -14,8 +15,31 @@ namespace Shooter.Inputs
         private GameObject[] pcButtonInfos = default;
         [SerializeField]
         private GameObject crosshair = default;
+        [SerializeField]
+        private float waitForPlayerDelayTime = 0.1f;
+        private WaitForSeconds waitForPlayerDelay;
+
+        private void Awake()
+        {
+            waitForPlayerDelay = new WaitForSeconds(waitForPlayerDelayTime);    
+        }
 
         private void Start()
+        {
+            StartCoroutine(WaitForPlayer());
+        }
+
+        private IEnumerator WaitForPlayer()
+        {
+            while (FindObjectOfType<Player.Player>() == null)
+            {
+                yield return waitForPlayerDelay;
+            }
+            
+            StartInputInitialization();
+        }
+
+        private void StartInputInitialization()
         {
             if (!Input.mousePresent)
             {
@@ -30,7 +54,9 @@ namespace Shooter.Inputs
             }
             else
             {
+                #if UNITY_EDITOR
                 Debug.LogError("No touch/mouse input found.");
+                #endif
             }
         }
 

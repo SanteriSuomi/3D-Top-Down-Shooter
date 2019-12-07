@@ -15,8 +15,8 @@ MonoBehaviour:
   layersToDetect:
     serializedVersion: 2
     m_Bits: 1024
-  checkRadius: 9
-  damageDistance: 1.5
+  checkRadius: 9.25
+  damageDistance: 1.65
   dotProductMax: 0.25
   fundGiveAmount: 2.5
   scoreGiveAmount: 1

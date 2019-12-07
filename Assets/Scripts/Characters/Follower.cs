@@ -29,11 +29,11 @@ namespace Shooter.AI
         private int numberOfHitsInArea;
         private bool setDestination;
         private bool hasDealtDamage;
+        private bool hasFoundPlayer;
 
         protected override void InitializeState()
         {
             agent = GetComponent<NavMeshAgent>();
-            player = FindObjectOfType<Player.Player>().transform;
             setDestinationDelay = new WaitForSeconds(setDestinationUpdateInterval);
             dealDamageDelay = new WaitForSeconds(dealDamageDelayInterval);
         }
@@ -43,6 +43,12 @@ namespace Shooter.AI
             // Make sure state has reset on start.
             setDestination = false;
             hasDealtDamage = false;
+            if (!hasFoundPlayer)
+            {
+                // Find the player only once during the lifetime of this.
+                hasFoundPlayer = true;
+                player = FindObjectOfType<Player.Player>().transform;
+            }
         }
 
         protected override void UpdateState()

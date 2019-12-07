@@ -1,9 +1,8 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Shooter.Utility
 {
-    public class PlayerShoot : MonoBehaviourPunCallbacks
+    public class PlayerShoot : MonoBehaviour
     {
         public delegate void OnAttack(bool playAnim);
         public event OnAttack OnAttackEvent;
